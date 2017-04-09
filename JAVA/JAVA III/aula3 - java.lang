@@ -1,0 +1,57 @@
+== JAVA LANG ==
+
+Classe Object
+Guardar todos os objetos não importa qual seja o tipo.
+                            (object)
+cast -> Conta c1 = (Conta) armario.pega(0);
+
+Scanner out = new Scanner(System.in);
+		System.out.println("Digite seu nome: ");
+		
+		String nome = out.next();
+	
+		System.out.println("Bem vindo " + nome);
+
+Ojetos String são imutáveis porque não mudam, é necessario reatribuir o valor em outra ou na msm variavel.
+Todas as classes, sem exceção, herdam de Object.
+ClassCastException - Exceção de casting quando fazemos o cast de forma errada.
+
+autoboxing = embrulhamento.
+Integer x = 5;
+    int y = x;
+
+    == String ==
+
+.equals() - Compara uma string char por char.
+.concat() e + -> concatena strings
+.split -> divide a String em um array de Strings.
+.compareTo() - iguais(0), anterior (-1), posterior (1...n)
+.toUpperCase() - transforma todas as letras em maiuscula.
+.toLowerCase() - transforma todas as letras em minuscula.
+.replace("1", "2") -> muda todos os numeros 1 para 2.
+.charAt(1) - retorna o caracter no indice 1.
+.length - retorna o tamanho da String e array.
+.substring(2) -> retorna toda String a partir do indice.
+.indexOf() - caso não tenha retorna -1, se encontrar mostra o indice da primeiro encontro.
+.lastIndexOf() - caso não tenha retorna -1, se encontrar mostra o indice da ultimo encontro.
+.isEmpty() - retorna true se o array de Strings estiver vazio, caso NULL apresenta exceção (java.lang.NullPointerException).
+.contains() - true se tiver uma sequecia de caracteres.
+.matches() - recebe uma String REGEX.
+.trim() - devolve uma nova String sem caracteres brancos do início e do fim;
+.append() -> adiciona texto na String.
+
+ A classe StringBuffer representa uma sequência de caracteres
+ StringBuffer - é IMUTAVEL.
+ StringBuilder - com a diferença dela não ser thread-safe
+
+ == MATH == 
+
+ Tem uma série de métodos estaticos, operações com números.
+ Math.round() - arrendondar
+ Math.abs() - valor absoluto
+ Math.sqrt() - raiz
+ Math.sin() - seno
+
+import static java.lang.Math.*; -> elimina o 'Math'
+
+A classe que nos ajudará a evitar arredondamentos e a armazenar números decimais bem grandes é a java.math.BigDecimal

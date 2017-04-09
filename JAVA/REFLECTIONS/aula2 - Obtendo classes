@@ -1,0 +1,27 @@
+Ponto de partida : java.lang.Class
+
+=== Formas de obter o Class ===
+
+Rreferência estática -> Class clazz = String.class
+Instância da classe -> Class clazz = obj.getClass();
+Através do seu nome -> Class clazz = Class.forName("java.lang.String");
+
+A classe que o sistema utiliza pode ser lida dinamicamente de um arquivo!
+Todas as informações de uma classe podem ser recuperadas por reflexão.
+
+A expressão que retorna uma instância de Class:
+
+    -> Integer.class
+    -> void.class
+    -> objeto.getClass()
+    -> Class.forName(objeto.class)
+
+Para um software obter a referência de uma classe cujo nome está em um arquivo, qual seria a melhor opção?
+Utilizar o método estático forName() da classe Class
+
+classe Class:
+
+    -> Pode ser obtida uma instância de Class a partir do nome de uma classe seguido de “.class”
+    -> É o retorno do método getClass() da classe Object
+    -> Possui tipo genérico
+    -> Class possui Object como superclasse

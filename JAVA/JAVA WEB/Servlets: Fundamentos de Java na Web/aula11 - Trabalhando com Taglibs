@@ -1,0 +1,25 @@
+=== Importando biblioteca core ===
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+=== forEach com Taglib ===
+<html>
+    <body>
+        Resultado da Busca:
+
+        <ul>
+            <c:forEach var="empresa" items="${empresas}">
+                <li>${empresa.id}: ${empresa.nome}</li>
+            </c:forEach>
+        </ul>
+    </body>
+</html>
+
+=== if com Taglib ===
+
+<c:if test="${not empty usuarioLogado}">
+    Logado como ${usarioLogado.email}<br>
+</c:if>
+
+
+Cuidado com o PONTO nas chaves que usamos na session e request.

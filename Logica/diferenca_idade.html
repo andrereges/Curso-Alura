@@ -1,0 +1,22 @@
+<meta charset="UTF-8">
+
+<script>
+function pulaLinha(){
+    document.write("<br>");
+}
+
+function imprime(texto){
+    document.write(texto);
+    pulaLinha();
+}
+
+imprime("Nossa diferença de idade é: " + (28 - 26) + " anos.");
+imprime("Nossa diferença de idade é: " + (52 - 46) + " anos.");
+
+let anoAtual = 2017;
+let anoInicio = 1500;
+let qtdGeracoes = (anoAtual - anoInicio) / 28;
+
+imprime("Desde o ano 1500 até o ano atual foram " + Math.round(qtdGeracoes) + " gerações de brasileiros.");
+
+</script>

@@ -1,0 +1,59 @@
+Adicionar mais atributos no model, para não duplicar os atributos foi feito um enum TipoPreco
+com lista de tipos de preço, e guardado em um LIST.
+
+Observação: A classe Preco e o enum TipoPreco devem ficar no pacote br.com.casadocodigo.loja.models.
+
+Relação de produtos com os preços via OneToMany ou atributo de uma coleção ElementCollection
+
+@Entity
+public class Produto {
+    [...]
+    @ElementCollection
+    private List<Preco> precos;
+    [...]
+}
+
+@Embeddable   -> para que o Spring possa relacionar e portar os elementos de preço para dentro desta coleção.
+public class Preco {
+    [...]
+}
+
+    <c:forEach items="${tipos}" var="tipoPreco" varStatus="status">
+        <div>
+            <label>${tipoPreco}</label>
+            <input type="text" name="precos[${status.index}].valor" />
+            <input type="hidden" name="precos[${status.index}].tipo" value="${tipoPreco}" />
+        </div>
+    </c:forEach>
+
+    status.index - > contador
+
+
+@RequestMapping("/produtos/form") -> caminho da view para onde o Spring retornará os dados do TipoPreco.
+    public ModelAndView form(){
+
+        ModelAndView modelAndView = new ModelAndView("produtos/form");
+        modelAndView.addObject("tipos", TipoPreco.values());
+
+        return modelAndView;
+    }
+
+*** Quando utilizamos o ModelAndView, além de retornarmos as páginas, temos a possibilidade de enviar objetos de 
+qualquer classe para a página caso seja necessário, e então, exibir suas informações.
+
+@Embeddable(incorporável) -> pois ela permite que a classe Preco seja persistida, desde que ela seja um 
+atributo de uma entidade. Embeddable não precisa de ID.
+
+@ElementCollection -> necessário para o hibernate armazenar a coleção de preços.
+
+=== ModelAndView ===
+@RequestMapping("produtos/form")
+	public ModelAndView form() {
+		
+		ModelAndView modelAndView = new ModelAndView("produtos/form");
+		modelAndView.addObject("tipos", TipoPreco.values());
+		
+		return modelAndView;
+	}
+
+https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html

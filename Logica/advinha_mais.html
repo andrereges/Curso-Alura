@@ -1,0 +1,74 @@
+<meta charset="UTF-8">
+
+<input/><p>
+<button>Compare com o segredo</button>
+
+<script>
+
+    // Função que sorteia um numero aleatórios.
+    function sorteia() {
+        return Math.round(Math.random()*10);
+    }
+    
+    // Função que sorteia um array de números aleatórios
+    function sorteiaNumeros(quantidade) {
+        let segredos = [];
+        let numero = 1;
+
+        while(numero <= quantidade) {
+            let numeroAleatorio = sorteia();
+
+            // O numero aleatorio não pode ser igual a 0
+            if(numeroAleatorio !== 0) {
+                let achou = false;
+                
+                // O numero não pode se repetir no array
+                for(let posicao = 0; posicao < segredos.length; posicao++) {
+                    if(segredos[posicao] == numeroAleatorio) {
+                        achou = true;
+                        break;
+                    }
+                }
+
+                if(achou == false) {
+                    segredos.push(numeroAleatorio);
+                    numero++;
+                }
+            }
+        }
+        return segredos;
+    }
+
+    // Função que compara o número do usuário com os números do array
+    function verifica() {
+
+        let achou = false;
+        
+        for(posicao = 0; posicao < segredos.length; posicao++){
+            if(input.value == segredos[posicao]) {
+                alert("Você ACERTOU!");
+                achou = true;
+                break;
+            } 
+        }
+
+        if(!achou) {
+            alert("Você ERROU!!!!!")
+        }
+
+        input.value = "";
+        input.focus();
+    }
+
+
+    let segredos = sorteiaNumeros(5);
+    
+    console.log(segredos);
+
+    let input = document.querySelector('input');
+    input.focus();
+
+    let button = document.querySelector("button");
+    button.onclick = verifica;
+
+</script>

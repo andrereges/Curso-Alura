@@ -1,0 +1,82 @@
+=== TIPOS DE VARIÁVEIS ===
+int - Números inteiros 10
+double - Números com casas decimais 10.33
+boolean - verdadeiro ou falso -  true ou false, 0 ou 1
+char -  apenas um caracter, 'M' ou '1'
+String - várias letras. "Andre Riggs";
+long - números inteiros longos - 999999999999L
+float - numeros com casas decimais de tamanho menor 3.14F <- necessário o f, para o java não confundir com o double
+
+=== EXTRAS ===
+long n = int n2; o java aceita.
+int copiaNumero = (int) numero; casting - numero moldado.
+
+tipos com a letra minuscula são primitivos.
+Todas variáveis devem ser inicializada antes de rodar o programa.
+A variável só existe dentro do seu escopo.
+
+=== COMENTÁRIOS ===
+// - única linha.
+/* */ - várias linhas.
+/** */ - anotação para documentação.
+<code>/*</code> <code>*/</code> - para comentar o que estiver entre o código.
+
+=== OPERADORES ===
+Operadores matematicos
+ + mais, - menos, / divisão, * multiplicação, % resto da divisão,
+Operadores de negação - !
+Operadores de comparação - 
+    > maior, < menor, == igual, != diferente, || ou, && e, 
+    >= maior igual, <= menor igual
+
+=== INCREMENTO E DESCREMENTO ===
+
+int i = 0;
+
+i++ - pós incremento
+++i - pré incremento
+i-- - pós decremento
+--i - pré decremento
+
+
+== FLUXO e LAÇOS DE REPETIÇÃO ===
+=== IF === 
+
+if(n > n2) {
+    codigo;
+} else if {
+     codigo;
+} else {
+     codigo;
+}
+
+=== FOR ===
+
+inicialização  condição  incremento
+for(int i = 0; i <= 100; i++) {
+    codigo;
+}
+
+=== WHILE ===
+
+int j = 1;
+while(j <= 100) {
+    codigo;
+    j++;
+}
+
+=== SWITCH ===
+
+switch(num) {
+    case 1:
+        codigo;
+        break;
+    
+    case 2:
+        codigo;
+        break;
+
+    default:
+        codigo;
+}
+

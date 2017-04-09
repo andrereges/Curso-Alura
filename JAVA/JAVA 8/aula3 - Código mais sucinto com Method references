@@ -1,0 +1,13 @@
+(String::length)
+
+Há vários métodos auxiliares no Java 8. Até em interfaces como o Comparator. 
+E você pode ter um método default que é estático.
+
+palavras.sort(Comparator.comparing(s -> s.length())); LAMBDA
+palavras.sort(Comparator.comparing(String::length)); METHOD REFERENCE equivalente ao LAMBDA
+
+Vantagem do METHOD REFERENCE
+
+A vantagem pode ser legibilidade. Nosso código fica ainda mais enxuto.
+Mais importante ainda é perceber que a inferencia de tipo é mais forte,
+já que explicitamente estamos dizendo que o método length pertence a String.

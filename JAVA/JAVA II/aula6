@@ -1,0 +1,47 @@
+== EXCEPTION ==
+
+try{
+    // Código a ser tratado.
+}catch(Exception e) {
+    // Solução para a exception.
+}
+
+Lançar uma exception - throw new SaldoInsuficienteException();
+Passar a responsabilidade de tratamento da exception para frente - add no método throws SaldoInsuficienteException(this.saldo)
+Criar minha própria exception - nova classe:
+
+public class SaldoInsuficienteException extends RuntimeException {
+    private final double saldoAtual;
+
+    public SaldoInsuficienteException(double saldoAtual) {
+        
+        super("saldo insuficiente: " + saldoAtual);
+        this.saldoAtual = saldoAtual;
+    }
+
+    public double getSaldoAtual() {
+        return this.saldoAtual;
+    }
+}
+
+Mensagem da Exception - e.getMessage();
+Mensagem do erro Exception - e.printStackTrace();
+
+rastro da pilha (stacktrace)
+lançar exceção (throw)
+quadro da pilha - stackframe
+
+Quando não há tratamento do erro, a thread morre e não a JVM
+
+Error java.lang.OutOfMemoryError, String[] ss = new String[Integer.MAX_VALUE];
+
+finally - O finally é um bloco de código que é sempre executado, independente do sucesso ou falha do código dentro do try.
+
+try {
+  int total = 10+10;
+  System.out.println(total);
+} catch(Exception e) {
+  System.out.println("deu erro");
+} finally {
+  System.out.println("acabou");
+}

@@ -1,0 +1,23 @@
+=== Pacote FMT Import ===
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+=== Documentação JSP formatNumber ===
+http://www.tutorialspoint.com/jsp/jstl_format_formatnumber_tag.htm
+
+=== Formata Data ===
+<td>
+    <fmt:formatDate pattern="dd/MM/yyyy" value="${p.dataInicioVenda.time}" />
+</td>
+
+Domingo, 05 de Março de 2017 -> pattern="EEEE, dd 'de' MMMM 'de' yyyy"
+
+=== Formata Número ===
+<td>
+    <fmt:formatNumber value="${p.preco}" type="currency"/> poderia usar o pattern="" também.
+</td>
+
+=== Usando os métodos da String JAVA ===
+<td>${p.nome.toUpperCase()}</td>
+
+<fmt:setLocale value="pt_BR"/>
+<fmt:setLocale value="en_US"/>

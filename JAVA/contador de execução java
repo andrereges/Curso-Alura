@@ -1,0 +1,6 @@
+
+long tempoInicio = System.currentTimeMillis();
+long tempoFim = System.currentTimeMillis();
+long tempoTotal = (tempoFim - tempoInicio) / 1000;
+
+System.out.println("Tempo Total: " + tempoTotal + " segundos.");

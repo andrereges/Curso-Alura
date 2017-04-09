@@ -1,0 +1,150 @@
+=== Tag PHP, Comentários e Concatenação ===
+    
+    -> Para concatenar colocamos o . (ponto)
+
+    <?php 
+        //isso eh um comentario
+        # comentario
+        /* 
+            Multiplas linhas
+        */
+    ?>
+
+=== Variáveis ===
+
+    <?php 
+        $curso = "Curso PHP e Mysql I: Fundamentos para criar um sistema na Web";
+    ?>
+
+=== Imprimindo Dados ===
+
+    <?php 
+        $curso = "Curso PHP e Mysql I: Fundamentos para criar um sistema na Web";
+        echo $curso;
+    ?>
+
+=== Operadores ===
+    + soma, - subtração, * multiplicação, / divisão
+
+=== String Funções ===
+    -> substr("Andre", 1, 3); -> ndr
+
+=== Formatar números ===
+    -> number_format(1000, 2, ',', ".") -> 1.000,00
+
+=== Condicionais(If/Else, Switch) ===
+
+    <?php 
+
+        // If/Else
+        $numero = 10;
+        if($numero > 5){
+            echo "Maior que 5!";
+        } elseif($numero == 7){
+            echo "Igual a 7";
+        }else{
+            echo "Menor que 5";
+        }
+        
+        // Switch
+        switch ($i) {
+            case "apple":
+                echo "i is apple";
+                break;
+            case "bar":
+                echo "i is bar";
+                break;
+            case "cake":
+                echo "i is cake";
+                break;
+        }
+    ?>
+
+=== Repetições ===
+
+    <?php
+
+        // For
+        for ($i=0; $i < 5 ; $i++) {
+            echo "Laço de número: " . $i;
+        }
+
+        // While
+        $condicao = 5;
+            $i = 0;
+            while ($i < $condicao) { 
+                echo "Laço de número: " . $i;
+                $i++;
+        }
+    ?>
+
+=== Arrays ===
+
+    -> As Variáveis em PHP não possui tipo:
+        $arrayMaluco = array(0,1,"banana","alura",4,5,"curso php",7,8,9);
+
+    -> Tamanho do Array:
+        sizeof($array);
+    
+    -> função imprime array:
+        var_dump($usuario);
+
+    <?php
+        $numeros = array(1,3,9,4,5,8,2,6,7,0);
+
+        for ($i=0; $i < 10; $i++) { 
+        echo "Chave: " . $i . "Valor: " . $numeros[$i];
+        }
+    ?>
+
+=== Funções === 
+
+    function nome_da_função ($parametros){
+        //Codigo
+    }
+
+    -> funções anônimas(closures):
+        $calculaSoma = function($a, $b) {
+            return $a+$b;
+        };
+
+        <?= $calculaSoma(1,2) ?>
+
+=== Include ===
+
+    <?php include("cabecalho.php") ?>
+
+=== Cookie ===
+    setcookie("usuario_logado", $email); -> cria cookie
+    $_COOKIE["usuario_logado"]; -> pega informação dentro do cookie
+    isset($_COOKIE["usuario_logado"]); -> verifica se o cookie está setado com esse valor.
+    array_key_exists("usuario_logado", $_COOKIE); -> verifica se o cookie tem o valor usuario_logado.
+
+=== Session ===
+    session_start(); -> inicia uma sessão.
+    $_SESSION["usuario_logado"]; -> pega informação da sessão.
+    $_SESSION["usuario_logado"] = "Mensagem"; -> adiciona informação na key da session.
+    unset($_SESSION["success"]); -> destrói a variável especificada.
+    session_unset(); destrói todas as variáveis de sessão.
+    session_destroy(); -> destrói a sessão.
+
+=== Redirecionamento ===
+    Header("Location: index.php?authenticated=false");
+    die();
+
+=== SQL Injection ===
+
+mysqli_real_escape_string($conexao, $email);
+
+=== Magic Methods ===
+    -> function __construct(){} -> método construtor.
+    -> function __construct2($nome){} -> método construtor com argumentos colocar o 2.
+    -> function __toString(){} -> método que imprime o objeto.
+    -> function __destruct(){} -> método que destrói um objeto.
+
+=== Autoloading ===
+    -> método que carrega as classes automaticamente:
+    function carregaClasse($nomeDaClasse) {
+        require_once("class/".$nomeDaClasse.".php");
+    }
+

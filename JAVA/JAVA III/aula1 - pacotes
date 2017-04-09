@@ -1,0 +1,9 @@
+== PACOTES ==
+
+Os diretórios estão diretamente relacionados aos chamados pacotes e 
+costumam agrupar classes de funcionalidades similares ou relacionadas.
+
+pacote - br.com.caelum.banco -> package br.com.caelum.banco;
+import - Importar. -> import br.com.caelum.banco.Banco;
+::Fully Qualified Name:: nome qualificado total da classe. Ex. br.com.caelum.banco.Banco
+Importar uma classe por vez é considerado uma boa prática.

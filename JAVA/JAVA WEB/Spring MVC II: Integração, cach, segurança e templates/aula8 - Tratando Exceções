@@ -1,0 +1,57 @@
+=== ProdutosController === 
+    - Criar um método que trate cada exception ou que seja genérico para todas as exceptions.
+    - Envia o usuario para uma página de erro.
+
+=== error.jsp === 
+
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
+
+    <tags:pageTemplate titulo="Produto não encontrado">
+
+        <section id="index-section" class="container middle">
+            <h2>O produto informado não foi encontrado</h2>
+        </section>
+
+    </tags:pageTemplate>
+
+=== ExceptionHandlerController  Solução ideal === 
+    - Criar essa classe no pacote controller.
+    - Anotar como @ControllerAdvise para monitorar os outros controllers.
+
+    @ControllerAdvice
+    public class ExceptionHandlerController {
+        @ExceptionHandler(Exception.class)
+        public ModelAndView trataExceptionGenerica(Exception exception){
+            System.out.println("Erro genérico acontecendo");
+            exception.printStackTrace();
+
+            ModelAndView modelAndView = new ModelAndView("error");
+            modelAndView.addObject("exception", exception);
+
+            return modelAndView;
+        }
+    }
+
+=== error.jsp nova ===
+    - mostra a mensagem de erro específico para o usuário.
+    - Em comentário mostra o printStackTrace no console.
+    - Mostrar a tela de erro amigável para o usuario com emoji se possível.
+    - Não imprimir o Log no console do usuário.
+
+<tags:pageTemplate titulo="Produto não encontrado">
+
+    <section id="index-section" class="container middle">
+        <h2>Erro genérico acontecedo!!!</h2>
+    </section>
+
+    <!-- 
+        Mensagem: ${exception.message}
+        <c:forEach items="${exception.stackTrace}" var="stk">
+            ${stk}
+        </c:forEach>    
+    -->
+
+</tags:pageTemplate>
+
+***** Sempre que possível tratar cada Exception **********

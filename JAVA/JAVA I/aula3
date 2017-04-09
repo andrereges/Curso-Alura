@@ -1,0 +1,38 @@
+class Conta {
+    == Atributos de classe ==
+    int numero;
+    String titular;
+    private double saldo;
+    int agencia;
+
+    == Métodos da classe == 
+    void deposita(double valor) {
+        this.saldo += valor;
+    }
+}
+
+tipo_de_acesso tipo_de_retorno nome_do_metodo (parametros) {
+   
+    => this - referencia ao contexto, mostra que é um atributo e não uma simples variável.
+    this.saldo -= valorSacado;
+}
+
+public void saca(double valorASerSacado) {
+    this.saldo -= valorASerSacado;
+}
+
+public void deposita(double valorASerDepositado) {
+    this.saldo += valorASerDepositado;
+}
+
+public void transfere(double valorASerTransferido, Conta destino) {
+    
+    this.saldo -= valorASerTransferido;
+    destino.saldo += valorASerTransferido;
+}
+
+public double getSaldo() {
+   return this.saldo;
+}
+
+

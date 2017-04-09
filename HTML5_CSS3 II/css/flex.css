@@ -1,0 +1,48 @@
+.titulo-principal {
+    text-transform: uppercase;
+    font-size: 3em;
+    text-align: center;
+    background-color: gray;
+    color: yellow;
+    padding: 2rem;
+    border-bottom: .5rem solid yellow;
+}
+.container {
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    flex: 1;
+}
+.boxes {
+    border: 2px solid #000;
+    float: left;
+    width: 200px;
+    height: 300px;
+}
+.box3 {
+    order: 2;
+}
+
+.rodape {
+    background-image: radial-gradient(ellipse at left bottom,
+    rgba(60, 29, 61, 0.8),
+    rgba(60, 29, 61, 0.8) 65%,
+    black 65%,
+    black 70%,
+    transparent 70%,
+    transparent);
+    width:100%;
+    background-size: 25% 100%;
+    background-repeat: no-repeat;
+    text-shadow: .1em .1em  #000;
+    
+    color: #FFF;
+    padding: 1em;
+    clear: both;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+}

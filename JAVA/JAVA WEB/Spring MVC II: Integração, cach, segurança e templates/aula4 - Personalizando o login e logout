@@ -1,0 +1,338 @@
+Personalizando Login e Logout
+
+1 === pom.xml ===
+    - verificar a versão dos arquivos.
+    - adicionar as dependências do spring security.
+    - fora da tag "dependencies" adicionar o repositório para onde o Maven irá baixar estas bibliotecas.
+    
+    <!-- Dependência Spring Security -->
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+
+2 === home.jsp ===
+    - cria os links para as páginas de lista de produtos e formulário de cadastro de produtos.
+    - Para restringir conteúdo: importe a biblioteca <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+    - Use a TAG <security:authorize access="isAuthenticated()"> para exibir o conteúdo somente se tiver autenticado.
+            Outra variação para exibir as conteúdo é <security:authorize access="hasRole('ROLE_ADMIN')"> ** É necessário colocar ROLE_
+    - Mostrar dados do usuário logado <security:authentication property="principal.username"/>.
+            ou  <security:authentication property="principal" var="usuario"/>
+                Usuário: ${usuario.username}
+    - Configurar o Cross Site Request Forgery nos formulários, evita que nossas páginas sejam clonadas.
+        
+        Forma 1 -> botão hidden em todos os formulários <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+            <form action="<c:url value='/carrinho/add' />" method="post" class="container">
+                [...]
+                <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+            </form>
+
+        Forma 2 -> Usar o formulário do Spring, que automaticamente tem o botão hidden com o token.
+                - Importar <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+            
+            <form:form servletRelativeAction="/carrinho/add" method="post" cssClass="container">
+            [...]
+            </form:form>
+    
+    <ul class="clearfix">
+        <li><a href="${s:mvcUrl('PC#listar').build() }" rel="nofollow">Listagem de Produtos</a></li>
+        <li><a href="${s:mvcUrl('PC#form').build() }" rel="nofollow">Cadastro de Produtos</a></li>
+
+        <li><a href="/cart" rel="nofollow">Carrinho</a></li>
+        <li><a href="/pages/sobre-a-casa-do-codigo" rel="nofollow">Sobre Nós</a></li>
+    </ul>
+
+3 === SpringSecurityFilterConfiguration ===
+    - cria esta classe extendendo de AbstractSecurityWebApplicationInitializer no pacote conf.
+    - Esta classe serve para habilitar o adaptador WebSecurityConfigurerAdapter.
+
+    public class SpringSecurityFilterConfiguration extends AbstractSecurityWebApplicationInitializer{}
+
+4 === SecurityConfiguration ===
+    - cria esta classe extendendo de WebSecurityConfigurerAdapter e anotar @EnableWebMvcSecurity,dentro do pacote conf.
+    - Esta classe serve para armazenar as configurações de segurança.
+    - Sobrescrever o método configure(HttpSecurity http) throws Exception, descrevendo o que pode ou não ser acessado.
+    - Sobreescrever o outro método configure(AuthenticationManagerBuilder auth) throws Exception. 
+        Usar o userDetailsService passando o UsuarioDAO e configurando a codificação BCrypt.
+    - Injetar o UsuarioDAO @Autowired.
+
+    @EnableWebSecurity
+    public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+
+        @Autowired
+        private UsuarioDAO usuarioDao;
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+            .antMatchers("/produtos/form").hasRole("ADMIN")                                    // só pode acessar quem tem a regra ADMIN
+            .antMatchers("/carrinho/**").permitAll() // A partir de da                        // podemos acessar qualquer caminho.
+            .antMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN")                      // só pode acessar quem tem a regra ADMIN via POST
+            .antMatchers(HttpMethod.GET, "/produtos").hasRole("ADMIN")                      // só pode acessar quem tem a regra ADMIN via GET
+            .antMatchers("/produtos/**").permitAll()                                       // A partir de da / podemos acessar qualquer caminho.
+            .antMatchers("/resources/**").permitAll()                                     // Libera o carregamento do JS e CSS. 
+            .antMatchers("/").permitAll()                                                 // A partir de da / podemos acessar qualquer caminho.
+            .anyRequest().authenticated()                                                // Qualquer outra requisição é necessário autenticação.
+            .and().formLogin().loginPage("/login").permitAll()                          // Redireciona para o nosso login personalizado.
+            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")); // Permite que o logout seja via GET informando o caminho do controller.         
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(usuarioDao)
+                .passwordEncoder(new BCryptPasswordEncoder());
+        }
+    }
+
+5 === ServletSpringMVC ===
+    - adiciona a classe SecurityConfiguration.class no root para quando o sistema subir já suba as configurações de segurança automaticamente.
+    - É necessário adicionar para que o Spring reconheça a classe de segurança SecurityConfiguration.class.
+    - Deixar todas as classes de configuração iniciar no root para evitar problemas.
+
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {return new Class[] {};}
+
+=== Usuario ===
+    - cria a classe e anota como @Entity, no pacote models.
+    - Implemente a interface UserDetails, seus métodos e o atributo estático serialVersionUID default.
+    - Anota @Id para o email.
+    - Mapear a Classe Usuário com o Role anotando @OneToMany(fetch=fetchType.EAGER), a lista já vem com o usuário porque é pequena e não sobrecarrega o sistema.
+    - Gera os getters e setters.
+
+    @Entity
+    public class Usuario implements UserDetails {
+
+        private static final long serialVersionUID = 1L;
+
+        @Id
+        private String email;
+        private String nome;
+        private String senha;
+        private List<Role> roles = new ArrayList<Role>();
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public String getSenha() {
+            return senha;
+        }
+
+        public void setSenha(String senha) {
+            this.senha = senha;
+        }
+
+        public List<Role> getRoles() {
+            return roles;
+        }
+
+        public void setRoles(List<Role> roles) {
+            this.roles = roles;
+        }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return this.roles;
+        }
+
+        @Override
+        public String getPassword() {
+            return this.senha;
+        }
+
+        @Override
+        public String getUsername() {
+            return this.email;
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return true;
+        }
+
+    }
+
+
+=== UsuarioDAO ===
+    - Cria dentro do pacote daos, anotando como @repository
+    - Implemente a interface UserDetailsService e os métodos dela.
+    - Cria o atributo privado EntityManager com anotação @PersistenceContext
+    - Cria o método find(String email), para verificar se tem algum usuário com aquele email.
+    - Se não encontrar joga um Exception.
+    
+    @Repository
+    public class UsuarioDAO implements UserDetailsService {
+        @PersistenceContext
+        private EntityManager manager;
+
+        public UserDetails loadUserByUsername(String email){
+            List<Usuario> usuarios = manager.createQuery("select u from Usuario u where u.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getResultList();
+
+            if(usuarios.isEmpty()){
+                throw new UsernameNotFoundException("O usuário "+ email +" não foi encontrado");
+            }
+
+            return usuarios.get(0);
+        }
+    }
+
+=== Role ===
+    - cria a classe e anota como @Entity, no pacote models.
+    - Implemente a interface GrantedAuthority, seu método e o atributo estático serialVersionUID default.
+    - Anota @Id para o nome.
+    - Gera os getters e setters.
+    @Entity
+    public class Role implements GrantedAuthority {
+
+        private static final long serialVersionUID = 1L;
+
+        @Id
+        private String nome;
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        @Override
+        public String getAuthority() {
+            return this.nome;
+        }
+    }
+
+=== MYSQL ===
+    - Usar o https://www.dailycred.com/article/bcrypt-calculator para codificar a senha.
+    - Fazer os INSERTs nas tabelas.
+        Role: insert into Role values ('ROLE_ADMIN');
+        Usuario: insert into Usuario (email, nome, senha) values ('dreeh.silva@hotmail.com', 'Andre Riggs', '$2a$04$k9v80FhWirnnZlL9ReL3Nu2H3q24ggWt.hifwIisnuqfnfO8MWo7m') -> senha= 123
+
+=== login.jsp ===
+    - Criar nossa própria página de login.jsp dentro de webapp/WEB_INF/views
+    - Obrigatoriamente o name do input nome deve ser "username" e da senha "password" para o Spring gerenciar.
+
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+    <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Livros de Java, Android, iPhone, Ruby, PHP e muito mais - Casa do Código</title>
+        <c:url value="/resources/css" var="cssPath" />
+        <link rel="stylesheet" href="${cssPath}/bootstrap.min.css" />
+        <link rel="stylesheet" href="${cssPath}/bootstrap-theme.min.css" />
+        <style type="text/css">
+            body{
+                padding: 60px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Login Casa do Código</h1>
+            <form:form servletRelativeAction="/login" method="post">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" name="username" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" name="password" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Logar</button>
+            </form:form>
+        </div>
+    </body>
+    </html>
+
+=== LoginController ===
+    - criar o controlador de login, o método pode retornar uma String mesmo.
+    
+    @Controller
+    public class LoginController {
+
+        @RequestMapping(value="/login", method=RequestMethod.GET)
+        public String loginForm(){
+            return "loginForm";
+        }
+
+    }
+
+*** Informar o Spring que temos nossa própria página de login, logout via GET e liberar o acesso a pasta de resources para liberar o JS e CSS.
+    Configurar o SecurityConfiguration -> método configure(HttpSecurity). Verificar a classe a cima.
+=== Recapitulando ===
+
+    Nesta aula, vimos como restringir partes da aplicação para usuários autenticados, como fazer o login e logout, particularidades 
+    sobre segurança e até aprendemos como evitar ataques como o CSRF. Fizemos também o Spring validar os usuários e criamos as roles 
+    que representam as permissões dos usuários. Aprendemos a usar algumas das tags da security taglib do Spring e vamos aprender muito 
+    mais sobre Spring nas próximas aulas.
+
+<dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-servlet-api</artifactId>
+        <version>8.5.9</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>4.3.6.RELEASE</version>
+    </dependency>
+
+1 insert into Usuario (email, nome, senha) values ('dreeh.silva@hotmail.com', 'Andre Riggs', 'senha codificada BCrypt');
+2 insert into Role (nome) values ('ROLE_ADMIN');
+3 insert into Usuario_Role (Usuario_Role, roles_name) values ('dreeh.silva@hotmail.com', 'ROLE_ADMIN');

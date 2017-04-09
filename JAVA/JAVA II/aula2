@@ -1,0 +1,24 @@
+== HERANÇA ==
+
+extends - herda de uma classe pai.
+sobrescrever métodos - 
+superclasse - classe genérica, classe mãe.
+subclasse - classe mais específica, classe filha.
+protected - as classes filhas e outras classes do mesmo pacote podem acessar os atributos da superclasse.
+super - chama o atributo ou metodo da classe mãe.
+
+Uma classe pode ter várias filhas, mas pode ter apenas uma mãe, é a chamada herança simples do java.
+
+== REESCRITA DE MÉTODOS == 
+
+@Override - Com essa anotação deixamos explícito no código fonte que aquele método foi reescrito.
+super.getBonificacao() - pegamos o método da classe mãe.
+
+
+== POLIMORFISMO ==
+
+POLIMORFISMO - É a capacidade de um objeto poder ser referenciado de várias formas 
+(cuidado, polimorfismo não quer dizer que o objeto fica se transformando, muito pelo contrário, 
+um objeto nasce de um tipo e morre daquele tipo, o que pode mudar é a maneira como nos referimos a ele).
+
+Reafirmando: não importa como nos referenciamos a um objeto, o método que será invocado é sempre o que é dele.

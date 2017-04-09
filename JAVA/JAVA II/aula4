@@ -1,0 +1,11 @@
+== ABSTRACT ==
+
+CLASSE ABSTRATA - classe que apenas idealiza um tipo, define apenas um rascunho.
+Para que serve uma classe abstrata?
+R: Serve para o polimorfismo e herança dos atributos e métodos, que são recursos muito poderosos.
+
+Conta serve como um agrupador de tipos e o polimorfismo ainda é possível!
+
+Se cada funcionario tem um cargo, não faz sentido dar um NEW funcionario.
+Com o ABSTRACT PROIBE criar estancia de funcionario.
+O método ABSTRACT só declaramos a assinatura do método, todas as superclasses são obrigadas a implementar.

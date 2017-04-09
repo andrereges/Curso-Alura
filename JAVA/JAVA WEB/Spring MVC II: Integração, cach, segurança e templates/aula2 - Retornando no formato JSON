@@ -1,0 +1,50 @@
+=== ProdutosController ===
+    - Adicionar a annotation @ResponseBody para imprimir o JSON, a dependência do Jackson é que 
+    possibilita a conversão para JSON. NÃO PODE ter 2 bibliotecas para transformar em JSON.
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public Produto detalheJSON(@PathVariable("id") Integer id){
+        return produtoDao.find(id);
+    }
+
+=== Content Negotiation === 
+    - Existe um padrão de mercado que provê uma negociação do conteúdo retornado pela aplicação.
+    localhost:8080/casadocodigo/produtos/5 -> retorna o HTML com o produto.
+    localhost:8080/casadocodigo/produtos/5.json -> retorna o JSON do produto.
+
+1 === JsonViewResolver ===
+    - cria a classe no pacote conf
+    - Implementa ViewResolver.
+    - Sobrescreve o método resolveViewName(String viewName, Locale locale).
+
+    public class JsonViewResolver implements ViewResolver {
+
+        @Override
+        public View resolveViewName(String viewName, Locale locale) throws Exception {
+            MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+            jsonView.setPrettyPrint(true); // formatação amigável
+            return jsonView;
+        }
+    }
+
+2 === AppWebConfiguration ===
+    - Cria um novo método contentNegotiationViewResolver(ContentNegotiationManager) que retorna ViewResolver.
+
+    @Bean
+    public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager){
+        List<ViewResolver> viewResolvers = new ArrayList<>();
+        viewResolvers.add(internalResourceViewResolver());
+        viewResolvers.add(new JsonViewResolver());
+
+        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+        resolver.setViewResolvers(viewResolvers);
+        resolver.setContentNegotiationManager(manager);
+        return resolver;
+    }
+
+=== Vantagem de um ViewResolver ===
+
+A vantagem de configurar um viewResolver é que agora se for necessário criar um resolver para XML vamos criar uma 
+nova classe e mexer em apenas um método. Bem melhor do que criar diversos métodos espalhados pelos nossos controllers. 
+Lembre-se que criar classes mais coesas é uma boa prática e facilita a manutenção do seu software.

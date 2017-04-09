@@ -1,0 +1,66 @@
+=== pageTemplate.tag ===
+    - Arquivo do tipo .tag
+    - Codificação da página.
+    - Atributos obrigatórios ou não da página.
+    - Inclui o cabeçalho, menu, conteúdo(<jsp:doBody />) e rodapé.
+    - Caso cada página de conteúdo tenha scripts próprios usar o invoke fragments.
+
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <%@ attribute name="titulo" required="true" %>
+    <%@ attribute name="bodyClass" required="false" %>
+    <%@ attribute name="extraScripts" fragment="true" %>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <%@ include file="/WEB-INF/views/metadados.jsp" %>
+            <title>${titulo} - Casa do Código</title>
+            <%@ include file="/WEB-INF/views/links.jsp" %>
+            <%@ include file="/WEB-INF/views/cabecalho.jsp" %>
+        </head>
+        <body class="${bodyClass}">
+
+            <%@ include file="/WEB-INF/views/menu.jsp" %>
+            <jsp:doBody />   
+            <jsp:invoke fragment="extraScripts"></jsp:invoke>
+            <%@ include file="/WEB-INF/views/rodape.jsp" %>
+        </body>
+    </html>
+    
+== Páginas de Includes ===
+    - criar dentro da pasta views/includes
+    - usar a biblioteca <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+
+    === menu.jsp ===       
+        - código da TAG <nav> até </nav>
+
+    === cabecalho.jsp ===
+        - código da TAG <!DOCTYPE html> até </header>
+
+    === rodape.jsp ===
+        - código da TAG <footer> até </html>
+
+
+== Página de Conteúdo ===
+     
+    === conteudo.jsp ===
+        - Usar a diretiva do taglib <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
+        - Usar também as bibliotecas padrão do springframework.
+        - Abre e fecha a TAG do pageTemplate com o título obrigatório.
+        - Se usar fragmentos é obrigatório usar o <jsp:body>, vindo o Fragments em cima dele.
+        
+        <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+        <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
+
+        <tags:pageTemplate titulo="${produto.titulo}">
+            <jsp:attribute name="extraScripts">
+                <script> Todo o script. </script>
+            </jsp:attribute>
+
+            <jsp:body>
+                <!-- todo o conteudo da pagina aqui -->
+            </jsp:body>
+        </tags:pageTemplate>
+
+=== import do JSP ===
+    <%@ include file="/WEB-INF/views/cabecalho.jsp" %>

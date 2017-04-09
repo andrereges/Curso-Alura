@@ -1,0 +1,11 @@
+Por que podemos "esquecer" o mysql_close()?
+
+Porque o PHP detecta automaticamente que a conexão está aberta, e a fecha. Isso é ótimo, 
+pois é muito comum que aplicações web esqueçam conexões abertas, e isso gera diversos problemas 
+quando a aplicação é muito acessada (afinal, o banco de dados, que não sabe que o PHP acabou,
+mantém a conexão aberta por um tempo).
+
+Por que usamos os métodos mysqli_ e não mysql?
+
+O mysqli_* é o novo pacote de acesso ao MySql, onde eles melhoraram toda a parte de acesso ao banco de dados.
+O mysql_* ainda existe apenas por questões de compatibilidade.

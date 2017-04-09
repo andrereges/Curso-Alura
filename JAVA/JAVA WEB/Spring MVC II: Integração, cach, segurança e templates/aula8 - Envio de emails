@@ -1,0 +1,107 @@
+=== PagamentoController ===
+    - Capturar o Usuario com a annotation @AuthenticationPrincipal.
+    - Passa o usuario como parametro para o método de enviar email.
+    - Cria um método privado enviaEmailCompraProduto(Usuario usuario) responsável por enviar e-mail.
+    - Usa a classe SimpleMailMessage para configurar o email e o MailSender para enviar.
+    - Usar um enviador de emails MailSender, deixando como atributo @Autowired.
+    - Configurar o MailSender na classe AppWebConfiguration.
+
+    @RequestMapping("/pagamento")
+    @Controller
+    public class PagamentoController {
+
+        @Autowired
+        private CarrinhoCompras carrinho;
+
+        @Autowired
+        private RestTemplate restTemplate;
+
+        @Autowired
+        private MailSender sender;
+
+        @RequestMapping(value="/finalizar", method=RequestMethod.POST)
+        public Callable<ModelAndView> finalizar(@AuthenticationPrincipal Usuario usuario, 
+            RedirectAttributes model) {
+            return () -> {
+            String uri = "http://book-payment.herokuapp.com/payment";
+
+            try {
+                String response = restTemplate.postForObject(uri, new DadosPagamento(carrinho.getTotal()), String.class);
+                System.out.println(response);
+
+                enviaEmailCompraProduto(usuario);
+
+                model.addFlashAttribute("sucesso", response);
+                return new ModelAndView("redirect:/produtos");
+            } catch (HttpClientErrorException e) {
+                e.printStackTrace();
+                model.addFlashAttribute("falha", "Valor maior que o permitido");
+                return new ModelAndView("redirect:/produtos");
+            }
+            };
+        }
+
+        private void enviaEmailCompraProduto(Usuario usuario) {
+            SimpleMailMessage email = new SimpleMailMessage();
+
+            email.setSubject("Compra finalizada com sucesso");
+            email.setTo(usuario.getEmail());
+            email.setText("Compra aprovada com sucesso no valor de " + carrinho.getTotal());
+            email.setFrom("compras@casadocodigo.com.br");
+
+            sender.send(email);
+        }
+    }
+
+=== AppWebConfiguration ===
+    - Criar o método mailSender() como a annotation @Bean
+    - Usar a interface JavaMailSenderImpl para configurar o servidor de e-mail.
+    - mailProperties é para configurações adicionais de comunicação com servidor SMTP.
+    - Usar conexão segura TLS.
+    ** Não usar gmail para envio de e-mail, só para testes, use o e-mail da empresa.
+    ** Gmail pode bloquear conexão por segurança, configurar o servidor do Gmail diminuindo a configuração de segurança.
+
+
+    @Bean
+    public MailSender mailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setUsername("alura.springmvc@gmail.com");
+        mailSender.setPassword("alura2015");
+        mailSender.setPort(587);
+
+        Properties mailProperties = new Properties();
+        mailProperties.put("mail.smtp.auth", true);
+        mailProperties.put("mail.smtp.starttls.enable", true);
+
+        mailSender.setJavaMailProperties(mailProperties);
+        return mailSender;
+    }
+
+=== pom.xml ===
+
+    <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4.7</version>
+    </dependency>
+
+1 Quais são a interface e a classe que o Spring usa para enviar e configurar os dados de e-mail respectivamente?
+
+MailSender e JavaMailSenderImpl.
+
+2 Por que mesmo usando a classe do Spring MailSender, ainda assim precisamos da biblioteca do JavaMail?
+
+O Spring utiliza o JavaMail internamente, pois ele próprio não possui a implementação de como enviar e-mail, 
+ele apenas criou uma forma simples para nós usarmos, e ele próprio realiza o envio através da biblioteca JavaMail.
+
+3 Porque devemos evitar usar o GMail como servidor de e-mail de nossos sistemas em produção?
+
+O GMail não permite enviar e-mail externo a ele, exceto se você baixar as configurações de segurança 
+de sua conta, o que pode ser perigoso.
+Quando estamos colocando um software em produção, devemos criar um e-mail com o domínio da empresa ou 
+do software que estará em produção para isso. Por exemplo, se estamos publicando a Casa do Código, devemos 
+criar um e-mail como contato@casadocodigo.com.br ou ainda, muito comumente usado no mercado à fora, o famoso 
+nao-responda@casadocodigo.com.br. O único ponto importante, é que o e-mail de envio seja o domínio da sua 
+empresa ou do software que você está publicando. O que dará identidade aos e-mails enviados através do sistema.

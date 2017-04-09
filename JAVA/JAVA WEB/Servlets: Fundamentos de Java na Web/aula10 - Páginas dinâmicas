@@ -1,0 +1,19 @@
+Vamos usar uma tecnologia que suporta receber variáveis e utilizá-las no meio de nossa página. 
+A tecnologia padrão do Java é o JSP - Java Server Pages - e usaremos uma expressão bem 
+simples para mostrar o nome:
+
+<html>
+<body>
+    Empresa ${nome} adicionada!  
+    ${empresa.getNome()} ou ${empresa.nome}
+</body>
+</html>
+
+RequestDispatcher dispatcher = req
+            .getRequestDispatcher("/WEB-INF/paginas/novaEmpresa.jsp");
+    dispatcher.forward(req, resp);
+
+variável                                            objeto
+req.setAttribute("nome", nome); ou req.setAttribute("empresa", empresa);
+
+Expression language -> ${nome}

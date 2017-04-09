@@ -1,0 +1,95 @@
+body {
+    font-family: "Crimson Text", "Times New Roman", serif;
+    background-color: #F2FFFC;
+    font-size: 120%;
+    line-height: 1.5;
+}
+
+main div {
+    width: 720px;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+main h1, h2 {
+    font-family: "Open Sans Condensed", "Arial", sans-serif; 
+}
+
+main h1 {
+    background-color: #851944;
+    font-size: 60px;
+    color: #FFF;
+    text-align: center; 
+    padding: 25px;
+    margin: 0;
+    border-bottom: 10px solid #000;
+}
+
+p {
+    text-align: justify;
+    margin: 20px 0;
+}
+
+blockquote {
+    background: #D9E5E3; 
+    border: 10px solid #C2CCCA;
+    width: 250px;
+    margin: 0;
+    box-sizing: border-box;
+    margin: 20px 40px;
+}
+
+aside, footer {
+    padding: 20px;
+}
+
+aside {
+    background-color: #3C1D3D;
+    color: #F2FFFC;
+    text-align: center;
+
+}
+
+footer {
+    background-color: #000;
+    color: #F2FFFC;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav a {
+    color: #F2FFFC;
+}
+
+aside h1 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+main a {
+    color: #851944;
+}
+
+aside a {
+    color: inherit;
+    font-family: "Open Sans Condensed", sans-serif;
+}
+
+.icones-sociais li {
+    display: inline-block;
+    height: 60px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}

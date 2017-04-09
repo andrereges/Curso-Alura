@@ -1,0 +1,258 @@
+=== COMANDOS LINUX ===
+
+    -> Criar um novo diretório na pasta do Git, comando linux:
+        mkdir curso-git -> novo diretório
+        cd curso-git -> entra na pasta
+        cd .. -> volta para raiz
+    
+    -> Listar arquivos na pasta:
+        ls
+
+=== VISUALIZAÇÃO INFORMAÇÕES ===
+
+    -> Lista todas as tags: 
+        git tag
+    
+    -> Vê os logs do histórico dos commits:
+        git log -> id do commit, autor e data.
+    
+    -> Mais detalhes do commit, para sair tecla 'q':
+        git whatchanged -> quais arquivos foram alterados, excluído e etc. A letra do lado do arquivo M(modified) A(add) 
+
+    -> Mais detalhes ainda:
+        git whatchanged -p -> mostra o que foi alterado dentro dos arquivos.
+
+    -> Lista os arquivos pertencentes ao repositório:
+        git ls-files
+
+    -> Verifica o estado do nosso projeto em comparação ao último commit:
+        git status
+
+    -> Fazer o checkout da versão v0.1, o arquivo volta para versão v0.1: 
+        git checkout v0.1
+
+    -> Diferença entre as versões:
+        git diff v0.1 v0.2
+
+    -> Mostrar o autor e cada linha do projeto, para sair do blame use a tecla 'q':
+        git blame index.html
+    
+    -> Mostra os repositórios remotos:
+        git remote
+        git remote -v -> Mostra as ações para os repositórios.
+
+=== EDITAR ARQUIVO ===
+    git vim index.html
+
+=== INICIAÇÃO DO GIT ===
+
+    -> Indicar que essa pasta é um repositório git:
+        git init
+
+=== RESPONSÁVEL PELO MANIPULAÇÃO ===
+
+    -> Para realizar o commit no projeto, é necessário se identificar o responsável pelo projeto atual:
+        git config user.name "Andrê Reges"
+        git config user.email "support.technology@bol.com.br"
+
+    -> Informar o responsável por todos os repositórios, é necessário se identificar:
+        git config --global user.name "Andrê Reges"
+        git config --global user.email "support.technology@bol.com.br"
+
+=== MANIPULAÇÃO DE ARQUIVOS ===
+
+-> adicionar arquivos ao nosso repositório:
+    git add arquivo1
+    git add arquivo1 arquivo2
+    git add caminhoDeUmDiretorio
+    git add .
+    git add -i -> modo interativo com várias opções no prompt específico.
+    git commit -a -m "Mensagem do commit" -> adiciona e commit ao mesmo tempo.
+
+-> Commit no projeto:
+    git commit -m "Início do projeto"
+    git commit -a -m 'Mensagem de commit' -> inclui imediatamente no commit todos os arquivos modificados ou removidos! Porém, ela não adiciona os arquivos novos. 
+    git commit -a -m "Mensagem do commit" -> adiciona e commit ao mesmo tempo.
+
+-> Compartilhar o nosso projeto em um repositório remoto, 'origin' é o apelido do repositório.
+    git remote add origin https://github.com/andrereges/curso-git-alura.git
+
+-> Puxar os arquivos do repositório remoto para máquina local:
+    git pull origin master (origin é apelido e o master é a branch(ramo))
+
+-> Empurrar os arquivos da máquina local para o repositório remoto:
+    git push origin master
+    git push '-u ou --set-upstream' origin master -> atrela a branch remota a local, não sendo necessário usar o 'origin' e 'master'
+
+=== CLONE REPOSITÓRIO ===
+    git clone https://github.com/andrereges/curso-git-alura.git
+
+=== PERMISSÕES DE PARA OUTROS USUÁRIOS ===
+    - https://github.com/andrereges/curso-git-alura/settings/collaboration
+    - Search by username, full name or email address.
+
+=== CRIA BRANCH ===
+    -> Exibe as branches e * mostra a branch executada no momento:
+        git branch
+        git branch -r -> lista somente as branches remotas
+        git branch -a -> lista todas as branches locais e remotas.
+    
+    -> cria nova branch:
+        git branch design
+        git checkout -b design -> Cria nova branch e já muda para trabalhar com ela.
+
+    -> Escolhe a branch design para trabalhar:
+        git checkout design
+        git checkout -b design -> Cria nova branch e já muda para trabalhar com ela.
+        git checkout -t origin/design -> Cria nova branch e já muda para trabalhar com ela além de criar um link entre a branch local e remota.
+    
+    -> Trazer a branch nova(design) para máquina local sendo a mesma do repositório:
+        git -t design origin/design
+    
+    -> Enviar ou cria branch design para o repositório remoto:
+        git push origin design
+        git push -u origin design -> indica(rastreia) o caminho da branch remota para nossa branch local.
+    
+    -> Copiar branch remota para pc local:
+        git branch -t design origin/design
+    
+    -> Deletar branch local:
+        git branch -d design
+    
+    -> Deletar branch remota:
+        git push --delete design
+        git push origin :design
+    
+    -> Verificar se existem novas branches no repositório remoto:
+        git fetch origin
+
+=== CONFLITOS DE CONTEÚDO ===
+    - Existe a estratégia "LOCK" antes de editá-lo e depois liberar o "LOCK".
+    - A estratégia do GIT é fazer um pull(atualizar com nosso repositório) antes de fazer um push para atualizar o arquivo.
+    - Técnicas para simplificar o merge: Commits com pouco conteúdo e Sincronização (pull) frequente do repositório remoto.
+    - Auto Merge(mesclar), é feito pelo git automaticamente quando 2 usuários editam o mesmo arquivo mas em lugares diferentes.
+    - Manual Merge, acontece quando é feito no mesmo trecho do arquivo. 1 abrir o arquivo e decidir qual trecho deve ser mantido, depois add, commit e push para o server.
+          <div>
+            <<<<<<< HEAD 
+                Isso aqui é o corpo da página -> o que está localmente 
+            ======= 
+                Aqui está o conteúdo da página -> O que está no servidor remoto
+            >>>>>>> e5600a4fd30fa7df61e6c1f156f55222f3041de4
+        </div>
+    
+    -> Para mostrar a lista de programas visuais para tratar conflitos de merge:
+        git mergetool -t
+
+    -> Escolher um programa para tratar conflitos de merge:
+        git mergetool -t nome_do_programa -> free tools kdiff3, Meld ou P4Merge.
+
+=== TRABALHAR COM VÁRIAS BRANCHES ===
+
+    -> Atualizar a branch master através da branch desenvolvimento:
+        git checkout master
+        git pull -> Se tiver atualização:
+                    git rebase master desenvolvimento
+                        ->se tiver conflito acessa a outra branch:
+                            git checkout desenvolvimento
+                                -> resolve e depois:
+                                    git add nome_do_arquivo
+                                    git rebase --continue  -> opções: continue, abort, skip e edit-todo
+                                        -> terminou os conflitos retorna para branch master:
+                                            git checkout master
+        git merge desenvolvimento
+        git push
+    
+    -> Atualizar a branch desenvolvimento através da branch master:
+        git checkout desenvolvimento
+        git rebase master desenvolvimento
+
+=== DESFAZER AS ALTERAÇÕES EM UM ARQUIVO E COMMIT===
+
+    -> Diferenciar arquivos e branch com mesmo nome:
+        -> git checkout -- design -> indica que design é nome de um arquivo.
+
+    -> Voltar arquivo para o modo WORKING DIRECTORY:
+        git checkout [nome_do_arquivo]
+    
+    -> Voltar arquivo para o modo INDEX e depois  WORKING DIRECTORY:
+        git reset HEAD [nome_do_arquivo] -> Volta para o estado de Index(modificado)
+        git reset --hard -> as alterações são removidas do histórico local de commits e também tanto do index quanto do working directory, permanentemente.
+        git reset --soft ->  as alterações são removidas do histórico local de commits, mas não são removidas do index
+        git checkout [nome_do_arquivo]
+    
+    -> Desfazer o último COMMIT:
+        git log -> pega o ID do commit anterior: d665e88fc6c7b40695fb87e823df0b4fec416a7b
+        git reset d665e88fc6c7b40695fb87e823df0b4fec416a7b -> retorna para o commit para esse ID para o estado INDEX
+        git reset HEAD~1 -> referência ao penultimo commit 
+
+    -> Desfazer um COMMIT BEM ANTIGO:
+        git revert d665e88fc6c7b40695fb87e823df0b4fec416a7b
+        - altera a mensagem do commit para desfazendo "mensagem commit antigo."
+    
+    -> Guardar uma modificação sem commitar em um lugar temporário para depois usar:
+        git stash -> salva a alteração
+        git stash list -> Verificar o que tem no stash
+        git stash pop -> retorna o último stash, mas não apaga o stash
+        git stash apply stash@{0} -> sendo mais específico ao retornar stash, mas não apaga o stash
+        git stash drop -> deleta o último stash temporários
+        git stash clear -> deleta todos os stashes.
+
+=== ENCONTRAR PROBLEMAS ANTIGOS NO HISTÓRICO DE COMMIT COM BISECT ===
+
+    -> Mostra os commits que deu problema para o arquivo:
+    git bisect start -> inicia o BISECT
+    git bisect bad HEAD -> status aonde o problema se encontra
+    git bisect good d665e88fc6c7b40695fb87e823df0b4fec416a7b -> ultimo commit bom.
+    git bisect bad ou git bisect good -> para escolher os commits que são bons e ruins até chegar no último commit bom.
+
+=== CRIAR ALIAS PARA ENCURTAR COMANDOS ===
+    -> Altera o arquivo oculto .gitconfig
+        [alias]
+             st = status
+             all  = add .
+             c    = commit
+             envia = !git checkout master && git pull && git checkout desenvolvimento && git rebase master && git checkout master && git merge desenvolvimento && git push
+
+=== GIT LOG CUSTUMIZADO PARA MELHOR VISUALIZAÇÃO ===
+    git log -> visualização padrão
+    git log -p -> informações detalhadas
+    git log --stat -> resumo do commit
+    git log --pretty=online -> exibe em uma linha. Predifinidos -> oneline, short, medium, full, fuller, email, raw
+    
+    -> Criar sua própria pretty, consultar a documentação ou --help:
+        git log --pretty='%an realizou commit em %ad: %s'
+        %an -> nome do autor
+        %ad -> data e hora do commit
+        %s -> representa a mensagem de commit
+
+=== CONTRIBUIÇÃO DE PROJETO SEM PERMISSÃO DE PUSH ===
+
+    FORK
+    -> Dentro do github.com clicar em FORK para fazer uma cópia do projeto 
+    -> Dentro do github.com - Pull Request - serve para pedir para os responsáveis pelo projeto utilizem nossos commits em seus projetos.
+    -> Podemos adicionar o repositório dos outros:
+        git remote add [qualquer_nome] [caminho_do_repositorio_remoto]
+    -> Fazer download das alterações:
+        git fetch [repositorio]
+    -> Aplicar alterações em nosso projeto:
+        git merge original/master
+    -> A função WATCH no Github, que te permite seguir um repositório e acompanhar seu progresso.
+    
+    PULL Request
+    -> Recebendo de um usuário:
+        https://github.com/[dono_do_projeto]/[projeto]/pull/[id_do_pull_request]
+    -> Pode ser negado ou aceito. O dono pode fazer um diff do pull request.
+    -> Trazer as alterações para nossa branch:
+        git remote add [alias_do_repositorio_remoto] [url_do_repositorio_remoto]
+        git fetch [repositorio]
+        git merge [alias_do_repositorio]/[branch]
+
+=== GIT COLA ===
+    - Ferramenta visual git multiplataforma 
+    apt-get install git-cola
+
+=== CHERRY PICK ===
+    -> adicionar commit específico de uma branch para outra:
+        git cherry-pick 19f0bb7d8b4be8ecd687b48fca301b71b95eab41
+        git cherry-pick -n 19f0bb7d8b4be8ecd687b48fca301b71b95eab41 -> recupera as alterações sem inserir o commit
+        git cherry-pick abcd..1234 -> pega os commits no intervalo [hash inicial] até [hash final]

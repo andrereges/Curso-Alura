@@ -1,0 +1,33 @@
+=== Redirect ===
+
+@RequestMapping(method=RequestMethod.POST)
+public ModelAndView gravar(Produto produto){
+    System.out.println(produto);
+    produtoDao.gravar(produto);
+    return new ModelAndView("redirect:produtos");
+}
+
+Como o redirect o navegador não pede mais confirmação de resubmissão do formulário, não duplicando os produtos na listagem.
+
+=== Mostrar a mensagem de PRODUTO CADASTRADO COM SUCESSO ===
+
+@RequestMapping(method=RequestMethod.POST)
+public ModelAndView gravar(Produto produto, RedirectAttributes redirectAttributes){
+    System.out.println(produto);
+    produtoDao.gravar(produto);
+    redirectAttributes.addFlashAttribute("sucesso","Produto cadastrado com sucesso!");
+    return new ModelAndView("redirect:produtos");
+}
+
+O método gravar recebe RedirectAttributes como argumento e usa o método 
+redirectAttributes.addFlashAttribute("sucesso","Produto cadastrado com sucesso!");
+Para passar a informação que só dura de uma requisição para outra.
+
+ A prática de fazer redirecionamentos após posts tem um nome bem conhecido, Always redirect after post 
+ (em português, significa Sempre redirecione após post).
+
+ *** O Flash Scoped é um escopo rápido. Os objetos que adicionamos nele através do método addFlashAttribute ficam vivos de um 
+ request para outro, enquanto o navegador executa um redirect (usando o código de status 302).
+
+ Por que devemos sempre fazer um redirect após o formulário enviar um POST para nossos sistemas?
+ Pois ao pressionar F5, os dados são reenviados podendo duplicar informações no banco de dados.

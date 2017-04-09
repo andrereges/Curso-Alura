@@ -1,0 +1,28 @@
+=== Alterar o web.xml ===
+
+<context-param>
+    <param-name>
+      javax.servlet.jsp.jstl.fmt.localizationContext
+    </param-name>
+    <param-value>messages</param-value>  -> pode ser qualquer nome
+  </context-param>
+
+O parâmetro param-value contém o nome do arquivo que terá as frases em várias línguas. Esse 
+arquivo deve ter a extensão .properties e deve ficar disponível no classpath.
+
+messages.properties
+
+mensagem.bemvindo=Bem vindo ao curso de JSTL
+mensagem.novoProduto=Adicionar um novo produto
+
+<fmt:message key="mensagem.bemvindo" />
+
+=== Alterar o arquivo para outra língua ===
+
+messages.properties (padrão)
+messages_en.properties (inglês)
+messages_pt.properties (português)
+
+
+mensagem.bemvindo=Welcome to the JSTL course!
+mensagem.novoProduto=Add a new product

@@ -1,0 +1,32 @@
+== JAR ==
+
+.jar - é a extensão do arquivo compactado com todas as classes java.
+
+Para criar um arquivo jar do nosso programa de banco, basta ir ao diretório 
+onde estão contidas as classes e usar o comando a seguir para criar o arquivo banco.jar 
+com todas as classes dos pacotes br.com.caelum.util e br.com.caelum.banco:
+
+-> jar -cvf banco.jar br/com/caelum/util/*.class br/com/caelum/banco/*.class
+
+Para usar esse arquivo banco.jar para rodar o TesteDoBanco basta rodar o 
+java com o arquivo jar como argumento:
+
+-> java -classpath banco.jar br.com.caelum.util.TesteDoBanco
+
+Para adicionar mais arquivos .jar, que podem ser bibliotecas, ao programa basta rodar o java da seguinte maneira:
+                                windows ; e linux :     
+-> java -classpath biblioteca1.jar;biblioteca2.jar NomeDaClasse
+
+Para gerar um arquivo.jar export -> JAR file -> nome do arquivo.jar -> escolher a main class -> finish
+
+comando para executar o programa: javar -jar nome_arquivo.jar
+
+== JAVADOC ===
+
+@author Andre Riggs
+
+Para gerar o JAVADOC - Project -> Generate JAVADOC -> Choose Destiny -> finish.
+
+Quando devemos usar o Javadoc?
+Geralmente usamos Javadoc quando estamos criando bibliotecas, e muitas pessoas precisarão entender o que cada método faz.
+Mas quando estamos desenvolvendo um produto interno, é comum optarmos por não fazer uso desse tipo de documentação.

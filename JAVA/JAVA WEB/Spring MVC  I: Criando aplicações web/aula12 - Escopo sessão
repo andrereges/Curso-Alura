@@ -1,0 +1,25 @@
+Singleton -> Quando o Spring por padrão usa uma classe compartilhada para todas as sessões. @Component.
+
+=== CarrinhoCompras ===
+    - Adiciona a annotation @Scope(value=WebApplicationContext.SCOPE_SESSION)
+   
+    @Component
+    @Scope(value=WebApplicationContext.SCOPE_SESSION)
+    public class CarrinhoCompras {
+        [...]
+    }
+
+=== CarrinhoComprasController ===
+    - Cria um scope para cada requisição, através da anotação @Scope(value=WebApplicationContext.SCOPE_REQUEST).
+
+    @Controller
+    @RequestMapping("/carrinho")
+    @Scope(value=WebApplicationContext.SCOPE_REQUEST)
+    public class CarrinhoComprasController {
+        [...]
+    }
+
+    SCOPE_REQUEST -> Para cada requisição é criado um novo controller.
+    SCOPE_SESSION -> Cria uma instância daquela classe para cada usuário.
+    SCOPE_APPLICATION -> Escopo default, cria um único escopo para todo o projeto, independente de qual
+    usuário esteja acessando.

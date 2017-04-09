@@ -1,0 +1,128 @@
+<meta charset="UTF-8">
+<div>
+    <a href="#" onclick="mute()" id = 'musica'> Desligar Música </a>
+</div>
+<canvas width="600" height="400" > </canvas>
+
+<label><h2> Pontos: </h2></label>
+<label id='pontos'> <h1> 0 </h1></label>
+<label><h2> Nível: </h2></label>
+<label id='nivel'> <h1> 1 </h1></label>
+<label id='mensagem'> <h2> Bora começar essa porra. </h2></label>
+
+<audio id="audio">
+    <source src="lek.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+        let pontos = 0;
+        let velocidade = 3000;
+        let nivel = 1;
+        let txtNivel = document.getElementById('nivel');
+        let txt_mensagem = document.getElementById('mensagem');
+        let mensagens = ['Acertô Mizerávi.', 'Ah Muleke.', 'Cê é loko cachorro.'];
+        let indiceMensagem = 0;
+        let txt_pontos = document.getElementById('pontos');
+        let audio = document.getElementById('audio');
+        let musica = document.getElementById('musica');
+        let tela = document.querySelector('canvas');
+        let pincel = tela.getContext('2d');
+
+        pincel.fillStyle = 'lightgray';
+        pincel.fillRect(0, 0, 600, 400);
+        
+        let raio = 10;
+        let xAleatorio;
+        let yAleatorio;
+
+        function desenhaCirculo(x, y, raio, cor) {
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.arc(x, y, raio, 0, 2 * Math.PI);
+            pincel.fill();
+        }
+
+        function limpaTela() {
+            //pincel.clearRect(0, 0, 600, 400);
+            pincel.fillStyle = 'lightgray';
+            pincel.fillRect(0, 0, 600, 400);        
+        }
+
+        function desenhaAlvo(x, y) {
+            desenhaCirculo(x, y, raio + 20, 'red');
+            desenhaCirculo(x, y, raio + 10, 'white');
+            desenhaCirculo(x, y, raio, 'red');
+        }
+
+        function sorteiaPosicao(maximo) {
+            // Math.floor arrendonda para baixo.
+            return Math.floor(Math.random() * maximo);
+        }
+
+
+        function atualizaTela() {
+          
+            limpaTela();            
+            
+            xAleatorio = sorteiaPosicao(600);
+            yAleatorio = sorteiaPosicao(400);
+
+            desenhaAlvo(xAleatorio, yAleatorio);
+        }
+
+        function stopMusica() {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+            
+        function mute(){
+            if( audio.muted ){
+                musica.innerHTML = "Desligar Música"
+                audio.muted = false;
+            }else{
+                musica.innerHTML = "Ligar Música"
+                audio.muted = true;
+            }
+        }
+
+        function playMusica() {
+            audio.play();
+
+            setTimeout(stopMusica, 2500);
+        }
+
+        function dispara(evento) {
+            let x = evento.pageX - tela.offsetLeft;
+            let y = evento.pageY - tela.offsetTop;
+
+            if((x > xAleatorio - raio)
+            && (x < xAleatorio + raio)
+            && (y > yAleatorio - raio)
+            && (y < yAleatorio + raio)) {
+
+                pontos++;  
+                indiceMensagem ++;
+
+                if(pontos >= (nivel * 2)) {
+                    nivel ++;
+                    velocidade -= 1000;                  
+                    txtNivel.innerHTML= '<h1>'+ nivel +'</h1>';
+                }
+
+                if(indiceMensagem == mensagens.length){
+                    indiceMensagem = 0;
+                }
+                
+                txt_pontos.innerHTML = '<h1>'+ pontos +'</h1>'; 
+                txt_mensagem.innerHTML = '<h2>'+ mensagens[indiceMensagem] +'</h2>';
+           
+                playMusica();
+
+            }
+        }
+      
+        tela.onclick = dispara;
+        setInterval(atualizaTela, velocidade);
+
+</script>

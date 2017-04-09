@@ -1,0 +1,18 @@
+=== Estágios do GIT ===
+    1 Working Directory: 
+        Limpo - não há diferença entre os arquivos armazenados no repositório e localmente.
+        Sujo -  quando há diferença mínima entre eles.
+    
+    2 Index ou Staging Area: 
+        Podemos adicionar novos arquivos, removê-los ou mesmo alterá-los.
+    
+    3 Head:
+        Último estado, usado o git commit para persistir os arquivos alterados.
+- Criado novo pasta. -> mkdir curso-git
+- Acessado a nova pasta. -> cd curso-git
+- Configurado a pasta como repositório e iniciado. -> git init
+- Configurado responsável pelo projeto -> git config user.name "Andrê Reges" e git config user.email "support.technology@bol.com.br"
+- Criado novo arquivo e adicionado ele para o repositório. -> git add .
+- feito commit -> git commit -m "Início do projeto"
+- feito alteração no arquivo -> git add -i | update | escolhido o arquivo 1 | ENTER | 7 quit.
+- feito commit que não serve para adicionar novo arquivo. -> git commit -a -m "Adicionado novo paragrafo"

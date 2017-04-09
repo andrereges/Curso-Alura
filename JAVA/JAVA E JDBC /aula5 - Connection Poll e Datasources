@@ -1,0 +1,28 @@
+Poll -> é a abertura de um número limitado de conexões ao banco de dados.
+interface DataSource -> o JDBC já implementa essa interface responsável pelo pool de conexões.
+
+Para um cliente acessando o banco de dados:
+Como temos que terminar uma tarefa para começar outra, podemos abrir e 
+fechar a conexão por tarefa ou abrir uma única conexão e fechar no final.
+
+Para vários clientes acessando o banco de dados:
+A prática do pool de conexões consiste em deixar um número fixo ou dinâmico de conexões abertas 
+e reciclá-las utilizando em novas requisições.
+
+1) Em um pool simples com 9 conexões, o que acontece quando o 10º usuário se conecta e todas estão ocupadas? 
+
+No cenário descrito, o 10º usuário esperará. 
+
+2) O que acontece quando, posteriormente, o terceiro usuário termina sua tarefa? 
+
+Quando o terceiro usuário terminar sua tarefa, o décimo usuário passará a usar a conexão liberada.
+
+3) Que variações você sugeriria fazer na implementação de um pool de conexões para evitar que um usuário 
+espere muito tempo? E o que fazer para evitar que em horários de pico o servidor não fique com poucas 
+conexões para um número grande de usuários?
+
+Uma sugestão seria utilizar um número variável de conexões: delimitamos um número mínimo e máximo e 
+deixamos que o servidor se adapte com o número de conexões de acordo com a necessidade atual. 
+Por exemplo podemos configurar 10 e 100. A medida que novas conexões vão sendo necessárias, 
+o servidor cria, até chegar a 100. Quando elas não são necessárias, ele deixa diminuir o número de conexões 
+ativas até um mínimo de 10.

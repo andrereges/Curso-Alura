@@ -1,0 +1,11 @@
+1 Usar e gerenciar Cache. -> Google Guava
+2 Retornar JSON e criar um Resolver View. -> Jackson
+3 Usando o BootStrap e habilitando o uso dos estilos com configureDefaultServletHandling. -> BootStrap
+4 Criando um sistema de login, configurando Roles, e criando uma página. -> Spring Security
+5 Criando um templates e includes de menu, cabeçalho e rodapé.
+6 Internacionalizar e mudar o idioma dinamicamente.
+7 Testes na aplicação -> JUnit, Spring Test, Spring Security Test.
+8.1 Envio de emails. -> 
+8.2. Lazy Initialization(Iniciação demorada) para banco de dados.
+8.3 Tratando Exceções. 
+9 Publicando o projeto.

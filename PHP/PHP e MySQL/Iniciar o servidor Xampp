@@ -1,0 +1,9 @@
+=== Start Xampp Server ===
+
+sudo cd /opt/lampp/lampp start
+
+=== Xampp rodar automaticamente quando o Ubuntu for iniciado ===
+
+$ cd /etc/rc2.d
+$ sudo ln -s /opt/lampp/lampp S99lampp
+$ sudo ln -s /opt/lampp/lampp K01lampp

@@ -1,0 +1,4 @@
+A otimização de queries deve ser evitada ao máximo, só deve ser feita caso o uso delas
+estejam atrapalhando a performance do nosso sistema.
+
+A otimização é difícil de manter e atrapalha a legibilidade do código.

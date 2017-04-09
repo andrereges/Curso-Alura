@@ -1,0 +1,114 @@
+1 Cria um formulário form.jsp na pasta WEB-INF/views/produtos -> action="/casadocodigo/produtos" method="post"
+2 Cria uma Classe ProdutosController dentro do pacote controllers 
+    @Controller
+    public class ProdutosController {
+
+        @Autowired -> automatiza o processo ProdutoDAO no controller
+        private ProdutoDAO produtoDao;
+
+        @RequestMapping("/produtos/form")
+        public String form(){
+            return "produtos/form";
+        }
+
+        @RequestMapping("/produtos")
+        public String gravar(Produto produto){
+            System.out.println(produto);
+            produtoDao.gravar(produto);
+            return "/produtos/ok";
+        }
+    }
+
+3 Cria uma classe(entidade) Produto com obrigatóriamente um id nomeado -> @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+nomeado com os mesmos atributos do formulário e sobrescreve o metodo toString no pacote models.
+Nomear a classe Produto com @Entity ->pacote javax.persistence.Entity
+
+4 Cria a view ok.jsp em WEB-INF/views/produtos com a msg de sucesso.
+
+=== Salvando produtos no banco de dados com JPA (Java Persistence API) e o Hibernate ===
+
+5 Configurar o as dependencias (JPA, o Hibernate, O SpringORM e o Driver MySQL) no pom.xml.
+6 Nomear a classe Produto com @Entity ->pacote javax.persistence.Entity
+7 Cria o ProdutoDAO com o CRUD no pacote daos.
+8 Criar um atributo private EntityManager @PersistenceContext e define ProdutoDAO como @Repository
+    
+    org.springframework.transaction.annotation.Transactional.
+
+    @Repository
+    @Transactional
+    public class ProdutoDAO {
+
+        @PersistenceContext
+        private EntityManager manager;
+
+        public void gravar(Produto produto){
+            manager.persist(produto);
+        }
+
+    }
+
+9 Na classe AppWebConfiguration adicionar a classe ProdutoDAO.class no ComponentScan.
+10 Cria uma classe JPAConfiguration no pacote conf para definir o database, user e password:
+
+factoryBean.
+    .setJpaVendorAdapter(vendorAdapter); -> adapter que o Hibernate disponibiliza
+    .setDataSource(dataSource); ->informações do banco
+    .setJpaProperties(props); -> seta configurações de dialeto de comunicação com BD
+    .setPackagesToScan("br.com.casadocodigo.loja.models"); -> Onde o EntityManager encontrará os Models
+return factoryBean; -> retornamos um (LocalContainerEntityManagerFactoryBean) nossas configurações para o Spring
+
+    package br.com.casadocodigo.loja.conf;
+
+import java.util.Properties;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+@EnableTransactionManagement
+public class JPAConfiguration {
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo");
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+
+        factoryBean.setDataSource(dataSource);
+
+        Properties props = new Properties();
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        props.setProperty("hibernate.show_sql", "true");
+        props.setProperty("hibernate.hbm2ddl.auto", "update");
+
+        factoryBean.setJpaProperties(props);
+
+        factoryBean.setPackagesToScan("br.com.casadocodigo.loja.models");
+
+        return factoryBean;
+    }
+
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf){
+        return new JpaTransactionManager(emf);
+    }
+}
+
+11 Disponibilizar as configurações para o Spring na classe ServletSpringMVC -> metodo getServletConfigClasses
+    return new Class[] {AppWebConfiguration.class, JPAConfiguration.class};
+
+12 Hibernate não cria o banco, mas as tabelas e campos sim.
+
+Controller(RequestMapping) -> Mostra view e envia parametros para regra de negócio.
+Dao -> Faz a persistencia para o BD
+Model -> Entidade modelo.
+Conf -> Configuração da ServletSpringMVC, JPAConfiguration

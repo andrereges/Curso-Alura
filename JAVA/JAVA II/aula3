@@ -1,0 +1,33 @@
+== IDE Eclipse ==
+
+Ctrl + N - cria novo projeto ou classe.
+
+digito main + Ctrl + espaço = auto completa o metodo main.
+new Conta(); Ctrl + 1 e escolho a opção new local variable.
+digito syso + Ctrl + espaço - System.out.println();
+(Quick Fix) conta.imprime() - método não existe ainda, Ctrl + 1 e create method
+
+Ctrl + Shift + F - Formata o código.
+Ctrl + S - Salvar.
+Ctrl + O - Navega dentro do arquivo, digita o começo do que quer acessar.
+Ctrl + Shift + O - Importa as classes automaticamente.
+Ctrl + W ou Ctrl + F4 - Fecha todos os arquivos.
+Ctrl + Shift + T - digita o nome da classe para abrir o arquivo.
+Ctrl + 1 = para corrigir erros.
+Ctrl + F11 roda a última classe que você rodou.
+Ctrl + PgUp e Ctrl + PgDown Navega nas abas abertas.
+Ctrl + M Expande a View atual para a tela toda.
+Ctrl + Shift + L Exibe todos os atalhos possíveis.
+Alt + Shift + X e depois J Roda o main da classe atual. 
+F3 - abrir via hiperlink a classe da declaração. 
+
+Ctrl + 3:
+ggas - adicionar os getters e setters.
+gcuf - adicionar o construtor, seleciono os campos e ordem dos campos.
+console - abre a aba do console.
+
+Compare With -> Local History
+O Eclipse comparou seu código com a última versão dele! Ele mantem algumas versões do histórico 
+para que você possa voltar atrás em algumas decisões: utilize essa funcionalidade com cuidado 
+pois seu histórico é bem recente e pode ser apagado a qualquer instante. No dia a dia considere 
+usar um controle de versão como o Git (curso contido aqui no Alura).

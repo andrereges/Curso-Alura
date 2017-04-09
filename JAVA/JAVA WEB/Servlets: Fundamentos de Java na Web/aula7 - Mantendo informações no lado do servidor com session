@@ -1,0 +1,16 @@
+HttpSession session = req.getSession();
+session.setAttribute("usuario.logado", usuario);
+
+session.removeAttribute("usuario.logado");
+session.invalidate();
+
+HttpSession session = req.getSession();
+Usuario usuarioLogado = (Usuario) session.getAttribute("usuario.logado");
+
+Session é a solução para problemas de identificação de usuário.
+
+Colocar o minimo de informação dentro da Session.
+
+O uso da session ajuda muito no desenvolvimento do dia a dia mas nunca podemos deixar de lado 
+o fato que objetos colocados nela ficam na memória do servidor: quanto mais usuários e informações 
+nela, maior a chance de estourar a memória.

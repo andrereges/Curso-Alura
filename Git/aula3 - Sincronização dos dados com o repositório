@@ -1,0 +1,7 @@
+- Criando new repository no github com nome de curso-git-alura.
+- Se o repositorio remoto já tiver arquivos é necessário primeiro executar o pull(puxar) para maquina local
+    e depois fazer o push(empurrar) para o repositorio remoto.
+- Usar o apelido 'origin' para o repositorio remoto por padrão.
+- Branch master é a principal.
+- Feito o pull e depois o push 
+-

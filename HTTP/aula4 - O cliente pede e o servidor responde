@@ -1,0 +1,14 @@
+Quando enviamos login e senha para o servidor através do protocolo HTTP, é feito um HTTP REQUEST.
+A resposta do servidor é chamada HTTP RESPONSE.
+Cada requisição HTTP precisa ter todas as informações. Chama STATELESS.
+O servidor gera um HASH de identificação do usuário usa temporariamente na sessão.
+O HASH é salvo em um cookie.
+Uma sessão então é útil para guardar informações sobre o usuário e ações dele.
+Um cookie é um pequeno arquivo de texto, normalmente criado pela aplicação web, 
+para guardar algumas informações sobre usuário no navegador. 
+
+o protocolo HTTP segue o modelo Requisição-Resposta
+sempre o cliente inicia a comunicação
+uma requisição precisa ter todas as informações para o servidor gerar a resposta
+HTTP é stateless, não mantém informações entre requisições
+As plataformas de desenvolvimento usam sessões para guardar informações entre requisições

@@ -1,0 +1,14 @@
+Problema no caso do usuário enviar caracteres que da pau no codigo sql.
+
+Código malicioso é chamado de SQL Injection e temos que evitá-lo tratando os caracteres especiais.
+
+String sql = "insert into Produto (nome, descricao) values(?, ?)";
+PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+statement.setString(1, nome);
+statement.setString(2, descricao);
+
+boolean resultado = statement.execute();
+statement.close();
+
+o JDBC passa a fazer o escaping de caracteres especiais e não nos preocupamos com SQL Injection.

@@ -1,0 +1,21 @@
+ protocolo https: a versão segura do HTTP
+ http -> transmissão de texto puro.
+
+ Certificado Digital - a identificação na web.
+
+ Quando tem o cadeado a identidade do foi confirmada por alguma Autoridade certificadora.
+exemplo: COMODO RSA Domain Validation
+
+O certificado possui uma validade.
+
+Chave pública -> é utilizada para criptografar os dados entre cliente e servidor.
+Chave privada -> Chave para descriptografar os dados, essa chave se encontra somente no servidor.
+
+As chaves criam um par e devem ser utilizadas em conjunto (também chamadas de chaves assimétricas). Lento mas seguro.
+Chaves simétricas é apenas uma chave para criptografar e descriptografar. Rápido mas inseguro.
+
+só com HTTPs a web é segura
+HTTPs significa usar um certificado digital do servidor
+o certificado prova a identidade e tem validade
+o certificado possui uma chave publica
+a chave é utilizada pelo navegador para criptografar os dados

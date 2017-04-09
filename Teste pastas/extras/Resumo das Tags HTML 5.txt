@@ -1,0 +1,27 @@
+<!DOCTYPE html> - Informa ao navegador que estamos usando a última versão do html no caso o html5.
+<html> - Define o inicio do documento html.
+<head> - Cabeçalho do html.
+<meta> - "Etiqueta"que descrevem o conteúdo do seu site para os buscadores.
+<title> - Define o título da página.
+<link rel="icon" href="favicon.png"> - Informa o icone que aparece na aba da página.
+<link rel="stylesheet" type="text/css" href="css/estilo.css"/> - Link de CSS externo.
+<script type=”text/javascript” src=”seu-codigo.js” />
+<main> - Define o conteúdo principal da página.
+<h1> - Tag para titulo principal da página.
+<p> - Parágrafo.
+<h2> - Tag para sub-titulo principal da página.
+<blockquote> - Usado para citação de algum autor.
+<cite> - Informa o nome do autor da citação.
+<strong> - Letra em negrito.
+<em> - Letra em itálico.
+<a href="#"> - Âncora para link de outra página ou outro ponto da página.
+<img src="eu.jpg" alt="Foto Andre"> - Tag para imagem.
+<aside> - Neste bloco, contem informaçoes a mais para conteúdo principal. Barra lateral de menu.
+<nav> - Define o menu de navegação da página.
+<ul> - Lista não ordenada.
+<ol> - Lista ordenada 
+<li> - Item da lista.
+<footer> - Define o rodapé da página.
+<article> - Define um artigo independente.
+<time datatime="2017-01-23"> - Data da publicação de algo.
+

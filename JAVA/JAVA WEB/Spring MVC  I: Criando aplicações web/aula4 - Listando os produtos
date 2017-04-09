@@ -1,0 +1,63 @@
+=== View ===
+<h1>Lista de Produtos</h1>
+
+<table>
+    <tr>
+        <td>Título</td>
+        <td>Descrição</td>
+        <td>Páginas</td>
+    </tr>
+
+    <c:forEach items="${produtos}" var="produto">
+        <tr>
+            <td>${produto.titulo}</td>
+            <td>${produto.descricao}</td>
+            <td>${produto.paginas}</td>
+        </tr>
+    </c:forEach>
+</table>
+
+=== ProdutoDAO ===
+public List<Produto> listar(){
+    return manager.createQuery("Select p from Produto p", Produto.class).getResultList();
+}
+
+=== Controller ===
+@RequestMapping("produtos")
+public class ProdutosController{...}
+
+@RequestMapping("/form")
+public ModelAndView form() {...}
+
+@RequestMapping(method=RequestMethod.POST) 
+public String gravar(Produto produto) {...}
+
+@RequestMapping(method=RequestMethod.GET)
+public ModelAndView listar(){
+    List<Produto> produtos = produtoDao.listar();
+    ModelAndView modelAndView = new ModelAndView("/produtos/lista");
+    modelAndView.addObject("produtos", produtos);
+    return modelAndView;
+}
+
+View - cria página-> Classe ProdutoDAO - cria método listar() -> Controller - cria o método listar() do ProdutoDAO
+para retornar a lista para view. 
+
+O ModelAndView é uma classe do Spring que faz um relacionamento de um modelo (model) com uma visualização (view).
+
+=== Mudando o Enconding do Spring === 
+
+Na classe ServletSpringMVC sobrescreve o método:
+
+@Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        return new Filter[] {encodingFilter};
+    }
+
+=== Melhorando rotas no Controller ===
+
+@Controller
+@RequestMapping("produtos") 
+public class ProdutosController {...}

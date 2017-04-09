@@ -1,0 +1,50 @@
+#principal {
+    border: 2px solid black;
+    width: 800px;
+    height: 600px;
+}
+
+.aparencia-em-comum {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+
+.aparencia-em-comum2 {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100px;
+}
+
+#caixa1 {
+    background-color: red;
+    float: left;
+}
+
+#caixa2 {
+    background-color: blue;
+    margin-top: 20px;
+    margin-left: 20px;
+    float: left;
+}
+
+#caixa3 {
+    width: 200px;
+    height: 200px;
+    line-height: 200px; /* Alinha verticalmente o texto */
+    background-color: green;
+    float: right; 
+    border-radius: 100px;
+}
+
+#caixa4 {
+    background-color: orange; 
+    float: right; 
+    clear: right;
+}
+
+#caixa5 {
+    background-color: purple;
+    clear: both;
+}

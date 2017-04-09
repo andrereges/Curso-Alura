@@ -1,0 +1,7 @@
+depurar uma requisição HTTP
+o primeiro método HTTP - GET
+códigos de resposta como 200(ok), 301(Redirecionamento), 404(Página não encontrada) e 500(Problema no servidor)
+cabeçalhos da resposta como Location
+
+Telnet estabelece apenas uma conexão TCP (protocolo de rede que roda abaixo do HTTP) e 
+permite que enviemos dados em cima dessa conexão através do terminal.

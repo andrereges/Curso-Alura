@@ -1,0 +1,23 @@
+=== AppWebConfiguration ===
+    - Servlet default para requisições de css, js
+    - Extende o WebMvcConfigurerAdapter no AppWebConfiguration. 
+    - Adiciona o método configureDefaultServletHandling  na classe AppWebConfiguration.
+
+    public class AppWebConfiguration extends WebMvcConfigurerAdapter{
+        [...]
+
+        @Override
+        public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+            configurer.enable();
+        }
+    }
+
+=== arquivos.jsp ===
+    - define o caminho do arquivo pelo <c:url .../>
+    - Alterar as classes das TAGs HTML. 
+    - Adicionar o nav e adicionar os links href="${s:mvcUrl('PC#listar').build()}"
+    - Nas TAGs criadas pelo próprio Spring colocar cssClass="form-control".
+
+    <c:url value="/resources/css" var="cssPath" />
+    <link rel="stylesheet" href="${cssPath}/bootstrap.min.css" />
+    <link rel="stylesheet" href="${cssPath}/bootstrap-theme.min.css" />

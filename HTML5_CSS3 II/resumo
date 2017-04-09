@@ -1,0 +1,128 @@
+A porcentagem é relativa à largura do pai do elemento.
+
+Medidas que são relativas ao tamanho de fonte: em (fonte do elemento) e rem(navegador).
+
+Tamanhos de fonte
+
+1.25rem = 1.25 * tamanho da fonte
+
+25px = 1.25 * 20px
+
+30ch - 
+
+Qual o valor da medida ch?
+A largura do caractere "0" (zero).
+
+px - É sempre px.
+em - É baseado na fonte do elemento.
+rem - baseado na fonte padrão do navegador.
+
+O tamanho rem possui um valor único para a página inteira, já a medida em varia de acordo com o elemento
+em que é utilizada. É interessante usarmos em quando quremos que a mudança de tamanho se propague pela página.
+
+
+div {
+    transform:  rotate(30deg) Rotacionar o objeto, negativo é para esquerda
+                scale(1.5) Aumentar ou diminuir o tamanho do objeto, objeto aumenta em 1,5 vezes.
+                skew(20deg) Entortar, os ângulos do objeto crescem ou diminuem em 20 graus
+                translate(10px, 50px) Transladar o objeto
+                translateZ(2px); profundidade
+
+    perspective: 8px; A perspectiva é implementada no elemento pai
+    overflow: scroll; scroll no elemento.
+
+}
+
+translate é feito por último, da direita para esquerda no css.
+transform não funciona em display inline, só em inline-block.
+
+Fórmulas para o quanto temos que transladar na horizontal e na vertical.
+Na horizontal: cos(45) * (altura - largura) + largura
+Na vertical: -1 * sen(45) * altura
+
+Seletores css
+tag
+#id
+.classe
+ancestral descendente
+irmão ~ irmão (seleciona elementos depois de outro elemento)
+irmão + irmão seguinte (pega o elemento logo após o outro.)
+pai > filho
+
+<img>
+    <p> (~) (+) (>)
+    <p> (~)     (>)
+    <blockquote>
+        <p>     
+    </blockquote>
+    <p> (~)     (>) -> irmão
+</img>
+
+img > blockquote + p
+
+Seletor por atributo
+
+[href="http://www.alura.com.br"] - valor inteiro do href
+[src$=".jpg"] - final do valor pelo $
+[href^="http://"] - valor inicial do href pelo ^
+
+PSEUDOCLASSES
+:nth-child(even) <- par, (odd) impar, (3) pega o terceiro item, (2n) pega par, (2n+1) pega os impares
+:first-child - pega o primeiro elemento filho
+:last-child - pega o último elemento.
+
+tr:first-child é diferente de tr :first-child
+Seletor                        pai e filho
+
+:nth-child(n+2) e :nth-of-type(n+2) - pega apartir do segundo elemento.
+
+blockquote:nth-of-type(even) - seleciona o tipo blockquote pares somente
+
+.botao:hover { background-color: purple;} - hover é uma PSEUDOCLASSES do navegador, quando o mouse passa em cima.
+
+Estruturais       Dinâmicas
+:first-child      :hover    - mouse passa em cima
+:last-child       :focus    - quando o foco está no elemento
+:nth-child        :active   - clicando no elemento
+:nth-of-type      :checked  - quando seleciona(true) o elemento
+
+:only-child - filho unico
+
+PSEUDOELEMENTO
+p:first-letter ou p::first-letter {
+    font-size: 3em;
+}
+
+<blockquote>
+    <span> " </span>
+    <p>...</p>
+    <cite>...</cite>
+</blockquote>
+
+blockquote:after
+blockquote:before {
+    content: '"';
+    font-size: 10em;
+    position: absolute;
+}
+::before ::after - precisam da propriedade CONTENT mesmo que não possua nada nas aspas.
+
+FORMULÁRIOS
+
+https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/Input
+
+TABLE
+
+1) e você quer incluir em seu HTML as seguintes informações sobre produtos numa loja:
+Nome
+Preço
+Quantidade
+
+table
+
+2) Se quisermos incluir numa página diversas informações sobre um usuário (nome, idade, email, foto, etc):
+
+Neste caso, o elemento <dl> é o mais adequado. Estamos descrevendo um único item, detalhando características dele.
+As tags <ul> e <ol> se encaixariam melhor se estivéssemos listando uma única característica de vários itens (uma lista de nomes, por exemplo).
+Uma tabela seria adequada caso estivéssemos representando dados de vários produtos. Quando essa tabela é dinâmica, podendo ter um ou mais itens de acordo com o sistema, é justo que ela tenha apenas um item sem perder a semântica.
+Novamente, as tags <div> e <section> são genéricas demais para esse caso, mas nada impede que o elemento <dl> seja colocado dentro de um desses dois.

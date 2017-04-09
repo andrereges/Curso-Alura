@@ -1,0 +1,76 @@
+Reflexão é o processo pelo qual um software pode observar e modificar a sua própria estrutura e comportamento.
+
+Introspecção é o subconjunto da reflexão que permite com que o software obtenha informação a respeito de si próprio.
+
+Para fazer um unico código para varias classes parecidas mas não duplicadas.
+
+Com reflexão é possível criar um algoritmo que consegue obter e trabalhar com elementos do próprio código!
+
+Field é o atributo da classe.
+
+para cada atributo da classe {
+    extrair seu valor
+    se o valor for nulo {
+        adiciona a lista
+    }
+}
+
+retornar lista
+
+
+=== Algoritmo Pronto ===
+
+	public static List<String> getAtributosNulos(Object o) {
+		try {
+			List<String> lista = new ArrayList<>();
+			Class<?> c = o.getClass();
+			for(Field f : c.getFields()) {
+				Object valor = f.get(o);
+				
+				if(valor == null) {
+					lista.add(f.getName());
+				}
+			}
+			
+			return lista;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+    public static List<String> buscaStringEmAtributos(Object o, String buscada){
+	    try {
+	        List<String> lista = new ArrayList<>();
+	        Class<?> c = o.getClass();
+	        for(Field f : c.getFields()){
+	        	
+	            Object valor = f.get(o);
+	            
+	            if(valor != null){
+	                String strValor = valor.toString();
+	                if(strValor.contains(buscada)){
+	                    lista.add(f.getName());
+	                }
+	                
+	            }
+	        }
+	        return lista;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException(e);
+	    }
+	}
+_____________________________________________________________________________________
+
+Um cenário indicado para o uso de reflexão, quando é necessário lidar com objetos de classes diferentes que não compartilham a mesma interface.
+
+O que é possível fazer em Java com reflexão:
+    -> Descobrir os métodos públicos de uma classe
+    -> Descobrir membros privados de uma classe
+    -> Saber os parâmetros de um método
+    -> Saber as interfaces de uma classe
+
+O que NÃO é possível fazer em Java com reflexão:
+    -> Modificar uma classe existente
+

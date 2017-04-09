@@ -1,0 +1,117 @@
+=== pom.xml ===
+    - Adicionar essa dependencia no pom.xml
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.5.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.5.1</version>
+    </dependency>
+
+=== Aplicações externas que simulam pagamentos online ===
+    uri da aplicação: book-payment.herokuapp.com/payment -> limite 500, tipo json -> {"value":500}
+    - Extensão do Chrome: DHC. 
+    - Extensão do Mozilla: HttpRequester.
+
+1 === itens.jsp ===
+    - Define o action do formulário do botão finalizar compras.
+    - Ajustar o link para remoção dos produtos selecionados.
+    - 
+
+    <form action="${s:mvcUrl('PC#finalizar').build()}" method="post">
+        <input type="submit" class="checkout" name="checkout" value="Finalizar compra" />
+    </form>
+
+    <td class="remove-item">
+        <form action="${s:mvcUrl('CCC#remover').arg(0, item.produto.id).arg(1,item.tipoPreco).build() }" method="post">
+            <input type="image" src="/excluir.png" alt="Excluir" title="Excluir" />
+        </form>
+    </td>
+
+=== DadosPagamento ===
+    - Cria essa classe responsável pelo dados de pagamento.
+    - Cria no pacote models.
+
+    public class DadosPagamento {
+        private BigDecimal value;
+
+        public DadosPagamento(BigDecimal value) {
+            this.value = value;
+        }
+
+        public DadosPagamento() {
+        }
+
+        public BigDecimal getValue() {
+            return value;
+        }
+    }
+
+=== AppWebConfiguration ===
+    - Cria um método para o Spring configurar o RestTemplate corretamente.
+    - Anotar como @Bean
+
+    @EnableWebMvc
+    @ComponentScan(basePackageClasses={HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
+    public class AppWebConfiguration {
+        [...]
+
+        @Bean
+        public RestTemplate restTemplate(){
+            return new RestTemplate();
+        }
+
+    }
+=== PagamentoController ===
+    - cria a classe com a anotação @Controller.
+    - Mapeia @RequestMapping("/pagamento")
+    - cria um atributo de classe @Autowired CarrinhoCompras.
+    - Cria o método finalizar() e redireciona para listar();
+    - envia uma mensagem de informação do pagamento com addFlashAttribute();
+    - Integrar os sistemas com RestTemplate e metodo postForObject(url, objeto com o value, respostaDaAppExterna)
+    - Cria um atributo @Autowired RestTemplate
+    - Usar um try/catch caso acontecer erros.
+    - Usar Callable para requisições assíncronas, retornando uma função anônima.
+
+    @RequestMapping(value="/finalizar", method=RequestMethod.POST)
+    public Callable<ModelAndView> finalizar(RedirectAttributes model){
+        return () -> {
+            try {
+                String uri = "http://book-payment.herokuapp.com/payment";
+                String response = restTemplate.postForObject(uri, new DadosPagamento(carrinho.getTotal()), String.class);
+                model.addFlashAttribute("message", response);
+                System.out.println(response);
+                return new ModelAndView("redirect:/produtos");
+            } catch (HttpClientErrorException e) {
+                e.printStackTrace();
+                model.addFlashAttribute("message", "Valor maior que o permitido");
+                return new ModelAndView("redirect:/produtos");
+            }
+        };
+    }
+
+2 === CarrinhoCompras ===
+    - Adiciona proxy no SCOPE:
+    - Cria o método remover(Integer produtoId, TipoPreco tipoPreco);
+    @Scope(value=WebApplicationContext.SCOPE_SESSION, proxyMode=ScopedProxyMode.TARGET_CLASS)
+
+    ** Ou podemos definir o PagamentoController como @Scope(value=WebApplicationContext.SCOPE_REQUEST)
+
+    public void remover(Integer produtoId, TipoPreco tipoPreco) {
+        Produto produto = new Produto();
+        produto.setId(produtoId);
+        itens.remove(new CarrinhoItem(produto, tipoPreco));
+    }
+
+=== CarrinhoComprasController ===
+    - Adicionar o método remover.
+
+    @RequestMapping("/remover")
+    public ModelAndView remover(Integer produtoId, TipoPreco tipoPreco){
+        carrinho.remover(produtoId, tipoPreco);
+        return new ModelAndView("redirect:/carrinho");
+    }

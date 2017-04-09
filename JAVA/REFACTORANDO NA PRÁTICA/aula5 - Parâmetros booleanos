@@ -1,0 +1,6 @@
+Robert martins - clean code
+
+Parâmetros booleanos são uma péssima maneira para você mudar o comportamento do seu código.
+
+Evite ao máximo parâmetros booleanos. Favoreça o uso de métodos separados, sobrecarga de métodos 
+ou até mesmo o uso de Factories (do padrão de projeto).

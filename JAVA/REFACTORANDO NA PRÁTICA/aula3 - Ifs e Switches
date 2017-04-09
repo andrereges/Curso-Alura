@@ -1,0 +1,22 @@
+Para melhorar os ifs e switches:
+
+Ifs algoritmicos:
+1 - Encapsula bem, criando um método semântico para isso, com nome fácil de ser lido.
+
+Condições complexas com ifs:
+1 - Cria um método que faz esse teste para você e seu código ficará fácil de ser lido.
+
+if =  dificuldade de leitura.
+
+Quando vale a pena refatorar um if?
+
+Um if algorítmico é importante. Os refatoramos quando a condição é muito complicada, e aí um 
+método com nome melhor pode facilitar a legibilidade.
+Outro if que vale sempre a pena sempre refatorado, é o if que pode 
+também ser substituído por polimorfismo. Discutimos muitas estratégias disso 
+no curso de Padrões de Projeto.
+
+Qual a diferença entre um switch e um if?
+
+Em termos de qualidade de código, nenhuma. Ambos devem ser vistos de maneira semelhante, 
+e refatorados sempre que possível.

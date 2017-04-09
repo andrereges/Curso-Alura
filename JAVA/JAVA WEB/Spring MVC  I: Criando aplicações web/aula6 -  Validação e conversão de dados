@@ -1,0 +1,69 @@
+O Sprint faz o binding antes de entrar na regra de negócio, verificiando se as informações no 
+formulário estão de acordo com a entidade, no caso produto.
+
+Tipos primitivos não podem receber valores null.
+
+O Spring nos fornece uma static class para validação:
+
+Este método recebe três parâmetros: 
+1 Um objeto errors que contém os erros da validação; 
+2 O nome do campo que iremos validar passado como String; 
+3 Um errorCode que também é passado como String, mas que é reconhecido pelo Spring. 
+
+ValidationUtils.rejectIfEmpty(error, titulo, "field required");
+errors.rejectValue("paginas", "field.required");
+
+@Valid do pacote javax.validation
+
+1 - Criar as dependências no pom.xml:
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+
+2 - Classe ProdutosController:
+
+    - Add a annotation @Valid(javax.validation) para o produto;
+    - Criar o método InitBinder para validação automática e anotar como @InitBinder passando a classe de validação.
+        Nisso o controller reconhece nosso validador.
+        @InitBinder
+        public void InitBinder(WebDataBinder binder){
+            binder.addValidators(new ProdutoValidation());
+        }
+    - Pega o argumento BindingResult como segundo argumento e faz o if para caso tenha erro, retorna para o form();
+        @RequestMapping(method=RequestMethod.POST)
+        public ModelAndView gravar(@Valid Produto produto, BindingResult result,  RedirectAttributes redirectAttributes){
+            if(result.hasErrors()){
+                return form();
+            }
+            produtoDao.gravar(produto);
+            redirectAttributes.addFlashAttribute("message","Produto cadastrado com sucesso");
+            return new ModelAndView("redirect:produtos");
+        }
+
+3 - Cria a classe ProdutoValidation:
+    - Implements Validator (org.springframework.validation);
+    - Sobrescreve os métodos
+        public class ProdutoValidation implements Validator {
+            @Override
+            public boolean supports(Class<?> clazz) {
+                return Produto.class.isAssignableFrom(clazz);
+            }
+
+            @Override
+            public void validate(Object target, Errors errors) {
+                ValidationUtils.rejectIfEmpty(errors, "titulo", "field.required");
+                ValidationUtils.rejectIfEmpty(errors, "descricao", "field.required");
+
+                Produto produto = (Produto) target;    
+                if(produto.getPaginas() <= 0){
+                    errors.rejectValue("paginas", "field.required");
+                }
+            }
+        }

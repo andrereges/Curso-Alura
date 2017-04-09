@@ -1,0 +1,95 @@
+1 === form.jsp ===
+    - Adiciona o campo do tipo input file
+    - Informar que a requisição enviará arquivos -> enctype="multipart/form-data"
+        
+        <form:form action="${ s:mvcUrl('PC#gravar').build() }" method="post" commandName="produto" enctype="multipart/form-data">
+           [...]
+            <div>
+                <label>Sumário</label>
+                <input name="sumario" type="file" />
+            </div>
+            [...]
+        </form:form>
+
+2 === Produto.class ===
+    - Adiciona o atributo do tipo String com seu get e set.
+    - Guarda os arquivos em uma pasta do servidor.
+
+    @Entity
+    public class Produto {    
+
+        [...]
+        private String sumarioPath;
+        [...]
+
+        public String getSumarioPath() {
+            return sumarioPath;
+        }
+        public void setSumarioPath(String sumarioPath) {
+            this.sumarioPath = sumarioPath;
+        }
+    }
+
+3 === ProdutosController ===
+    - Adiciona no metodo gravar um parametro do tipo MultipartFile.
+    - Deixa que o Spring seja Responsável por instaciar os objetos FileSaver
+
+        public class ProdutosController {
+            @Autowired
+            private FileSaver fileSaver;
+                [...]
+            public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result,  
+            RedirectAttributes redirectAttributes){
+                [...] // após o if
+
+            String path = fileSaver.write("arquivos-sumario", sumario);
+            produto.setSumarioPath(path);
+        }
+
+4 === AppWebConfiguration ===
+    - Configura o MultipartResolver(resolvedor de dados multimidia, pode ser pdf, imagem e etc) 
+        criando o método multipartResolver e mapeando @Bean
+    - Adiciona FileSaver.class dentro de @ComponentScan(...)
+        
+        @ComponentScan(basePackageClasses={HomeController.class, ProdutoDAO.class, FileSaver.class})
+
+        @Bean
+        public MultipartResolver multipartResolver(){
+            return new StandardServletMultipartResolver();
+        }
+
+5 === ServletSpringMVC ===
+    - Sobrescreve o método customizeRegistration.
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        registration.setMultipartConfig(new MultipartConfigElement("")); -> usar String vazia.
+    }
+
+6 === FileSaver ===
+    - Criar o pacote br.com.casadocodigo.loja.infra
+    - criar a classe FileSaver com a annotation @Component -> Responsável em fazer os injects de transferencia dos arquivos.
+    - Usar try/catch
+    - Cria o atributo de classe HttpServletRequest com @Autowired
+    - Armazena o caminho relativo do arquivo no BD.
+
+        @Component
+        public class FileSaver {
+            @Autowired
+            private HttpServletRequest request;
+
+            public String write(String baseFolder, MultipartFile file) {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/"+baseFolder);
+                    String path = realPath + "/" + file.getOriginalFilename();
+                    file.transferTo(new File(path));
+                    return baseFolder + "/" + file.getOriginalFilename();
+
+                } catch (IllegalStateException | IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+7 === Cria a pasta onde ficará os arquivos ===
+    - src/main/webapp/

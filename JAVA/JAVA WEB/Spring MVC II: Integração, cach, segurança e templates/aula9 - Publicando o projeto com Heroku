@@ -1,0 +1,125 @@
+=== Heroku site ===
+    - Instalado o Heroku Toolbelt
+    - Efetuado cadastro no Heroku
+    - criado projeto no Heroku pela linha de comando: heroku apps:create cdc-andreriggs
+    - conectado ao git e ao branch master casadocodigo.
+    Install the Heroku CLI
+    - $ heroku login
+    Clone the repository
+    - $ heroku git:clone -a cdc-andre
+    - $ cd cdc-andre
+    Deploy your changes
+    - $ git add .
+    - $ git commit -am "make it better"
+    - $ git push heroku master
+
+=== Git ===
+    - Instalar o git no Ubuntu. -> sudo apt install git
+    - Adicionamos os arquivos do projeto no git desde a raiz. 
+    - git init -> git add -A e git commit -m "initial commit".
+
+=== pom.xml ===
+    - adicionado o WebApp Runner.
+    - dependencia do postgresql.
+    
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+            <execution>
+                <phase>package</phase>
+                <goals><goal>copy</goal></goals>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.github.jsimone</groupId>
+                            <artifactId>webapp-runner</artifactId>
+                            <version>7.0.57.2</version>
+                            <destFileName>webapp-runner.jar</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.4-1201-jdbc41</version>
+    </dependency>
+
+=== JPAConfiguration ===
+    - O entityManagerFactory(DataSource dataSource, Properties additionalProperties);
+    - E o factoryBean.setJpaProperties(additionalProperties);
+
+=== JPAProductionConfiguration ===
+    - criado essa classe no pacote conf.
+    - copiar os métodos dataSource() e additionalProperties da classe JPAConfiguration.
+    - anotar a classe como @Profile("prod").
+    - mudar o dialeto para PostgreSQLDialect e o driver de conexão para org.postgresql.Driver.
+    - Acessar os dados de acesso do banco de dados do Heroku pelo Spring pelo atributo Evironment.
+    - Criar o objeto URI e extrair os dados da String.
+
+    package br.com.casadocodigo.loja.conf;
+
+    import java.net.URI;
+    import java.net.URISyntaxException;
+    import java.util.Properties;
+
+    import javax.sql.DataSource;
+
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Profile;
+    import org.springframework.core.env.Environment;
+    import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+    @Profile("prod")
+    public class JPAProductionConfiguration {
+            
+        @Autowired
+        private Environment environment;
+        
+        @Bean
+        public DataSource dataSource() throws URISyntaxException{
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName("org.postgresql.Driver");
+
+            URI dbUrl = new URI(environment.getProperty("DATABASE_URL")); // usuario:senha@host:port/path
+
+            String host, path, username, password; 
+            int port;
+            
+            host = dbUrl.getHost();
+            port = dbUrl.getPort();
+            path = dbUrl.getPath();
+            username = dbUrl.getUserInfo().split(":")[0];
+            password = dbUrl.getUserInfo().split(":")[1];
+
+            dataSource.setUrl("jdbc:postgresql://"+ host +":"+ port + path);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+
+            return dataSource;
+        }
+
+        @Bean
+        private Properties aditionalProperties(){
+            Properties props = new Properties();
+            props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+            props.setProperty("hibernate.show_sql", "true");
+            props.setProperty("hibernate.hbm2ddl.auto", "update");
+            return props;
+        }
+    }
+
+=== ServletSpringMVC ===
+    - adicionar a classe JPAProductionConfiguration.class no getRootConfigClasses()
+    - comentar o método onStartup()
+
+=== Procfile ===
+    - Criar o arquivo Procfile sem nenhuma extensão na raiz do projeto, requirido pelo Heroku para indicar que nossa app será executada quando o servidor for iniciado.
+    - escrever dentro do arquivo:
+    web: java $JAVA_OPTS -jar -Dspring.profiles.active=prod target/dependency/webapp-runner.jar --port $PORT target/*.war

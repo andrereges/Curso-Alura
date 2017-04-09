@@ -1,0 +1,11 @@
+div {
+    transform:  rotate(30deg) Rotacionar o objeto
+                scale(1.5) Aumentar ou diminuir o tamanho do objeto, objeto aumenta em 1,5 vezes.
+                skew(20deg) Entortar, os ângulos do objeto crescem ou diminuem em 20 graus
+                translate(10px, 50px) Transladar o objeto
+                translateZ(2px); profundidade
+
+    perspective: 8px; A perspectiva é implementada no elemento pai
+    overflow: scroll; scroll no elemento.
+
+}

@@ -1,0 +1,31 @@
+Stream<Curso> streamDeCurso = cursos.stream();
+fluent interface -> É aquela que vamos cascateando métodos em cima de métodos  e retorna mesmo tipo.
+No Stream, sabemos que esses métodos nunca alterarão a coleção original.
+
+cursos.stream()
+					.filter(c -> c.getAlunos() > 100)
+					.forEach(c -> System.out.println(c.getNome()));
+
+Métodos interessantes: map, collect, findFirst e findAny.
+
+// Lambda
+		cursos.sort(Comparator
+				.comparing(c -> c.getAlunos()));
+		
+		// Method Reference reversed() inverso.
+		cursos.sort(Comparator
+				.comparing(Curso::getAlunos));
+		
+		
+		int soma = cursos.stream()
+					.filter(c -> c.getAlunos() > 100)
+					.mapToInt(Curso::getAlunos)
+					.sum();
+		
+		
+		Object[] listaCurso = cursos.stream()
+												.filter(c -> c.getAlunos() > 50)
+												.map(Curso::getNome)
+												.toArray();
+		
+		System.out.println(listaCurso.length);                   

@@ -1,0 +1,8 @@
+== INTERFACES ==
+
+Interface -  é um "contrato", que uma classe tem. Garantia que um método existe nas classes que 
+implementem a interface.
+
+Dica: Programe voltado à interface, não à implementação.
+
+Para usar interfaces e evitar a repetição, procure pelo conceito de composição.

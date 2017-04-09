@@ -1,0 +1,42 @@
+TomCat configuração. http://localhost:8080/gerenciador/index.html
+
+Um servidor que suporta a Servlet API é chamado de Servlet Contêiner 
+e ele pode conter diversos projetos ao mesmo tempo.
+
+No entanto, o Eclipse cria uma pasta intermediária. Antes de publicar o projeto no Tomcat, 
+o Eclipse compila para gerenciador/build/classes e então copia as classes para WEB-INF/classes.
+
+req -> para receber dados do usuário
+resp -> para enviar dados para o usuário
+
+=== METHOD GET por Padrão ===
+
+@WebServlet(urlPatterns = "/busca")
+public class BuscaEmpresa extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        PrintWriter writer = resp.getWriter();
+        writer.println("<html>");
+        writer.println("<body>");
+        writer.println("Resultado da busca:<br/>");
+
+        Collection<Empresa> empresas = new EmpresaDAO()
+            .buscaPorSimilaridade("doce");
+
+        writer.println("<ul>");
+        for (Empresa empresa : empresas) {
+            writer.println("<li>" + empresa.getId() + ": " + empresa.getNome() + "</li>");
+        }
+        writer.println("</ul>");
+
+        writer.println("</body>");
+        writer.println("</html>");
+
+        Collection<Empresa> empresas = new EmpresaDAO()
+                .buscaPorSimilaridade("doce");
+
+    }
+}

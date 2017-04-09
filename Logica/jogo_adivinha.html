@@ -1,0 +1,48 @@
+<meta charset="UTF-8">
+
+<script>
+
+    function pulaLinha(){
+        document.write("<br><br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    // Função sorteia um número aleatório.
+    function sorteia(n) {
+       return Math.round(Math.random() * n);
+    }
+
+    let numeroPensado = sorteia(5);
+    let tentativas = 1;
+
+    while(tentativas <= 3) {
+        let chute = parseInt(prompt("Digite seu chute:"));
+
+        if(chute == numeroPensado) {
+            imprime("Você acertou! O número pensando foi <strong>" + numeroPensado + "</strong>");
+            break;
+        }else {
+
+            let n = 0;
+            let msg = "Já era, você errou!";
+            
+            if(tentativas == 3) {      
+                while(n < 10) {
+                    imprime((n+1) + " - " + msg);
+                    n++;
+                }
+
+                imprime("Você errou, o número pensado foi ==>  <strong>" + numeroPensado + "<strong>  <==");
+                console.log("O número pensado foi " + numeroPensado);
+            }
+        }
+        tentativas ++;
+    }
+
+    imprime("FIM");
+
+</script>

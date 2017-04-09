@@ -1,0 +1,85 @@
+
+	font-family: "Crimson Text", "Times New Roman", serif; 
+	background-color: #F2FFFC;
+	font-size
+	line-height: 1.5;
+	text-align: justify;
+	margin: 20px 0;
+
+
+	text-decoration: none;
+	color: #F2FFFC;
+	text-transform: capitalize;
+	float: left;
+	width: 85%;
+	padding-bottom: 30px;
+	-bottom: 20px;
+	border-bottom: 2px solid #ccc;
+	font-weight: bold;
+	font-style: italic;
+	border-bottom: 10px solid black;
+	: 60px;
+	text-transform: uppercase;
+	position: fixed;
+	top: 0;
+	width: 80%;
+	: "Open Sans Condensed", "Arial", sans-serif;
+	clear: both;
+	: 30px;
+	width: 720px;
+	: auto;
+	padding-top: 110px;
+	padding-bottom: 80px;
+	padding: 20px;
+	box-sizing: border-box; /* Informa que o valor total do elemento tem que ser contado começando da borda. */
+	: #3C1D3D;
+	: #F2FFFC;
+	text-align: center;
+	padding: 10px;
+	width: 15%;
+	position: fixed;
+	top: 320px;
+	right: 0;
+	float: left;
+	box-sizing: border-box;
+	border-left: 10px solid black;
+	border-right: 10px solid black;
+	border-bottom: 10px solid black;
+	border-top: 10px solid black;
+	position: fixed; /* relative = relativo à posição original, absolute = relativo à posição da janela do navegador */
+	top: 0;
+	right: 0;
+	: #D9E5E3;
+	border: 10px solid #C2CCCA;
+	width: 250px;
+	box-sizing: border-box;
+	: 20px 40px;
+	padding: 20px;
+	float: right;
+	font-style: italic;
+	: inherit;
+	: "Open Sans Condensed", sans-serif;
+	: 30px;
+	-bottom: 25px;
+	: #000;
+	: #F2FFFC;
+	text-align: center;	
+	clear: both; /* Clearfix */
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	text-indent: -9999px; /* técnica image replacement - substitui texto por imagem*/
+	background-image: url(../img/github.png); /* técnica image replacement - substitui texto por imagem*/
+	: 24px;
+	padding: 8px;
+	: 16px;
+	text-align: center;
+	: #E6E7E8;
+	display: block;
+	font-weight: bold;
+	float: right;

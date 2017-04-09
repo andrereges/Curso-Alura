@@ -1,0 +1,30 @@
+<canvas width="400" height="400"></canvas>
+
+<script>
+
+
+let tela = document.querySelector('canvas');
+let pincel = tela.getContext('2d');
+
+    // Retângulos
+    pincel.fillStyle = "lightgrey";
+    pincel.fillRect(0, 0, 400, 400);
+
+    
+    // Triângulo grande
+    pincel.fillStyle = 'black';
+    pincel.beginPath();
+    pincel.moveTo(50, 50); // ponto inicial
+    pincel.lineTo(50, 400); 
+    pincel.lineTo(400, 400);
+    pincel.fill();
+
+    // Triângulo pequeno
+    pincel.fillStyle = 'white';
+    pincel.beginPath();
+    pincel.moveTo(100, 175);
+    pincel.lineTo(100, 350);
+    pincel.lineTo(275, 350);
+    pincel.fill();
+
+</script>

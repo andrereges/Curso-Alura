@@ -1,0 +1,37 @@
+Números jogados no código podem ser complicados de serem entendidos. Exemplo:
+
+public double emDolar() {
+        return valorMensal * 2.7;
+    }
+
+Solução 1 - usar Constante:
+
+private static final double VALOR_DOLAR = 2.7;
+
+public double emDolar() {
+    return valorMensal * VALOR_DOLAR;
+}
+
+Solução 2 - usar Enumerators:
+
+public enum Moeda {
+        DOLAR(2.7),
+        EURO(3.0);
+
+        private double taxa;
+        Moeda(double taxa) {
+            this.taxa = taxa;
+        }
+
+        public double getTaxa() {
+            return taxa;
+        }
+    }
+
+    public double emDolar() {
+        return valorMensal * Moeda.DOLAR.getTaxa();
+    }
+
+Números mágicos no código podem ser complicados de serem entendidos e 
+prejudicam a legibilidade, por isso devem ser refatorados.. Para isso, 
+faça uso de constantes, ou até mesmo de enums.

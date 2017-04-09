@@ -1,0 +1,65 @@
+Uma opção para converter para o padrão date aceitável para o Calendar:
+    @DateTimeFormat(pattern="dd/MM/yyyy")
+     private Calendar dataLancamento;
+
+Para se tornar um padrão esse formato de data para toda a aplicação web
+criamos esse método na classe AppWebConfiguration:
+
+    @Bean
+    public FormattingConversionService mvcConversionService(){
+        DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+        DateFormatterRegistrar formatterRegistrar = new DateFormatterRegistrar();
+        formatterRegistrar.setFormatter(new DateFormatter("dd/MM/yyyy"));
+        formatterRegistrar.registerFormatters(conversionService);
+
+        return conversionService;
+    }
+
+O Calendar só precisa da anotação:
+
+    @Entity
+    public class Produto {
+        [...]
+        @DateTimeFormat
+        private Calendar dataLancamento;
+        [...]
+    }
+
+=== Spring gerenciando nosso formulário ===
+
+Exemplo: <form:input path:"titulo" />
+
+<form:form action="${ s:mvcUrl('PC#gravar').build() }" method="post" commandName="produto">
+    <div>
+        <label>Título</label> 
+        <form:input path="titulo" />
+        <form:errors path="titulo" />
+    </div>
+    <div>
+        <label>descricao</label>
+        <form:textarea rows="10" cols="20" path="descricao" />
+        <form:errors path="descricao" />
+    </div>
+    <div>
+        <label>Páginas</label>
+        <form:input path="paginas" />
+        <form:errors path="paginas" /> 
+    </div>
+    <div>
+        <label>Data de Lançamento</label>
+        <form:input path="dataLancamento" />
+        <form:errors path="dataLancamento" />
+    </div>
+    <c:forEach items="${tipos}" var="tipoPreco" varStatus="status">
+        <div>
+            <label>${tipoPreco}</label> 
+            <form:input path="precos[${status.index}].valor" /> 
+            <form:hidden path="precos[${status.index}].tipo" value="${tipoPreco}" />
+        </div>
+    </c:forEach>
+    <button type="submit">Cadastrar</button>
+</form:form>
+
+=== Spring precisa do objeto Produto como argumento no controller para o formulário ===
+
+form(produto);

@@ -1,0 +1,42 @@
+=== 2 formas de usar o Lazy Initialization ===
+    - De forma direta na Query "select distinct(p) from Produto p join fetch p.precos".
+    - Através do Filter: Adicionar new OpenEntityManagerInViewFilter() no return.
+
+=== Preco ===
+    - Sobrescrever o método toString().
+
+    public String toString() {
+        return this.tipo.name() + " - " + this.valor;
+    }
+
+=== ProdutoDAO ===
+    - Alterar a Query do método listar() - "select distinct(p) from Produto p join fetch p.precos".
+
+    public List<Produto> listar(){
+        return manager.createQuery("select distinct(p) from Produto p join fetch p.precos").getResultList();
+    } 
+
+=== ServletSpringMVC ===
+    - Adicionar new OpenEntityManagerInViewFilter() no array de Filter[] do método getServletFilters().
+    
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        return new Filter[] {encodingFilter, new OpenEntityManagerInViewFilter()};
+    }
+
+=== Lazy Initialization Vs Query com fetch ===
+    - O Lazy faz uma consulta para cada preço N+1.
+    - O fetch faz apenas uma consulta no banco de dados.
+    ** Sempre que possível usar o join fetch pois evita sobrecarga do acesso ao BD.
+    ** Deixar os dois configurados o Lazy e Join fetch.
+
+1 O que é o Lazy Initialization?
+
+É a tentativa do Hibernate de carregar os preços apenas quando eles forem utilizados. De maneira atrasada.
+
+2 Porque tomamos um LazyInitializationException? Qual foi a causa principal de termos tomado essa exception?
+
+Porque a Session do Hibernate já estava fechada. Session is closed.
+

@@ -1,0 +1,6 @@
+para declarar um parâmetro da requisição usamos ? após do recurso
+vários parâmetros são separados pelo &
+params são utilizados para definir detalhes da pesquisa ou enviar dados de um formulário
+params no GET fazem parte da URL
+existem outros métodos HTTP como POST, DELETE e PUT
+params no POST fazem parte do corpo da requisição

@@ -1,0 +1,298 @@
+<canvas width="420" height="420" id="jogo"></canvas>
+
+<script>
+
+let tela = document.querySelector('canvas');
+let pincel = tela.getContext('2d');
+
+function quadrado(cor, x, y, area) {
+
+    pincel.fillStyle = cor;
+    pincel.fillRect(x, y, area, area);
+}
+
+function casa(posicao, desenho) {
+        let x,x2, y, y2;
+
+        switch (posicao) {
+        case 11:
+        if(desenho == "X"){
+            x = 20;
+            x2 = 100;
+            y = 20;
+            y2 = 100;
+        }else{
+            x = 60;
+            y = 60;
+        }
+        break;
+
+        case 12:
+        if(desenho == "X"){
+            x = 170;
+            x2 = 250;
+            y = 20;
+            y2 = 100;
+        }else{
+            x = 210;
+            y = 60;
+        }
+        break;
+
+        case 13:
+        if(desenho == "X"){
+            x = 320;
+            x2 = 400;
+            y = 20;
+            y2 = 100;
+        }else{
+            x = 360;
+            y = 60;           
+        }
+
+        break;
+
+        case 21:
+        if(desenho == "X"){
+            x = 20;
+            x2 = 100;
+            y = 170;
+            y2 = 250;
+        }else{
+            x = 60;
+            y = 210;
+        }
+        break;
+
+        case 22:
+        if(desenho == "X"){
+            x = 170;
+            x2 = 250;
+            y = 170;
+            y2 = 250;
+            
+        }else{
+            x = 210;
+            y = 210;
+        }
+        break;
+
+        case 23:
+        if(desenho == "X"){
+            x = 320;
+            x2 = 400;
+            y = 170;
+            y2 = 250;
+        }else{
+            x = 360;
+            y = 210;
+        }
+        break;
+
+        case 31:
+        if(desenho == "X"){
+            x = 20;
+            x2 = 100;
+            y = 320;
+            y2 = 400;
+        }else{
+            x = 60;
+            y = 360;
+        }
+        break;
+
+        case 32:
+        if(desenho == "X"){
+            x = 170;
+            x2 = 250;
+            y = 320;
+            y2 = 400;
+        }else{
+            x = 210;
+            y = 360;
+        }
+        break;
+
+        case 33:
+        if(desenho == "X"){
+            x = 320;
+            x2 = 400;
+            y = 320;
+            y2 = 400;
+        }else{
+            x = 360;
+            y = 360;
+        }
+        break;
+
+        default:
+        if(desenho == "O"){
+            x = 510;
+            y = 60; 
+        }
+    }
+
+    let posicoes = [];
+    if(desenho == "X") {       
+        posicoes.push(x);
+        posicoes.push(y);
+        posicoes.push(x2);
+        posicoes.push(y2);
+         
+    } else {
+        posicoes.push(x);
+        posicoes.push(y);
+    }
+    return posicoes;    
+}
+
+function circulo(cor, posicao) {
+
+    let posicoes = casa(posicao, "O");  
+    let x = posicoes[0];
+    let y = posicoes[1];
+    
+
+    pincel.fillStyle= cor;
+    pincel.beginPath();
+
+    pincel.arc(x, y, 50, 0, 2*3.14);
+    pincel.fill();
+
+    pincel.fillStyle= "white";
+    pincel.beginPath();
+
+    pincel.arc(x, y, 30, 0, 2*3.14);
+    pincel.fill();
+}
+
+function X (cor, posicao){
+
+    let posicoes = casa(posicao, "X");
+
+    
+    let x = posicoes[0];
+    let y = posicoes[1];
+    let x2 = posicoes[2];
+    let y2 = posicoes[3];
+    
+    pincel.strokeStyle = cor;
+    pincel.lineWidth = 20;
+
+    pincel.moveTo(x, y);
+    pincel.lineTo(x2, y2);
+    pincel.stroke();
+
+    pincel.moveTo(x2, y);
+    pincel.lineTo(x, y2);
+    pincel.stroke();
+
+}
+
+function desenhaSimbolo (x, y, desenho) {
+    if((x >= 0 && x < 120) && (y >= 0 && y < 120)) {
+        if(desenho == "X") {
+            X(corX, 11);
+        }else {
+            circulo(corCirculo, 11);
+        }    
+    }else if((x >= 150 && x < 270) && (y >= 0 && y < 120)) {
+        if(desenho == "X") {
+            X(corX, 12);
+        }else {
+            circulo(corCirculo, 12);
+        } 
+    }else if((x >= 300 && x < 450) && (y >= 0 && y < 120)) {
+        if(desenho == "X") {
+            X(corX, 13);
+        }else {
+            circulo(corCirculo, 13);
+        } 
+    }
+    //___________________________________________________
+    if((x >= 0 && x < 120) && (y >= 150 && y < 270)) {
+        if(desenho == "X") {
+            X(corX, 21);
+        }else {
+            circulo(corCirculo, 21);
+        } 
+    }else if((x >= 150 && x < 270) && (y >= 150 && y < 270)) {
+        if(desenho == "X") {
+            X(corX, 22);
+        }else {
+            circulo(corCirculo, 22);
+        } 
+    } else if((x >= 300 && x < 450) && (y >= 150 && y < 270)) {
+        if(desenho == "X") {
+            X(corX, 23);
+        }else {
+            circulo(corCirculo, 23);
+        } 
+    }
+    //___________________________________________________
+    if((x >= 0 && x < 120) && (y >= 300 && y < 450)) {
+        if(desenho == "X") {
+            X(corX, 31);
+        }else {
+            circulo(corCirculo, 31);
+        } 
+    }else if((x >= 150 && x < 270) && (y >= 300 && y < 450)) {
+        if(desenho == "X") {
+            X(corX, 32);
+        }else {
+            circulo(corCirculo, 32);
+        } 
+    } else if((x >= 300 && x < 450) && (y >= 300 && y < 450)) {
+        if(desenho == "X") {
+            X(corX, 33);
+        }else {
+            circulo(corCirculo, 33);
+        } 
+    }
+}
+let mostraX;
+function posicionaSimbolo(evento) {
+
+    let x = evento.pageX - tela.offsetLeft;
+    let y = evento.pageY - tela.offsetTop;
+    
+    if(mostraX) {
+        desenhaSimbolo(x,y,"X");
+    } else {
+        desenhaSimbolo(x,y,"O");
+    }
+
+    mostraX = !mostraX;
+    console.log(x + ', ' + y);
+}
+
+    tela.onclick = posicionaSimbolo;
+    // Black
+    quadrado("black", 0, 0, 420);
+
+    // white
+    quadrado("white", 0, 0, 120);
+    quadrado("white", 0, 150, 120);
+    quadrado("white", 0, 300, 120);
+
+    quadrado("white", 150, 0, 120);
+    quadrado("white", 150, 150, 120);
+    quadrado("white", 150, 300, 120);
+
+    quadrado("white", 300, 0, 120);
+    quadrado("white", 300, 150, 120);
+    quadrado("white", 300, 300, 120);
+
+    // Bola
+    let corCirculo = "darkblue";
+    
+
+ circulo(corCirculo, 0); // Error, verificar
+
+    // x
+    let corX = "red";
+    
+    //X(corX,11);
+    //circulo(corCirculo, 21);
+
+</script>

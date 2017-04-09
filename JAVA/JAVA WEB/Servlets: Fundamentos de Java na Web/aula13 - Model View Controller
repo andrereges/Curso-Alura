@@ -1,0 +1,13 @@
+O MVC no lado do servidor acaba sendo um padrão muito adotado para aplicações web tradicionais.
+
+Frameworks MVC em Java como o Vraptor, o Spring MVC ou em Ruby como o Rails.
+
+ão importa o framework que você escolher, é vital entender como a web funciona e - no caso de Java - 
+como a API de servlet é por trás. Dessa maneira sabemos que tipo de implementações devemos evitar como 
+por exemplo sessões que possuem muitos objetos ou problemas de segurança em cookies. Tudo isso é 
+resultado da Web e aparece em todos os frameworks de uma maneira ou de outra: sabendo como funcionam 
+podemos evitar cair nessas armadilhas.
+
+
+A base de como a web funciona é fundamental para não cometer falhas de segurança, 
+de memória ou de mal uso de frameworks. 

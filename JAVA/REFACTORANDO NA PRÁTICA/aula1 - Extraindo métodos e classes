@@ -1,0 +1,24 @@
+Refatoração -> Quando melhoramos nosso código, seja renomeando uma variável ou quebrando uma 
+classe grande em várias classes pequenas.
+
+Dicas para Refatoração:
+
+1- Dividir métodos públicos em métodos menores privados.
+2- Divisão de responsabilidades em classes diferentes.
+3- O método está bom quando cabe na tela do computador.
+
+Quando devemos extrair para um método privado e quando devemos extrair para uma outra classe?
+
+Geralmente levamos para uma outra classe todo trecho de código que "pertence a outra responsabilidade".
+No nosso exemplo, o código de acesso a banco de dados não tem relação com o código de geração da NF; 
+são coisas diferentes, e portanto cada um merece a sua classe.
+
+Métodos privados são bem úteis para dividir um mesmo algoritmo, grande, em trechos menores.
+
+
+E se tivéssemos uma classe com muitos métodos, o que você faria?
+
+Uma classe com muitos métodos também é ruim, afinal muita gente usa ela, e se tiver um bug, ela pode fazer 
+com que muitas outras classes parem de funcionar.
+Portanto, se você tem uma classe muito grande, quebre-a em classes menores, 
+com menos métodos. Repare que a solução é análoga a de um método grande.

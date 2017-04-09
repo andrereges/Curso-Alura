@@ -1,0 +1,6 @@
+Para resolver os códigos duplicados podemos extrair para métodos privados, para classes, 
+fazer o uso de HERANÇA, COMPOSIÇÃO, ABSTRAÇÕES, PADRÕES DE PROJETO e etc.
+
+Viu que existem 2, 3 métodos iguais isola eles transformando em 1 só.
+
+NÃO DEIXE CÓDIGO REPETIDO!

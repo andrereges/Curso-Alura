@@ -1,0 +1,190 @@
+body {
+	font-family: "Crimson Text", "Times New Roman", serif; 
+	background-color: #F2FFFC;
+	font-size: 120%;
+	line-height: 1.5;
+}
+
+p {
+	text-align: justify;
+	margin: 20px 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+nav a {
+	color: #F2FFFC;
+	text-transform: capitalize;
+}
+
+main a {
+	color: red;
+}
+
+main {
+	float: left;
+	width: 85%;
+}
+
+article {
+	padding-bottom: 30px;
+	margin-bottom: 20px;
+	border-bottom: 2px solid #ccc;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+.titulo-conteudo {
+	font-family: "Open Sans Condensed", "Arial", sans-serif;
+	text-align: center;
+	background-color: #851944;
+	color: #FFF;
+	border-bottom: 10px solid black;
+	font-size: 60px;
+	text-transform: uppercase;
+	position: fixed;
+	top: 0;
+	width: 80%;
+}
+
+.subtitulo-conteudo {
+	font-family: "Open Sans Condensed", "Arial", sans-serif;
+	clear: both;
+	font-size: 30px;
+}
+
+.conteudo-principal {
+	width: 720px;
+	margin: auto;
+	padding-top: 110px;
+	padding-bottom: 80px;
+}
+
+.navegacao-site {
+	padding: 20px;
+	box-sizing: border-box; /* Informa que o valor total do elemento tem que ser contado começando da borda. */
+	background-color: #3C1D3D;
+	color: #F2FFFC;
+	text-align: center;
+	padding: 10px;
+	width: 15%;
+	position: fixed;
+	top: 320px;
+	right: 0;
+}
+
+.minha-foto, .navegacao-site{
+	float: left;
+	box-sizing: border-box;
+	border-left: 10px solid black;
+	border-right: 10px solid black;
+	border-bottom: 10px solid black;
+}
+
+.minha-foto {
+	border-top: 10px solid black;
+	position: fixed; /* relative = relativo à posição original, absolute = relativo à posição da janela do navegador */
+	top: 0;
+	right: 0;
+}
+
+.citacoes {
+	background-color: #D9E5E3;
+	border: 10px solid #C2CCCA;
+	width: 250px;
+	box-sizing: border-box;
+	margin: 20px 40px;
+	padding: 20px;
+}
+
+.autores-citacoes {
+	float: right;
+	font-style: italic;
+}
+
+.navegacao-site a {
+	color: inherit;
+	font-family: "Open Sans Condensed", sans-serif;
+}
+
+.navegacao-site h1 {
+	font-size: 30px;
+	margin-bottom: 25px;
+}
+
+#rodape {
+	background-color: #000;
+	color: #F2FFFC;
+	text-align: center;	
+	clear: both; /* Clearfix */
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.icones-redes-sociais li {
+	display: inline-block;
+}
+
+.icones-redes-sociais a {
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	text-indent: -9999px; /* técnica image replacement - substitui texto por imagem*/
+}
+
+.github {
+	background-image: url(../img/github.png); /* técnica image replacement - substitui texto por imagem*/
+}
+
+.twitter {
+	background-image: url(../img/twitter.png);
+}
+
+.linkedin {
+	background-image: url(../img/linkedin.png);
+}
+
+.leia-mais {
+	font-size: 24px;
+	padding: 8px;
+	margin: 16px;
+	text-align: center;
+	background-color: #E6E7E8;
+	display: block;
+	font-weight: bold;
+}
+
+.fiat {
+	float: right;
+}
+
+.petrobras {
+	float: left;
+}
+
+.portfolio img {
+	width: 100%;
+}
+
+.portfolio li{
+	display: inline-block; /* As caixas ficam na mesma linha e é possivel ajusta margin e padding */
+	box-sizing: border-box;
+	border: 8px solid black;
+	background-color: #FAFFFC;
+	margin: 16px;
+	margin-bottom: 16px;
+	padding: 16px;
+	width: 45%;	
+}
+
+/* ul, li - indicam relação com os itens da lista desordenada */

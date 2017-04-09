@@ -1,0 +1,7 @@
+=== Evitando Conflitos
+    - Chamamos esse processo de tratar as diferenças existentes no mesmo arquivo, gerados por diferentes commits, de merge.
+
+Quando estamos no meio do processo de rebase, e houve um conflito que devemos tratar manualmente, como se chama 
+a branch temporária para a qual somos movidos?
+
+no branch.

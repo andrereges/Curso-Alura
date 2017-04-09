@@ -1,0 +1,3 @@
+Vantagens de usar branches:
+    - A instabilidade de uma funcionalidade em andamento não afeta os outros desenvolvedores.
+    - Permite remover o código antes que ele seja incorporado ao código principal.

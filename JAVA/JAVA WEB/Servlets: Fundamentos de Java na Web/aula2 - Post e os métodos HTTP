@@ -1,0 +1,17 @@
+Problemas com GET -> o navegador pode cachear o resultado da requisição e também tem tamanho limitado.
+
+GET /gerenciador/novaEmpresa?nome=Facebook HTTP/1.1
+Host: localhost:8080
+
+POST /gerenciador/novaEmpresa HTTP/1.1
+Host: localhost:8080
+
+nome=Facebook
+
+Mas utilizar POST não garante segurança!!!!
+
+Os navegadores suportam apenas os métodos GET, POST e HEAD.
+
+Sobrescreve o método doPost e no index deixa explicito que o método é POST.
+
+System.out.println(); -> é a saída do servidor e aparecerá no console.

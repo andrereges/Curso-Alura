@@ -1,0 +1,19 @@
+=== AppWebConfiguration.java === 
+    - Extender a classe WebMvcConfigurerAdapter e adicionar o método configureDefaultServletHandling.
+
+    @EnableWebMvc
+@ComponentScan(basePackageClasses={HomeController.class, ProdutoDAO.class, FileSaver.class})
+public class AppWebConfiguration extends WebMvcConfigurerAdapter {
+	
+    [...]
+
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+	    configurer.enable();
+	}
+}
+
+=== arquivo.jsp ===
+}
+    - Colocar o link de referência dessa forma: 
+    <link rel="stylesheet" type="text/css" href='<c:url value="/resources/css/estilo.css"/>'>

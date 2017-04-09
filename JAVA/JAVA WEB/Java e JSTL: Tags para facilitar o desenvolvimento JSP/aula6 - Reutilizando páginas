@@ -1,0 +1,16 @@
+Com a JSTL, podemos também reutilizar páginas já existentes. Um bom exemplo de uso são o 
+cabeçalho e o rodapé das páginas. Elas geralmente são iguais entre todas as páginas.
+
+<c:import url="../_comum/rodape.jsp" /> -> volta um nível de pasta.
+
+
+A JSTL contém os pacotes "xml" e "sql" também, para manipulação de SQL e de acesso a banco de dados, 
+respectivamente.
+
+O que você acha deles? Será que é interessante mesmo fazer acesso a banco de dados direto pela JSP?
+
+O uso desses pacotes não é recomendado. Acessar SQL e manipular XML tendem a ser tarefas 
+complicadas e de alta importância para o projeto. Por esse motivo, é comum optarmos pela criação de 
+classes Java especializadas nessas tarefas.
+
+É para isso que temos DAOs, por exemplo, que encapsulam a lógica de acesso a dados.

@@ -1,0 +1,7 @@
+
+Nomes adequados facilitam a leitura e manutenção dos códigos.
+O bom método é aquele que é fácil de ser lido.
+A má escolha desses pode impactar e muito no tempo de manutenção.
+
+CamelCase -> é o padrão que ensina a prática de escrever palavras compostas ou frases, 
+onde cada palavra é iniciada em maiúsculo e unidas sem espaço.

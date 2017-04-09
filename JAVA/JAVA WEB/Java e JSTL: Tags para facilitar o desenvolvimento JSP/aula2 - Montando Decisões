@@ -1,0 +1,24 @@
+=== IF ===
+
+Não existe o ELSE.
+
+<c:if test="${p.usado}">
+<td>Sim</td>
+</c:if>
+<c:if test="${not p.usado}">  || <c:if test="${!p.usado}">
+<td>Não</td>
+</c:if>
+
+=== SWITCH = CHOOSE ===
+
+<c:choose>
+  
+  <c:when test="${p.usado}">
+    <td>Sim</td>
+  </c:when>
+
+  <c:otherwise>
+    <td>Não</td>
+  </c:otherwise>
+
+</c:choose>

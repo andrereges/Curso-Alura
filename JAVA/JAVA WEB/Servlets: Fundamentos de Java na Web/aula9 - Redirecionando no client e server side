@@ -1,0 +1,10 @@
+=== Client side redirect ===
+resp.sendRedirect("logout.html");
+
+=== Server side redirect ===
+
+ RequestDispatcher dispatcher = req
+            .getRequestDispatcher("/WEB-INF/paginas/logout.html");
+dispatcher.forward(req, resp);
+
+O cliente não ficou sabendo do redirecionamento.

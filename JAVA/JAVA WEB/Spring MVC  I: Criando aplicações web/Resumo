@@ -1,0 +1,16 @@
+1 Construído estrutura Maven com JForge, criado os pacotes de daos, controller, conf(JPA, ServletSpringMVC), 
+    models e estrutura de pastas WEB-APP(WEB-INF).
+2 Configurado o Controller e Daos com persistência do JPA(Configuração do JPA Configuration).
+3 Classe OneToMany, ModelAndView.
+4 Configurando O Filter(UTF-8), Listando produtos.
+5 Redirecionando páginas e enviando flash message.
+6 Validando formulários -> javax.validation e hibernate validation.
+7 Arquivo de idioma messages.properties.
+8 Formatação de datas, configuração para padrão dd/MM/yyyy
+9 Salvando arquivos no servidor com o FileSaver.
+10 Url amigável: @RequestMapping("/detalhe/{id}")
+11 Bean disponível para view.
+12 Escopo de Sessão para vários usuários.
+13 Criação de métodos para o carrinho.
+14 RestTemplate(integração de sistemas), Callable(Spring Gerencia as threads para melhor desempenho do sistema),
+    Proxy de Sessão.

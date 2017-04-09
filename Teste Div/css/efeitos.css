@@ -1,0 +1,56 @@
+#bolas {
+    border: 2px solid black;
+    width: 600px;
+    height: 400px;
+    perspective: 100px;
+    overflow: scroll;
+}
+
+.aparencia-em-comum {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+
+.aparencia-em-comum2 {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100px;
+}
+
+#bola1 {
+    background-color: red;
+    float: left;
+    transform: translateZ(1px);
+}
+
+#bola2 {
+    background-color: blue;
+    float: left;
+    transform:  translate(10px, 50px)
+                translateZ(2px)
+                rotate(30deg)
+                skew(20deg)  
+                scale(1.2);  /*trans, rotação */
+}
+
+#bola3 {
+    background-color: green;
+    float: right; 
+    border-radius: 100px;
+    transform: translateZ(-1px);
+}
+
+#bola4 {
+    background-color: orange; 
+    float: right; 
+    clear: right;
+    transform: translateZ(3px);
+}
+
+#bola5 {
+    background-color: purple;
+    clear: both;
+    transform: translateZ(-2px);
+}

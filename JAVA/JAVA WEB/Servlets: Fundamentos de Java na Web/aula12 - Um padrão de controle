@@ -1,0 +1,58 @@
+@WebServlet(urlPatterns = "/controller")
+
+@Override
+protected void service(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException {
+
+    String tarefa = req.getParameter("tarefa");
+    if (tarefa == null)
+        throw new IllegalArgumentException(
+                "Você esqueceu de passar a tarefa");
+    try {
+        String nomeDaClasse = "br.com.alura.gerenciador.web." + tarefa;
+        Class type = Class.forName(nomeDaClasse);
+        Tarefa instancia = (Tarefa) type.newInstance();
+        String pagina = instancia.executa(req, resp);
+
+        RequestDispatcher requestDispatcher = req
+                .getRequestDispatcher(pagina);
+        requestDispatcher.forward(req, resp);
+    } catch (Exception e) {
+        throw new ServletException(e);
+    }
+}
+
+
+public class Logout implements Tarefa {
+
+    @Override
+    public String executa(HttpServletRequest request,
+            HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        session.removeAttribute("usuarioLogado");
+
+        return "/WEB-INF/paginas/logout.html";
+
+    }
+
+}
+
+public class Logout implements Tarefa {
+
+    @Override
+    public String executa(HttpServletRequest request,
+            HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        session.removeAttribute("usuarioLogado");
+
+        return "/WEB-INF/paginas/logout.html";
+
+    }
+
+}
+
+<form action="controller?tarefa=Logout" method="post">
+    <input type="submit" value="Logout" />
+</form>

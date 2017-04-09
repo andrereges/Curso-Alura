@@ -1,0 +1,37 @@
+LINUX
+
+1 - Clique em Download e escolha a versão que lhe agrada. Escolha corretamente se sua instalação é 32 ou 64 bits.
+
+2 - Na linha de comando entre no diretório de Downloads e execute o instalador:
+
+cd Downloads
+su
+chmod 755 xampp-linux-1.8.2-0-installer.run
+./xampp-linux-1.8.2-0-installer.run
+
+3 - Teste http://localhost
+
+4 - Por padrão o MySQL vem desligado, pare e reinicie os serviços do XAMPP:
+
+su
+/opt/lampp/lampp stop
+/opt/lampp/lampp start
+
+5 - Crie o diretório de nossa loja e de permissão para seu usuário escrever neste diretório. No exemplo a 
+seguir damos permissão para qualquer usuário ler e seu usuário escrever:
+
+su
+mkdir /opt/lampp/htdocs/loja
+chmod u=rwx,g=rwx,o=rx /opt/lampp/htdocs/loja
+chown meu_usuario_linux /opt/lampp/htdocs/loja
+exit
+
+6 - Saia do root e com seu usuário normal crie um arquivo index.php no diretório da loja que cria uma 
+variável e mostra o resultado:
+
+<html>
+<?php $nome = "guilherme"; ?>
+Loja do <?php echo $nome; ?>
+</html>
+
+7 - Acesse http://localhost/loja/index.php

@@ -1,0 +1,68 @@
+== Melhorias do JAVA 8 ==
+
+Ordenação de objetos.
+
+Vale lembrar que podemos criar uma lista de objetos diretamente via Arrays.asList, 
+fazendo List<String> palavras = Arrays.asList("", "", ...). A diferença é que não se pode mudar 
+a quantidade de elementos de uma lista devolvida por esse método.
+
+DEFAULT METHOD -> É um default method! Um método de interface que você não precisa implementar
+na sua classe se não quiser, pois você terá já essa implementação default.
+A grande vantagem é que agora uma interface pode evoluir sem quebrar compatibilidade.
+
+default void sort(Comparator<? super E> c) {
+    Collections.sort(this, c);
+}
+
+list.forEach(consumer) -> recebe como parametro, A interface é a Consumer, que possui um único método 
+abstrato chamado accept.
+______________________forEach - metodo default_______________________________________________________
+public class OrdenaStrings {
+
+	public static void main(String[] args) {
+		
+		List<String> palavras = new ArrayList<>();
+		palavras.add("alura online");
+		palavras.add("casa do código");
+		palavras.add("caelum");
+		
+		Predicate<String> filtro = new Predicado();
+		palavras.removeIf(filtro);
+		
+		Comparator<String> comparador = new ComparadorDeStringPorTamanho();
+		palavras.sort(comparador);
+		
+		Consumer<String> consumidor = new ConsumidorDeString();
+		palavras.forEach(consumidor);
+		
+		
+	}	
+}
+
+class Predicado implements Predicate<String> {
+
+	@Override
+	public boolean test(String arg0) {
+		return arg0.equals("alura online");
+	}
+	
+}
+
+class ConsumidorDeString implements Consumer<String> {
+	@Override
+	public void accept(String s) {
+        System.out.println(s);
+    }
+}
+
+class ComparadorDeStringPorTamanho implements Comparator<String> {
+	@Override
+	public int compare(String s1, String s2) {
+        if(s1.length() < s2.length()) 
+            return -1;
+        if(s1.length() > s2.length()) 
+            return 1;
+        return 0;
+    }
+}
+______________________forEach - metodo default_______________________________________________________

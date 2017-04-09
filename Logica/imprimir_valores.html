@@ -1,0 +1,39 @@
+<meta charset="UTF-8">
+
+<script>
+
+    function pulaLinha(){
+        document.write("<br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    let numeroInicio = 30;
+    let numeroFim = 40;
+
+    imprime("Números de 30 à 40, tirando o 33 e 37.")
+    while(numeroInicio <= numeroFim) {
+
+        if(numeroInicio != 33 && numeroInicio != 37){
+            imprime(numeroInicio);
+        }
+        
+        numeroInicio ++;
+    }
+
+    imprime("FIM");
+    pulaLinha();
+
+    imprime("Números decrescente 20 a 0");
+    let count = 20;
+    while(count >= 0) {
+        imprime(count);
+        count --;
+    }
+    
+    imprime("FIM");
+
+</script>

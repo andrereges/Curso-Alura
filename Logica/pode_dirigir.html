@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+
+<script>
+    function pulaLinha(){
+        document.write("<br><br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    let idade = parseInt(prompt("Qual é sua idade"));
+    
+    if(idade >= 18) {
+        
+        let temCarteira = prompt("Tem carteira? Responda S ou N");
+        temCarteira = temCarteira.toUpperCase();
+
+    if(temCarteira == "S") {
+        imprime("Você pode dirigir!");
+    } else {
+        imprime("Você não pode dirigir!");
+    } 
+    
+    }else{
+         imprime("Você não pode dirigir!");
+    }
+
+</script>

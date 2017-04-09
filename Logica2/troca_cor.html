@@ -1,0 +1,80 @@
+<canvas width="600" height="400" > </canvas>
+
+<script>
+        let cor = document.querySelector('input');
+        let tela = document.querySelector('canvas');
+        let pincel = tela.getContext('2d');
+
+        pincel.fillStyle = 'grey';
+        pincel.fillRect(0, 0, 600, 400);
+
+        let cores = ['black','blue','red', 'green', 'yellow', 'white'];
+        let numeroCor = 0;
+        let raio = 10;
+        let incremento = 5;
+        let tamanhoMinimo = 10;
+        let tamanhoMaximo = 40;
+
+        let desenha = false;
+
+        function desenhaQuadrado() {
+            pincel.fillStyle = cores[numeroCor];
+            pincel.fillRect(0, 0, 30, 30);
+        }
+        
+        function limpa() {
+            pincel.fillStyle = 'grey';
+            pincel.fillRect(0, 0, 600, 400);
+            numeroCor = 0
+            raio = 10;
+            desenhaQuadrado();
+        }
+        
+        // atribuindo diretamente a função anônima
+        tela.onmousemove = function(evento) {
+
+            if(desenha) {
+                let x = evento.pageX - tela.offsetLeft;
+                let y = evento.pageY - tela.offsetTop;
+
+                if (evento.shiftKey && evento.ctrlKey) {
+                    alert('Só aperte uma tecla por vez, por favor!');
+                    return;
+                } else if(evento.shiftKey && raio < tamanhoMaximo) {
+                    raio += incremento;
+                } else if(evento.ctrlKey && raio > tamanhoMinimo) {
+                    raio -= incremento;
+                }
+                
+                pincel.fillStyle = cores[numeroCor];
+                pincel.beginPath();
+                pincel.arc(x, y, raio, 0, 2*3.14);
+                pincel.fill();
+            }
+            console.log(x + ', ' + y);
+        }
+
+        function mudaCor() {
+            
+            numeroCor ++;
+            if(numeroCor == cores.length){
+                numeroCor = 0;
+            }
+
+            desenhaQuadrado();
+            return false;
+        }
+
+        desenhaQuadrado();
+        
+        tela.onmousedown = () => desenha = true; // Arrow function
+        tela.onmouseup = () => desenha = false; // Arrow function
+        
+        tela.oncontextmenu = mudaCor;
+        tela.ondblclick = limpa;
+
+
+
+        
+
+</script>

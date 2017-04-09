@@ -1,0 +1,261 @@
+=== Maven Source Folder ===
+    - Diretório específico para testes: src/tests/java.
+    - Usar o nome dos mesmos pacotes das classes de produção e o nome das classes com "Test" no final.
+        exemplo: ProdutoDAOTest no pacote br.com.casadocodigo.loja.daos
+    - Usar uma classe auxiliadora ProdutoBuilder.
+    - Cria um banco de dados somente para teste: casadocodigo_test.
+    - Criar uma classe DataSourceConfigurationTest para configurar qual banco de dados será o de testes.
+    - Criar um context listener para indicar para o Spring qual DataSource usar ao iniciar no caso @Profile("dev").
+    - Teste feitos deveSomarTodosOsPrecosPorTipoLivro() ProdutoDAOTest, deveRetornarParaHomeComOsLivros() e somenteAdminDeveAcessarProdutosForm ProdutosControllerTest.
+
+=== ServletSpringMVC ===
+    - Sobrescrever o método onStartup().
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        servletContext.addListener(new RequestContextListener());
+        servletContext.setInitParameter("spring.profiles.active", "dev");
+    }
+
+=== DataSourceConfigurationTest ===
+    - Cria no pacote conf dentro de testes.
+    - Criar uma classe DataSourceConfigurationTest para configurar qual banco de dados será o de testes.
+
+    public class DataSourceConfigurationTest {
+
+        @Bean
+        @Profile("test")
+        public DataSource dataSource(){
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setUrl("jdbc:mysql://localhost:8080/casadocodigo_test");
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUsername("root");
+            dataSource.setPassword(");
+            return dataSource;
+        }
+    }
+
+=== JPAConfiguration - melhorias ===
+    - Dividir a responsabilidade para métodos(refatorar).
+    - entityManagerFactory(), dataSource() e aditionalProperties()
+    - anotar o dataSource() @Bean @Profile("dev")
+
+    @EnableTransactionManagement
+    public class JPAConfiguration {
+
+        @Bean
+        public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+            LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+            JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+
+            factoryBean.setJpaVendorAdapter(vendorAdapter);
+            factoryBean.setDataSource(dataSource);
+
+            Properties props = aditionalProperties();
+
+            factoryBean.setJpaProperties(props);
+            factoryBean.setPackagesToScan("br.com.casadocodigo.loja.models");
+
+            return factoryBean;
+        }
+
+        @Bean
+        @Profile("dev")
+        public DataSource dataSource(){
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo");
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            return dataSource;
+        }
+
+        private Properties aditionalProperties(){
+            Properties props = new Properties();
+            props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+            props.setProperty("hibernate.show_sql", "true");
+            props.setProperty("hibernate.hbm2ddl.auto", "update");
+            return props;
+        }
+
+        @Bean
+        public JpaTransactionManager transactionManager(EntityManagerFactory emf){
+            return new JpaTransactionManager(emf);
+        }
+
+    }
+
+=== ProdutoBuilder ===
+
+    package br.com.casadocodigo.loja.builders;
+
+    import java.math.BigDecimal;
+    import java.util.ArrayList;
+    import java.util.Calendar;
+    import java.util.List;
+
+    import br.com.casadocodigo.loja.models.Preco;
+    import br.com.casadocodigo.loja.models.Produto;
+    import br.com.casadocodigo.loja.models.TipoPreco;
+
+    public class ProdutoBuilder {
+
+        private List<Produto> produtos = new ArrayList<>();
+
+        private ProdutoBuilder(Produto produto) {
+            produtos.add(produto);
+
+        }
+
+        public static ProdutoBuilder newProduto(TipoPreco tipoPreco, BigDecimal valor) {
+            Produto livro = create("livro 1", tipoPreco, valor);
+            return new ProdutoBuilder(livro);
+        }
+
+        public static ProdutoBuilder newProduto() {
+            Produto livro = create("livro 1", TipoPreco.COMBO, BigDecimal.TEN);
+            return new ProdutoBuilder(livro);
+        }
+
+        private static Produto create(String nomeLivro, TipoPreco tipoPreco, BigDecimal valor) {
+            Produto livro = new Produto();
+            livro.setTitulo(nomeLivro);
+            livro.setDataLancamento(Calendar.getInstance());
+            livro.setPaginas(150);
+            livro.setDescricao("Livro top sobre testes");
+            Preco preco = new Preco();
+            preco.setTipo(tipoPreco);
+            preco.setValor(valor);
+            livro.getPrecos().add(preco);
+            return livro;
+        }
+
+        public ProdutoBuilder more(int number) {
+            Produto base = produtos.get(0);
+            Preco preco = base.getPrecos().get(0);
+            for (int i = 0; i < number; i++) {
+                produtos.add(create("Book " + i, preco.getTipo(), preco.getValor()));
+            }
+            return this;
+        }
+
+        public Produto buildOne() {
+            return produtos.get(0);
+        }
+
+        public List<Produto> buildAll() {
+            return produtos;
+        }
+    }
+
+=== ProdutoDAOTest ===
+    - Cria dentro do pacote daos
+    - Método para testar a soma de todos os preços por tipo de Livro.
+    - Usar a Dependência do JUnit, Spring-Test 
+    - Anotação do JUnit @Test ou @Ignore
+    - Usado o stream do java 8
+    - Deixar o Spring gerenciar o ProdutoDAO com @Autowired.
+    - E fazer as Anotações de @ContextConfiguration(Classes necessárias para os testes) e @RunWith((Informa a classe que executará os testes)
+    - @Transactional para transação com banco de dados.
+    - Para evitar erros de nullPointerException é instanciando os ArrayList da classe Produto.
+    - Criar Profiles para agrupar configurações JPA. Usar a Anotação @ActiveProfiles("test"); 
+    - Adicionar a classe DataSourceConfigurationTest no @ContextConfiguration.
+
+    @WebAppConfiguration
+    @RunWith(SpringJUnit4ClassRunner.class)
+    @ContextConfiguration(classes = {JPAConfiguration.class, AppWebConfiguration.class, DataSourceConfigurationTest.class})
+    @ActiveProfiles("test")
+    public class ProdutoDAOTest {
+        
+        @Autowired
+        private ProdutoDAO produtoDAO;
+        
+        @Test
+        @Transactional
+        public void deveSomarTodosOsPrecosPorTipoLivro() {
+            
+            List<Produto> livrosImpressos = ProdutoBuilder.newProduto(TipoPreco.IMPRESSO, BigDecimal.TEN).more(3).buildAll();
+            List<Produto> livrosEbook = ProdutoBuilder.newProduto(TipoPreco.EBOOK, BigDecimal.TEN).more(3).buildAll();
+
+            livrosImpressos.stream().forEach(produtoDAO::gravar);
+            livrosEbook.stream().forEach(produtoDAO::gravar);
+
+            BigDecimal valor = produtoDAO.somaPrecosPorTipo(TipoPreco.EBOOK);
+            Assert.assertEquals(new BigDecimal(40).setScale(2), valor);
+        }
+    }
+
+=== ProdutosControllerTest ===
+    - Cria a classe no pacote controlles de testes.
+    - Usar a anotação @WebAppConfiguration para carregar as demais configurações do MVC do Spring.
+    - Usar o MockMvc para simular o comportamento do navegador e suas requisições.
+    - Deixar o Spring gerenciar o WebApplicationContext com a anotação @Autowired e criar o atributo MockMvc.
+    - Criar o metodo setup() para construir o objeto mockMvc. Usando a anotação @Before para carregar antes dos testes.
+    - perform(requisiçao), andExpect(Resultado Esperado), with(SecurityMockMvcRequestPostProcessors) -> with para passar dados adicionais a requisição.
+    - Adicionar a classe SecurityConfiguration no @ContextConfiguration para ser feito o filtro de autenticação.
+
+    @WebAppConfiguration
+    @RunWith(SpringJUnit4ClassRunner.class)
+    @ContextConfiguration(classes = {JPAConfiguration.class, AppWebConfiguration.class, DataSourceConfigurationTest.class, SecurityConfiguration.class})
+    @ActiveProfiles("test")
+    public class ProdutosControllerTest {
+        
+        @Autowired
+        private Filter springSecurityFilterChain; // javax.servlet.Filter
+        
+        @Autowired
+        private WebApplicationContext wac;
+
+        private MockMvc mockMvc;
+
+        @Before
+        public void setup(){
+            mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilter(springSecurityFilterChain).build();
+        }
+
+        @Test
+        public void deveRetornarParaHomeComOsLivros() throws Exception{
+            mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                    .andExpect(MockMvcResultMatchers.model().attributeExists("produtos"))
+                    .andExpect(MockMvcResultMatchers.forwardedUrl("/WEB-INF/views/home.jsp"));
+        }
+
+        @Test
+        public void somenteAdminDeveAcessarProdutosForm() throws Exception{
+            mockMvc.perform(MockMvcRequestBuilders.get("/produtos/form")
+                    .with(SecurityMockMvcRequestPostProcessors
+                        .user("user@casadocodigo.com.br").password("123456")
+                        .roles("USUARIO")))
+                    .andExpect(MockMvcResultMatchers.status().is(403));
+        }
+    }
+
+=== pom.xml ===
+    - Dependência JUnit.
+    - Dependência Spring-Test.
+    - Dependência Spring-security-test
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>4.1.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <version>4.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+
+=== MySQL ===
+    - Contruir a banco de dados casadocodigo_test.

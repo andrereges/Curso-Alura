@@ -1,0 +1,101 @@
+1 === home.jsp ===
+    - forEach na lista de produtos.
+    - exibir as informações de título e construir uma URL para levar à página de detalhes do livro.
+
+    <c:forEach items="${produtos}" var="produto">
+
+        <li>
+        <a href="${s:mvcUrl('PC#detalhe').arg(0, produto.id).build()}" class="block clearfix">
+                <h2 class="product-title">${produto.titulo}</h2>
+                <img width="143"
+                    height="202"
+                    src="https://cdn.shopify.com/s/files/1/0155/7645/products/java8-featured_large.png?v=1411490181"
+                    alt="Java 8 Prático"
+                    title="Java 8 Prático"/>
+                <small class="buy-button">Compre</small>
+        </a>
+        </li>
+
+    </c:forEach>
+
+2 === HomeController ===
+    - Listar os produtos e enviar para a view.
+    - criar um atributo privado ProdutoDAO @Autowired
+    
+    @Controller
+    public class HomeController {
+
+        @Autowired
+        ProdutoDAO produtoDao;
+
+        @RequestMapping("/")
+        @Cacheable(value="produtosHome")
+        public ModelAndView index(){
+            List<Produto> produtos = produtoDao.listar();
+            ModelAndView modelAndView = new ModelAndView("home");
+            modelAndView.addObject("produtos", produtos);
+            return modelAndView;
+        }
+
+    }
+
+3 __________________________ Cache __________________________
+
+=== ProdutoController ===
+    - adicionar a annotation @CacheEvict(value="produtosHome", allEntries=true)
+    @RequestMapping(method=RequestMethod.POST)
+    @CacheEvict(value="produtosHome", allEntries=true)
+    public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result,  RedirectAttributes redirectAttributes){
+
+    [...]
+
+    }
+
+=== pom.xml ===
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>18.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>4.1.0.RELEASE</version>
+    </dependency>
+
+=== Habilitando o Cache ===
+    - adicionar a annotation @Cacheable(value="produtosHome") com o valor, no método index() do HomeController.
+    - adicionar a annotation @EnableCaching no AppWebConfiguration.
+    - criamos um método cacheManager() com annotation @Bean. 
+    
+    ** Usado para testes no desenvolvimento.
+        @Bean
+        public CacheManager cacheManager(){
+            return new ConcurrentMapCacheManager();
+        }
+
+    - adicionar a annotation @CacheEvict(value="produtosHome", allEntries=true) no método gravar() na classe Produto.
+    **quando esse método for usado o cache será limpo.
+    - adicionar um gerenciador de cache de verdade. O Guava da Google.
+    - adicionar a dependencia do Guava no pom.xml.
+
+    maximumSize -> Máximo de elementos guardados no cache.
+    expireAfterAccess -> Tempo para expirar o cache.
+
+    ** Usado em produção.
+    @Bean
+    public CacheManager cacheManager(){
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(5, TimeUnit.MINUTES);
+    GuavaCacheManager manager = new GuavaCacheManager();
+    manager.setCacheBuilder(builder);
+    return manager;
+    }
+
+
+=== Vantagem de usar um sistema de cache ===
+
+A grande vantagem de usar um mecanismo de cache é que o acesso direto a memória é muito mais rápido 
+do que a cada requisição buscar todas as informações no banco de dados. Portanto cache é uma ferramenta 
+importante para nos ajudar a melhorar a performance da nossa aplicação.

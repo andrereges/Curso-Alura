@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+
+<script>
+
+    function pulaLinha(){
+        document.write("<br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    let anoLimite = parseInt(prompt("Digite o ano limite:"));
+    let anoCopa = 1930;
+
+    while(anoCopa <= anoLimite) {
+        anoCopa += 4;
+        imprime(anoCopa);
+    }
+    
+    imprime("FIM");
+
+</script>

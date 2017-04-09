@@ -1,0 +1,42 @@
+<meta charset="UTF-8">
+
+<script>
+        // Função responsável por pular linha
+    function pulaLinha(){
+        document.write("<br><br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    function calculaImc(peso, altura) {
+    
+        let imc = peso / (altura * altura);
+        return imc;
+               
+    }
+
+    let nome = prompt("Informe seu nome:");
+    let pesoInformado = prompt("Informe seu peso:"); 
+    let alturaInformada = prompt("Informe sua altura:");
+    let resultadoImc = calculaImc(pesoInformado, alturaInformada);
+
+    imprime(nome + ", o seu IMC é: " + resultadoImc);
+
+    if (resultadoImc < 18.5) {    
+       
+        imprime("Este valor indica que você está ABAIXO do peso.")
+    
+    }else if  (resultadoImc >= 18.6 && resultadoImc <= 34.9) {
+
+        imprime("Este valor indica que você está com o peso IDEAL.")
+
+    }else {
+
+        imprime("Este valor indica que você está ACIMA do peso.")
+
+    }
+
+</script>

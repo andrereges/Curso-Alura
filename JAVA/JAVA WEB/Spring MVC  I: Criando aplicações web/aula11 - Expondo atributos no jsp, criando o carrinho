@@ -1,0 +1,162 @@
+1 === detalhe.jsp ===
+    - cria a URL baseada no contexto no formulário.
+    - Mostra a quantidade de produtos adicionados no carrinho.
+    - Formatar a data importando a biblioteca fmt do jstl.
+
+    [...]
+        <form action='<c:url value="/carrinho/add" />' method="POST" class="container">
+    [...]
+    <li><a href="/cart" rel="nofollow">Carrinho (${carrinhoCompras.quantidade}) </a></li>
+    [...]
+    <fmt:formatDate pattern="dd/MM/yyyy" value="${produto.dataLancamento.time}"/>
+
+2 === CarrinhoItem ===
+    - Cria no pacote models.
+    - Esta classe representa o relacionamento do produto com o preço.
+    - Sobrescrever os métodos com Ctrl + 3 -> Generate HashCode and Equals (Escolher todos os atributos).
+
+    public class CarrinhoItem {
+        private TipoPreco tipoPreco;
+        private Produto produto;
+
+        public CarrinhoItem(Produto produto, TipoPreco tipoPreco) {
+            this.produto = produto;
+            this.tipoPreco = tipoPreco;
+        }
+        public TipoPreco getTipoPreco() {
+            return tipoPreco;
+        }
+        public void setTipoPreco(TipoPreco tipoPreco) {
+            this.tipoPreco = tipoPreco;
+        }
+        public Produto getProduto() {
+            return produto;
+        }
+        public void setProduto(Produto produto) {
+            this.produto = produto;
+        }
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((produto == null) ? 0 : produto.hashCode());
+            result = prime * result + ((tipoPreco == null) ? 0 : tipoPreco.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            CarrinhoItem other = (CarrinhoItem) obj;
+            if (produto == null) {
+                if (other.produto != null)
+                    return false;
+            } else if (!produto.equals(other.produto))
+                return false;
+            if (tipoPreco != other.tipoPreco)
+                return false;
+            return true;
+        }
+    }
+
+3 === CarrinhoCompras ===
+    - Cria no pacote models. E faz a anotação @Component na classe
+    - cria um método sem retorno add(CarrinhoItem item) que recebe CarrinhoItem.
+    - Cria atributo privado lista de itens
+    - Verifica se já tem o item na lista e adiciona 1 na quantidade. itens.containsKey(item)
+    - Pega a quantidade de itens no carrinho para retornar na pagina jsp.
+
+    @Component
+    public class CarrinhoCompras {
+        private Map<CarrinhoItem, Integer> itens = new LinkedHashMap<CarrinhoItem, Integer>();
+
+        public void add(CarrinhoItem item){
+            itens.put(item, getQuantidade(item) + 1);
+        }
+
+        private int getQuantidade(CarrinhoItem item) {
+            if(!itens.containsKey(item)){
+                itens.put(item, 0);
+            }
+            return itens.get(item);
+        }
+
+        public int getQuantidade(){
+            return itens.values().stream().reduce(0, (proximo, acumulador) -> (proximo + acumulador));
+        }
+
+    }
+
+4 === Classe Produto ===
+    - Sobrescrever os métodos Generate HashCode and Equals (Escolher só o ID).
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Produto other = (Produto) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
+5 === CarrinhoComprasController ===
+    - Cria no pacote controller.
+    - Adicionar o método add() recebendo ProdutoID e TipoPreco.
+    - Cria o método privado criaItem() onde será relacionado o produto no BD com o id passado pelo usuário.
+    - Deixa o ProdutoDao e CarrinhoCompras ser gerenciado pelo Spring com a anotação @Autowired.
+   
+    @Controller
+    @RequestMapping("/carrinho")
+    public class CarrinhoComprasController {
+
+        @Autowired
+        private CarrinhoCompras carrinho;
+
+        @Autowired
+        private ProdutoDAO produtoDao;
+
+        @RequestMapping("/add")         //** deve ser o mesmo nome que no formulario produtoId
+        public ModelAndView add(Integer produtoId, TipoPreco tipo){
+            ModelAndView modelAndView = new ModelAndView("redirect:/produtos/listar");
+            CarrinhoItem carrinhoItem = criaItem(produtoId, tipo);
+            carrinho.add(carrinhoItem);
+            return modelAndView;
+        }
+
+        private CarrinhoItem criaItem(Integer produtoId, TipoPreco tipo){
+            Produto produto = produtoDao.find(produtoId);
+            CarrinhoItem carrinhoItem = new CarrinhoItem(produto, tipo);
+            return carrinhoItem;
+        }
+    }
+
+6 === AppWebConfiguration ===
+    - Pede para o Spring escanear o pacote models, adicionando CarrinhoCompras.class.
+    - Deixar o *Bean disponível para view.
+    @ComponentScan(basePackageClasses={HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
+
+    adicionar o resolver no método internalResourceViewResolver -> resolver.setExposedContextBeanNames("carrinhoCompras");
+
+
+
+
+
+

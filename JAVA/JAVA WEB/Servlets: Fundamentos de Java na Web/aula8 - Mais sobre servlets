@@ -1,0 +1,9 @@
+Servlet é uma classe Java.
+
+A Servlet é instaciada(Constructor) uma única vez, e é inicializada(init logo no começo, só é destruída (destroy)
+quando desligamos o servidor.
+
+O método doPost ou doGet é chamado diversas vezes.
+
+Não definir variáveis membro em uma Servlet porque um usuário pode sobrescrever a do outro usuário.
+

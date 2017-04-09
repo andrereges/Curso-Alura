@@ -1,0 +1,13 @@
+setMaxAge(0); -> zera o cookie
+resp.addCookie(cookie);
+setMaxAge(10 * 60); -> tempo de expiração do cookie 10 minutos.
+Perigo de usar o cookie -> O usuário pode alterá-lo.
+
+O cookie é genial para marcar um cliente e acompanhá-lo por diversas páginas, mas para 
+usá-lo como autenticação teremos que utilizar algo mais seguro.
+
+Cuidado com o tamanho da informação porque ela leva tempo.
+
+Tem que ser String.
+
+O usuário pode alterar o valor do lado do cliente.

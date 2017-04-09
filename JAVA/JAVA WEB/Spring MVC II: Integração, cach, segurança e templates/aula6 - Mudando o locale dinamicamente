@@ -1,0 +1,63 @@
+=== message.properties === -> Default depende do navegador.
+    navegacao.categoria.sobre = About us
+    menu.carrinho = Shopping Cart ({0})
+    menu.pt = Português
+    menu.en = English
+
+=== message.properties_en_US ===
+    navegacao.categoria.sobre = About us
+    menu.carrinho = Shopping Cart ({0}) -> parâmetro
+    menu.pt = Português
+    menu.en = English    
+
+=== message.properties_pt === ou message.properties_pt_BR -> especifica que é português do Brasil
+    navegacao.categoria.sobre = Sobre nós
+    menu.carrinho = Seu carrinho ({0})
+        caso tivesse outro com argumentos menu.carrinho = Seu carrinho ({1})
+    menu.pt = Português
+    menu.en = English
+
+=== paginas.jsp ===
+    - adiciona a biblioteca: <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+    - podemos usar o Spring para o locale.
+
+    === fmt ===
+    <fmt:message key="menu.sobre"/>
+
+    <fmt:message key="menu.carrinho">
+        <fmt:param value="${carrinhoCompras.quantidade}"/>
+    </fmt:message>
+    
+    === Spring ===
+
+    <s:message code="navegacao.categoria.sobre" />
+    <s:message code="menu.carrinho" arguments="${carrinhoCompras.quantidade}" />
+
+=== Trocar idioma dinamicamente ===
+    - alterar o messages.properties
+
+    <li>
+        <a href="?locale=pt" rel="nofollow">
+            <s:message code="header.pt" />
+        </a>
+    </li>
+
+    <li>
+        <a href="?locale=en_UR" rel="nofollow">
+            <s:message code="header.en" />
+        </a>
+    </li>
+
+=== AppWebConfiguration ===
+    - criar o método interceptor(InterceptorRegistry registry){...}
+    - sobrescrever o método localeResolver(), anotando como @Bean, podemos retornar uma Session ou Cookie.
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LocaleChangeInterceptor());
+    }
+
+    @Bean
+    public LocaleResolver localeResolver(){
+        return new CookieLocaleResolver();
+    }

@@ -1,0 +1,81 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    let tela = document.querySelector('canvas');
+    let pincel = tela.getContext('2d');
+    pincel.fillStyle = 'lightgray';
+    pincel.fillRect(0, 0, 600, 400);
+
+    let x = 20;
+    let y = 20;
+
+    // códigos do teclado
+    let esquerda = 37;
+    let cima = 38;
+    let direita = 39;
+    let baixo = 40;
+
+    // taxa de incremento
+    var taxa = 5;
+
+    function desenhaCirculo(x, y, raio) {
+
+        pincel.fillStyle = 'blue';
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function limpaTela() {
+
+        pincel.clearRect(0, 0, 600, 400);
+    }
+
+    function atualizaTela() {
+
+        limpaTela();
+
+        if(x < 10) {
+            x = 10;
+        } else if(x > 590){
+            x = 590;
+        }
+
+        if(y < 10) {
+            y = 10;
+        } else if(y > 390){
+            y = 390;
+        }
+
+        desenhaCirculo(x, y, 10);
+    }
+
+    function leDoTeclado(evento) {
+
+        // como saber qual tecla foi pressionada?
+        switch (evento.keyCode) {
+            case esquerda:
+                x -= taxa;
+            break;
+
+            case cima:
+                y -= taxa;
+            break;
+
+            case direita:
+                x += taxa;
+            break;
+
+            case baixo:
+                y += taxa;
+            break;
+        }
+
+    }
+
+   document.onkeydown = leDoTeclado;
+
+    setInterval(atualizaTela, 20);
+
+</script>

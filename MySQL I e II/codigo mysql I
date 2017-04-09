@@ -1,0 +1,85 @@
+INFORMAÇÕES EXTRAS
+	> maior
+	< menor
+	= igual
+	<> diferente
+	AND e
+	OR ou
+	like pedaços da string
+
+
+	null  - vazio
+
+	\! clear - limpa a tela do console
+	\c - volta para o comando anterior
+
+	mysql -u usuario -p banco_de_dados < arquivo.sql - importar .sql - dump do banco de dados
+	mysqldump -u usuario -p banco_de_dados > arquivo.sql - exportar
+
+INICIA O MYSQL SERVER
+	service mysql start
+	service mysql status
+	service mysql stop	
+
+ACESSO AO MYSQL
+	mysql -u root -p => acessar o mysql
+	USE controle_compras => carregar a base de dados
+
+DESCRIÇAO DE DATABASE E TABLE
+	DESC compras; => descreve a tabela.
+	SHOW tables; - mostra todas as tabelas criadas
+
+DATABASE
+	CREATE DATABASE controle_compras; => criar uma base de dados
+
+TABELA
+	CREATE TABLE compras (id int auto_increment primary key, valor double, data date, recebido boolean, observacoes varchar(255)); => criar uma tabela
+	drop table nome_da_tabela; - excluir tabela
+	alter table nome_da_tabela change nome_da_coluna_antiga nome_da_coluna_nova varchar(255); - renomear coluna;
+	alter talbe nome_da_tabela add nome_da_coluna_nova varchar(255);
+	alter table COMPRAS AUTO_INCREMENT = 1; - zera o auto-increment.
+	alter table COMPRAS modify columns observacoes varchar(255) not null; - altera restrição da coluna
+	alter table COMPRAS modify column recebido tinyint(1) default '0'; - valor default caso não coloque nada no campo.
+	alter table COMPRAS add column forma_pagt enum('cartao', 'boleto, 'dinheiro'); - Para definir uma coluna que só aceita valores específicos
+	alter table COMPRAS add foreign key (comprador_id) references COMPRADORES(id);
+	
+
+CRUD TABELA
+	INSERT INTO compras (valor, data, recebido, observacoes) VALUES (1500, '2014-05-14', 1, 'geladeira nova pq a velha quebrou'); => insere valores na tabela;
+	
+	UPDATE COMPRAS SET VALOR = 900 WHERE ID = 20;
+	UPDATE COMPRAS SET OBSERVACOES = 'datas festivas' WHERE DATA IN('2010-12-25', '2010-10-12', '2010-06-12')
+
+	DELETE FROM COMPRAS WHERE ID = 44;	
+
+	SELECT * FROM compras; => seleciona todos os valores.
+	SELECT data, valor, observacoes from compras WHERE valor > 1000;
+	SELECT data, valor, observacoes from compras where valor > 1000 AND data > '2015-01-01';
+	SELECT data, valor, observacoes FROM compras WHERE observacoes LIKE '%xpto%';
+	SELECT * FROM COMPRAS WHERE VALOR BETWEEN 200 AND 700;  NOT BETWEEN
+	SELECT * FROM COMPRAS WHERE OBSERVACOES IS NULL;
+	SELECT sum(valor) as total, count(valor) as qtd from compras; funçoes de agregação sempre pelo maior qtd de elementos.
+	SELECT recebido, sum(valor) from COMPRAS group by recebido;
+ 	SELECT month(data), year(data), sum(valor) from compras group by month(data), year(data) order by year(data), month(data);
+	
+	SELECT * from COMPRAS join COMPRADORES on COMPRAS.COMPRADOR_ID = COMPRADORES.ID; - JOIN juntar tabela
+
+	SELECT COMPRAS.* FROM COMPRAS INNER JOIN COMPRADORES ON COMPRAS.COMPRADOR_ID = COMPRADORES.ID WHERE NOME LIKE 'ADRIAN%'
+ 
+	Funções de Agregação	
+	sum() - soma
+	count() - conta elementos
+	avg() - média
+	
+	TRUNCATE(12.321,2)-> 12.32 - truncar
+	ROUND(12.32) -> 12 - arrendondar.
+	FORMAT(2229.999, 2) -> 22.29999 - formatar
+
+	as - alias, apelido do titulo da coluna
+	group by - agrupamento
+	order by - ordenação
+	day(), month(), year() - filtro de data 
+
+
+
+

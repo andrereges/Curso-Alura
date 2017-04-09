@@ -1,0 +1,21 @@
+== ARRAY ===
+
+int numerosDoBilhete[] = new int[n];
+
+Conta[] minhasContas;
+minhasContas = new Conta[10];
+
+System.out.println(minhasContas[0].saldo);
+
+imprimindo toda a array com FOR
+void imprimeArray(int[] array) {
+    for (int i = 0; i < array.length; i++) {
+        System.out.println(array[i]);
+    }
+}
+
+imprimindo toda a array com FOR EACH
+for (int x : idades) {
+    System.out.println(x);
+}
+

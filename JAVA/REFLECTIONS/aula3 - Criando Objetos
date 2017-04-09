@@ -1,0 +1,6 @@
+método newInstance() da classe Class -> cria uma instância utilizando o construtor sem parâmetros.
+
+Como se cria um objeto por reflexão usando um construtor com parâmetros?
+
+Obtém o construtor com getConstructor() passando os tipos de parâmetro, e depois chama nele o método newInstance(..), 
+passando os parâmetros em questão (newInstance(params).

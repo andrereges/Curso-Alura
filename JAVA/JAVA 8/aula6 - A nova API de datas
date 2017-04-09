@@ -1,0 +1,43 @@
+LocalDate() - LocalTime() - LocalDataTime()  - YearMonth()
+DateTimeFormatter()
+Period()
+
+Passar a data:
+LocalDate olimpiadasRio = LocalDate.of(2016, Month.JUNE, 5);
+YearMonth anoEMes = YearMonth.of(2015, Month.JANUARY);
+LocalTime.of(12, 30);
+
+ZonedDateTime dt = ZonedDateTime.now();
+
+Diferença entre datas:
+int anos = olimpiadasRio.getYear() - hoje.getYear();
+System.out.println(anos);
+
+=== PERIOD ===
+
+Period periodo = Period.between(hoje, olimpiadasRio);
+.getYears();
+.getMonths();
+.getDays();
+
+Duration duracao = Duration.between(hora, horaCriada);
+(.getSeconds() /60) / 60 -> qtd horas falta
+
+=== INCREMENTANDO E DECREMENTANDO DATAS ===
+
+.minusYears(1);
+.minusMonths(4);
+.minusDays(2);
+
+.plusYears(1);
+.plusMonths(4);
+.plusDays(2);
+
+A API Date é imutável -> é necessário criar uma variável para receber o resultado.
+
+=== FORMATAR DATA ===
+DateTimeFormatter dataFormadataBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+DateTimeFormatter dataFormadataHoraBR = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+DateTimeFormatter horaFormadataBR = DateTimeFormatter.ofPattern("hh:mm:ss");
+
+DATA.format(dataFormadataBR) -> retorna uma String

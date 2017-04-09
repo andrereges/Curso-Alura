@@ -1,0 +1,40 @@
+== THREAD ==
+
+Serve para rodar duas ou mais tarefas ao "mesmo tempo".
+
+Thread t1 = new Thread(Runnable r); -> pacote java.lang (automático), objeto Runnable. implements Runnable
+implementa o método run();
+
+t1.start(); -> começa a rodar a THREAD
+t1.sleep(3 * 1000); -> pausa a Thread por 3 segundos.
+t1.stop();
+
+synchronized(this) {
+    this.saldo += valor;
+}
+
+ou
+
+Se o metodo inteiro está controlando, o próprio objeto que será responsável pela sincronização
+public synchronized void deposita(double valor) {
+    this.saldo += valor;
+}
+
+escalonador (scheduler) de threads -> é responsável por escolher qual a próxima thread a ser executada e fazer a troca de 
+contexto (context switch).
+
+Execuções paralelas -> Não dá para saber a ordem de execução de cada thread.
+Execuções sequenciais -> onde uma coisa é feita depois da outra, em uma sequência.
+
+Garbage Collector
+
+O Garbage Collector (coletor de lixo, lixeiro) funciona como uma Thread responsável por jogar fora todos os objetos 
+que não estão sendo referenciados por nenhum outro objeto - seja de maneira direta ou indireta.
+O ::Garbage Collector:: age apenas sobre objetos, nunca sobre variáveis. 
+
+== Thread região critica ==
+
+Colocar uma trava(lock) onde nenhuma thread pudesse entrar no método, pois a chave estaria com outra thread. (synchronized)
+Unlock só com return, exception ou wait().
+
+Vector é um List thread-safe, e já tem no método o synchronized.

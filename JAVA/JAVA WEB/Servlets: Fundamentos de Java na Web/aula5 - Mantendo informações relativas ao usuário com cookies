@@ -1,0 +1,8 @@
+Desejamos adicionar agora um controle de qual usuário está acessando qual parte do sistema.
+
+cria class -> extends HttpServlet -> implementa doPost -> cria obj PrintWriter-> 
+cria as variáveis getParameter -> instacia o dao -> trata usuario null com if -> caso usuario encontrado ->
+cria o formulario de login -> criamos o cookie -> 
+
+Cookie cookie = new Cookie("usuario.logado", email);
+resp.addCookie(cookie);

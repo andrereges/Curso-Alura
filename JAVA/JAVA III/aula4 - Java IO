@@ -1,0 +1,75 @@
+== JAVA IO ==
+
+Gera exception FileNotFoundException
+Polimorfismo            abre o arquivo               
+InputStream is = new FileInputStream("arquivo.txt"); - Lê bytes
+
+InputStreamReader isr = new InputStreamReader(is) - encode padrão do SO, Lê caracter por caracter.
+
+BufferedReader br = new BufferedReader(isr); - Recebe qualquer outro reader no construtor.
+
+String linha = br.readLine(); - passa uma linha para a String
+
+
+byte(InputStream) -> char(InputStreamReader) -> String(BufferedReader) -> readLine().
+
+Lê várias linhas:
+
+while(linha != null) {
+    System.out.println(linha);
+    linha = br.readLine();
+}
+
+br.close; -> fecha o objeto.
+
+== Baixo nível, trabalhar com bytes ==
+
+System.out.println("Digite um texto:");
+	    InputStream is =  System.in;//new FileInputStream("leitura.txt");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		
+		OutputStream os = new FileOutputStream("saida.txt",true); // true é para informar que quero manter o que ja estava escrito
+		OutputStreamWriter osw = new OutputStreamWriter(os);
+		BufferedWriter bw = new BufferedWriter(osw);
+		
+
+		String linha = br.readLine();
+		
+		while(linha != null) {
+			bw.append(linha);
+			bw.newLine();
+			linha = br.readLine();		    
+		}
+		
+		br.close();
+		bw.close();
+	}
+
+
+== Alto Nível ==
+
+        Scanner sc = null;
+		PrintStream ps = null;
+		
+		System.out.println("Digite um texto:");
+		try {
+			sc = new Scanner(new FileInputStream("mac"));
+			//sc = new Scanner(System.in);		
+			ps = new PrintStream("saida.txt");
+		
+		while(sc.hasNextLine()) {
+			String linha = sc.nextLine();
+			ps.println(linha);
+			System.out.println(linha);
+		}
+		
+		} catch(IOException e){
+			
+			System.out.println("Deu pau no programa.");
+		} finally {
+		
+			ps.close();
+			sc.close();
+		}
+	}

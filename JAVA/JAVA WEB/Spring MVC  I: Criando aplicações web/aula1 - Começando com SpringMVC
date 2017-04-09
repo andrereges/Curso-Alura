@@ -1,0 +1,72 @@
+=== CONFIGURAÇÃO PASSO A PASSO SpringMVC ===
+
+1 Baixei a última versão do JBoss Forge
+2 Criei a estrutura do projeto baseado no Maven via terminal:
+    -> dentro da pasta bin do forge -> sudo ./forge
+    -> project-new --named casadocodigo
+    -> Sucess
+3 Importei o projeto para o eclipse import/ existing Maven Projects
+4 Cola a dependencia no pom.xml, abaixo da tag <properties> e salva.
+5 Cria a classe HomeController no pacote br.com.casadocodigo.loja.controllers e escreve a annotation @Controller
+6 Cria o método
+    @RequestMapping("/")
+    public String index(){
+        System.out.println("Entrando na home da CDC");
+        return "index";
+    }
+
+*** @RequestMapping -> define que aquele metodo atende a um determinado path ou endereço.
+
+*** Existem duas formas de configurarmos o servidor Tomcat para que ele passe as requisições para o SpringMVC: 
+    1. Atravéz de Servets - usaremos essa, pq o SpringMVC já vem com servlet pronto para configuração.
+    2. Através de Filtros
+
+7 Cria um pacote br.com.casadocodigo.loja.conf e uma classe ServletSpringMVC extends da classe
+AbstractAnnotationConfigDispatcherServletInitializer
+
+    public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer{
+        @Override
+        protected Class<?>[] getRootConfigClasses() {
+            return null;
+        }
+
+        @Override
+        protected Class<?>[] getServletConfigClasses() {
+            return new Class[] {AppWebConfiguration.class};
+        }
+
+        @Override
+        protected String[] getServletMappings() {
+            return new String[] {"/"};
+        }
+    }
+
+8 Crie uma Classe chamada AppWebConfiguration no mesmo pacote .conf, para encontrar as views, já resolvendo os prefixos e sufixos.
+
+    @EnableWebMvc
+    @ComponentScan(basePackageClasses={HomeController.class}) -> que recebe um array de classes de onde o SpringMVC pode extrair os pacotes nos quais ele pode encontrar os controllers.
+    public class AppWebConfiguration {
+
+        @Bean
+        public InternalResourceViewResolver internalResourceViewResolver(){
+            InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+            resolver.setPrefix("/WEB-INF/views/");
+            resolver.setSuffix(".jsp");
+            return resolver;
+        }
+    }
+
+9 Cria a pasta WEB-INF e dentro dela a pasta views, WEB-INFO é uma pasta protegida que evita o acesso direto
+aos nossos .JSPs pelo cliente. O acesso só é através do Controller.
+
+10 Cria o arquivo index.jsp no diretório WEB-INFO/views. 
+
+-----------------------------------------------------------------------------------------------------------------
+
+Para configurar o nosso projeto nós utilizamos o JBoss Forge. 
+Com suas palavras, descreva o que é o JBoss Forge e qual a principal vantagem em utiliza-lo?
+
+- Agiliza a configuração inicial do projeto.
+- JBoss Forge gera projetos Java web.
+- Configura dependencias(bibliotecas e frameworks).
+- Sem ele teriamos que criar tudo na mão.

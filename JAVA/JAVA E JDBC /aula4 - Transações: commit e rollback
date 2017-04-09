@@ -1,0 +1,7 @@
+connection.setAutoCommit(false); -> desliga o auto commit após cada comando sql
+connection.commit(); -> salva definitivamente os valores do comando sql.
+connection.rollback(); -> retorna ao estado anterior.
+
+Por padrão o JDBC está no modo de auto-commit.
+
+throw new IllegalArgumentException("Problema ocorrido"); -> jogar uma exception 

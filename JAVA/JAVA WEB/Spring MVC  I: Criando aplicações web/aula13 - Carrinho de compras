@@ -1,0 +1,101 @@
+1 === itens.jsp ===
+    - Adicione a taglib -> <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+    - Modifique o href do carrinho para:
+    <li><a href="${s:mvcUrl('CCC#itens').build()}" rel="nofollow">Carrinho ( ${carrinhoCompras.quantidade} )</a></li>
+    - Alterar a tabela que exibe os produtos fazendo um forEach:
+        <c:forEach items="${carrinhoCompras.itens }" var="item">
+            <tr>
+                <td class="cart-img-col">
+                    <img src="http://cdn.shopify.com/s/files/1/0155/7645/products/css-eficiente-featured_large.png?v=1435245145" width="71px" height="100px" />
+                </td>
+                <td class="item-title">${item.produto.titulo}</td>
+                <td class="numeric-cell">${item.preco}</td>
+                <td class="quantity-input-cell">
+                    <input type="number" min="0" readonly="readonly" id="quantidade" name="quantidade" value="${carrinhoCompras.getQuantidade(item) }" />
+                </td>
+                <td class="numeric-cell">${carrinhoCompras.getTotal(item)}</td>
+                <td class="remove-item">
+                    <form action="" method="post">
+                        <input type="image" src="/excluir.png" alt="Excluir" title="Excluir" />
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    - Alterar o rodapé da lista de produtos selecionados:
+
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" class="checkout" name="checkout" value="Finalizar compra" />
+                </td>
+                <td class="numeric-cell">${carrinhoCompras.total}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+
+2 === Produto ===
+    - Cria o método precoPara(TipoPreco tipo):
+
+        public BigDecimal precoPara(TipoPreco tipoPreco) {
+            return precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco)).findFirst().get().getValor();        
+        }
+        
+3 === CarrinhoCompras ===
+    - Implementar um método para retornar os produtos selecionados.
+    - Cria o método para pegar o TOTAL dos itens selecionados.
+    - Metodo para criar o valor TOTAL do carrinho.
+    - Serializar a classe para salvar o objeto em um arquivo para transferir para outra página.
+    
+    public Collection<CarrinhoItem> getItens() {
+        return itens.keySet(); //pega a chave do map que são objetos da classe CarrinhoItem
+    }
+
+    public BigDecimal getTotal(CarrinhoItem item){
+        return item.getTotal(getQuantidade(item));
+    }
+
+    public BigDecimal getTotal(){
+            BigDecimal total = BigDecimal.ZERO;
+            for (CarrinhoItem item : itens.keySet()) {
+                total = total.add(getTotal(item));
+            }
+            return total;
+        } 
+
+    @Component
+    @Scope(value=WebApplicationContext.SCOPE_SESSION)
+    public class CarrinhoCompras implements Serializable{
+
+        private static final long serialVersionUID = 1L;
+
+    }
+
+4 === CarrinhoItem ===
+    - Criar o método para pegar o preço específico do produto.
+    - Cria getTotal(int quantidade).
+
+        public BigDecimal getPreco(){
+            return produto.precoPara(tipoPreco);
+        }
+
+        public BigDecimal getTotal(int quantidade) {
+            return this.getPreco().multiply(new BigDecimal(quantidade));
+        }     
+
+
+
+5 === CarrinhoComprasController ===
+    - Mapear a página de itens do carrinho e redirecionar para página do carrinho.
+    
+    @RequestMapping(method=RequestMethod.GET)
+    public ModelAndView itens(){
+        return new ModelAndView("/carrinho/itens");
+    }
+
+    @RequestMapping("/add")
+    public ModelAndView add(Integer produtoId, TipoPreco tipo){
+        ModelAndView modelAndView = new ModelAndView("redirect:/carrinho");
+        CarrinhoItem carrinhoItem = criaItem(produtoId, tipo);
+        carrinho.add(carrinhoItem);
+        return modelAndView;
+    }

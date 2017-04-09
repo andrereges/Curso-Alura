@@ -1,0 +1,10 @@
+Java foi feito para dispositivos embarcados
+OAK antigo nome do java
+1994 - java 1.0, 2014 - java 8
+programa.java -> compilador-> byte code -> JVM -> S.O
+1994 - "geladeira que roda java, a cerveja esquenta."
+java é orientado à objeto.
+javac OlaMundo.java -> java OlaMundo
+Ler os mnemônicos do programa.class, como a JVM lê o arquivo -> javap -c OlaMundo.class
+Se o software for de prateleira é necessário ofuscar, as classes e métodos para o .class não volte para .java
+\n -> quebra de linha.

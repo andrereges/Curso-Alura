@@ -1,0 +1,18 @@
+== MODIFICADORES DE ACESSO ==
+
+STATIC - acesso direto a classe. Ex. Conta.variavel ou Conta.getExtrado();
+PRIVATE - acesso somente pela classe. Ex. private saldo;
+PROTECTED - acesso feito pela classe e classes filhas do mesmo pacote. Ex. protected extrato;
+PUBLIC - acesso de qualquer lugar. Ex. public getSaldo();
+DEFAULT (padrão) - acesso por qualquer classe do mesmo pacote. Não é preciso declarar esse modificador. Ex. getSaldo();
+FINAL - Não é possivel alterar o valor. A classe e variavel fica CONSTANTE. Ex. final PI;
+ABSTRACT - modificador somente para classes. Informa que a classe não pode ser instaciada, caso algum método for abstrato
+obrigatoriamente a classe tem que ser também.
+
+
+
+Encapsular é esconder a regra de negócio dentro da classe, limitando seu acesso.
+
+SETTERS - servem para mudar o valor de um atributo privado na classe. Ex. setLimite();
+GETTERS - servem para recuperar o valor de um atributo privado na classe. Ex getSaldo();
+

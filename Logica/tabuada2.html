@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+
+<script>
+
+    function pulaLinha(){
+        document.write("<br>");
+    }
+
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    let indice = 0;
+    while(indice < 10) {
+        alert("O resultado é " + (2 * indice));
+        indice ++;
+    }
+
+    for(let i = 1; i <= 10; i++){
+        
+        for(let j = 0; j <= 10; j++){
+            imprime(i + " x " + j + " = " + (i *j) );           
+        }
+
+        pulaLinha();
+    }
+    
+
+</script>

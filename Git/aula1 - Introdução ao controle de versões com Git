@@ -1,0 +1,38 @@
+Git -> Ferramenta de controle de versão, baseada em linha de comando.
+Github -> É uma ferramenta comercial de hospedagem de código na web.
+
+=== Instalação Linux ===
+    - Instalar os pacotes e suas dependências: sudo apt-get install openssl git-core
+    - Para verificar se instalou corretamente: git
+
+=== Configuração de chave publica git no pc ===
+- Criar conta no Github caso não tenha
+- gerar chave de segurança: ssh-keygen -t rsa -C "seu_email@provedor.com"
+- dar um ENTER e colocar a senha do email.
+- gerado a chave 
+The key fingerprint is:
+SHA256:QAOrMPUlynbZK2T05S3x1rm5tGjYQtBNEh1iXTpjxw4 support.technology@bol.com.br
+- criado os arquivos id_rsa e id_rsa.pub em /home/.ssh
+- Dentro do no site do Github https://github.com/settings/keys, adicionar a chave em new SSH key do arquivo id_rsa.pub
+Notebook Ubuntu Itautec
+Fingerprint: cb:a1:bc:8a:b1:6d:60:42:4d:d3:c7:f7:65:1c:32:14
+
+=== GIT Funções e Características ===
+    - Manter um histórico das alterações feitas no projeto.
+        Cada alteração que você faz fica gravada em um histórico, 
+        podendo ser visualizada e restaurada a qualquer instante.
+    
+    - Marcar diferentes versões para o seu projeto.
+        O Git permite que você marque um dado estado do seu projeto com 
+        uma etiqueta, que pode ser usada para determinar uma versão dele.
+
+    - Organizar o sistema de trabalho em equipe, centralizando os arquivos em um servidor.
+        Uma das funções do Git é centralizar os arquivos de trabalho, impedindo que haja confusão 
+        sobre o que foi e não foi modificado por cada um.
+    
+    - Já inclui o controle de versão do Git.
+        Do mesmo modo que aquele servidor que vimos em aula, o Github mantém a integridade 
+        do código quando há diversos desenvolvedores trabalhando ao mesmo tempo.
+
+    - É uma plataforma online na qual você pode hospedar o seu código fonte.
+        Do mesmo modo que aquele servidor que vimos em aula, o Github hospeda o código fonte do seu projeto.

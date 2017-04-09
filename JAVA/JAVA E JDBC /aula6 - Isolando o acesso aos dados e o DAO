@@ -1,0 +1,23 @@
+1 - Cria o pacote modelo
+2 - Classe Produto
+3 - Variaveis membro Produto
+4 - Construtor, getters e setters
+5 - Sobrescreve o metodo toString() - return String.format("[produto: %d %s %s]", id, nome, descricao);
+
+6 - cria o pacote dao
+7 - Construtor recebe uma conexão e salva em atributo de classe. -> Connection con
+8 - Cria os metodos publicos -> salva(void), deleta(void), atualiza(void), listar(lista produtos).
+
+9 - cria o método de teste main 
+10 - instacia produto, coloca a conexao em try(Connection con = new ConnectionPool().getConnection());
+11 - instacia produtoDao dao e chama os métodos.
+
+O DAO é um padrão de design que utilizamos para isolar o código SQL (ou qualquer outro código 
+de acesso à um repositório de dados). Ao adotá-lo, sabemos que existe um único grupo de classes 
+que trabalha com um sistema externo de dados, e podemos nos preocupar somente com essas classes 
+quando trabalharmos nessa área.
+
+Quais as vantagens de se usar classes com o padrão DAO?
+A vantagem está ligada com a capacidade de isolar todo o código que acessa seu repositório de dados em um único lugar. 
+Qualquer desenvolvedor sabe que quando for necessário trabalhar com tal camada, existe um único lugar para olhar: 
+seus DAOs.

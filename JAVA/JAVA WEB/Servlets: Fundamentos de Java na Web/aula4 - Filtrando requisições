@@ -1,0 +1,20 @@
+@WebFilter(urlPatterns = "/*") -> Qualquer acesso a URI passa pelo filtro.
+
+pacote javax.servlet.Filter
+implements Filter
+
+@Override
+public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain) throws IOException, ServletException {
+
+    HttpServletRequest req = (HttpServletRequest) request;
+    System.out.println("Usuario acessando a URI " + req.getRequestURI());
+    chain.doFilter(request, response);
+
+}
+
+
+O conceito de filtro é amplamente utilizado em aplicações web como uma maneira de adicionar 
+características a parte da aplicação. Usando a API de servlets basta criar uma classe que 
+implementa Filter e anotá-la com WebFilter. Em outras APIs é comum encontrar o nome de Interceptor 
+ao invés de Filter para o mesmo conceito.

@@ -1,0 +1,23 @@
+URLs são sempre relativas ao lugar atual que elas estão.
+Contexto root(raiz) é como chamamos o "começo da URL".
+
+<c:url value="/produto/formulario" var="urlAdicionar" />
+<a href="${urlAdicionar}">Adicionar um produto</a>
+
+ou
+
+<a href="<c:url value='/produto/formulario'></c:url>">Adicionar um produto</a>	
+
+Use sempre c:url para gerar seus links. Ele é extremamente útil quando esses links estão 
+em componentes reutilizáveis. Aí, dependendo da página que você coloca o componente, a URL é 
+diferente. Com a JSTL, isso deixa de ser um problema.
+
+
+<c:set var="nome" value="João da Silva" />
+<c:out value="${nome}" />
+
+
+A tag "set" serve para definir uma variável. Ela é útil quando temos um valor que será repetido 
+por todo o programa, e guardar numa variável pode ser importante.
+
+A tag "out" imprime o conteúdo da variável. Seu comportamento é idêntico ao da EL: ${nome}.

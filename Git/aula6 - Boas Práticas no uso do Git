@@ -1,0 +1,8 @@
+- É uma boa prática sempre trabalhar em uma branch local que não seja a master, evitando a geração de 
+várias mensagens de merge poluindo nosso log.
+
+git rebase opções:
+
+--continue deve ser utilizado após a resolução manual de conflitos; 
+--skip faz com que suas alterações sejam descartadas; 
+--abort volta atrás em todo o processo de rebase

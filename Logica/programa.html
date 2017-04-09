@@ -1,0 +1,34 @@
+<meta charset="UTF-8">
+
+<script>
+
+    // Função responsável por pular linha
+    function pulaLinha(){
+        document.write("<br>");
+    }
+
+    /* 
+    Função responsável por 
+    imprimir na tela e pular linha 
+    */
+    function imprime(texto){
+        document.write(texto);
+        pulaLinha();
+    }
+
+    let ano = 2016;
+    let idadeAndre = (ano - 1990);
+    let idadeAndressa = (ano - 1989);
+    let idadeMarineide = (ano - 1967);
+
+    imprime("Andrê tem " + idadeAndre + " anos.");
+    imprime("Marineide tem " + idadeMarineide + " anos.");
+    imprime("Andressa tem " + idadeAndressa + " anos.");
+
+    let totalIdades = idadeAndre + idadeMarineide + idadeAndressa;
+    let media = totalIdades / 3;
+
+    imprime('A média das idade é: ' + Math.round(media));
+    console.log("A media das idades é: " + media);
+
+</script>
